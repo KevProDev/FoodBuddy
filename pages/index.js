@@ -15,16 +15,18 @@ export default function Home({ restaurants }) {
         <section className="pt-6">
           <h2 className="text-4xl font-semibold pb-5">Explore Nearby</h2>
           {/* Pull some data from server  API endpoints */}
-          {restaurants.map((item) => (
-            <SmallCard
-              key={item.id}
-              image_url={item.image_url}
-              name={item.name}
-              rating={item.rating}
-              photos={item.photos}
-              price={item.price}
-            />
-          ))}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {restaurants.map((item) => (
+              <SmallCard
+                key={item.id}
+                image_url={item.image_url}
+                name={item.name}
+                rating={item.rating}
+                photos={item.photos}
+                price={item.price}
+              />
+            ))}
+          </div>
         </section>
       </main>
     </div>
