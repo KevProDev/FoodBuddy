@@ -12,7 +12,7 @@ const handler = nc().get((req, res) => {
     res.end();
     return;
   }
-  res.json({ data: restaurant });
+  res.json(restaurant);
 });
 
 export default handler;

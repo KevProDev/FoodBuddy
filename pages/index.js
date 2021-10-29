@@ -1,7 +1,7 @@
 import Head from "next/head";
-import Banner from "../src/components/Banner";
-import Header from "../src/components/Header";
-import SmallCard from "../src/components/SmallCard";
+import Banner from "./components/Banner";
+import Header from "./components/Header";
+import SmallCard from "./components/SmallCard";
 import Link from "next/link";
 
 export default function Home({ restaurants }) {
