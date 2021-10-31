@@ -1,10 +1,15 @@
+import { useState, useEffect } from "react";
+// import useSWR from "swr";
+import Link from "next/link";
 import Head from "next/head";
 import Banner from "./components/Banner";
 import Header from "./components/Header";
 import SmallCard from "./components/SmallCard";
-import Link from "next/link";
 
 export default function Home({ restaurants }) {
+  const [singlerestaurant, setSingleRestaurant] = useState({});
+  console.log(restaurants);
+
   return (
     <div>
       <Header />
@@ -42,19 +47,25 @@ export default function Home({ restaurants }) {
   );
 }
 
-// Made a api call to the data based
-export async function getStaticProps() {
-  const key = process.env.GOOGLE_API_KEY;
-
-  const exploreData = await fetch("http://localhost:3000/api");
-
-  const data = await exploreData.json();
-
-  // console.log(data);
+export async function getServerSideProps(context) {
+  // console.log("getRestaurantsFromYelp STARTED");
+  const yelpUrl =
+    "https://api.yelp.com/v3/businesses/search?term=restaurant&location=chicago";
+  const apiOption = {
+    method: "GET",
+    withCredentials: true,
+    credentials: "include",
+    headers: {
+      Authorization: `Bearer ${process.env.YELP_API_KEY}`,
+    },
+  };
+  const yelpPath = await fetch(yelpUrl, apiOption);
+  const yelpData = await yelpPath.json();
+  // console.log(yelpData);
 
   return {
     props: {
-      restaurants: data,
+      restaurants: yelpData.businesses,
     },
   };
 }
