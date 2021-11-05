@@ -6,39 +6,18 @@ import Banner from "./components/Banner";
 import Header from "./components/Header";
 import SmallCard from "./components/SmallCard";
 
-const yelpUrl =
-  "https://api.yelp.com/v3/businesses/search?term=restaurant&location=chicago";
-const apiOption = {
-  method: "GET",
-  withCredentials: true,
-  credentials: "include",
-  headers: {
-    Authorization: `Bearer ${process.env.YELP_API_KEY}`,
-  },
-};
+// const yelpUrl =
+//   "https://api.yelp.com/v3/businesses/search?term=restaurant&location=chicago";
+// const apiOption = {
+//   method: "GET",
+//   withCredentials: true,
+//   credentials: "include",
+//   headers: {
+//     Authorization: `Bearer ${process.env.YELP_API_KEY}`,
+//   },
+// };
 
 export default function Home({ data }) {
-  // const [singlerestaurant, setSingleRestaurant] = useState({});
-  // const { businesses: defaultBusinesses = [] } = data;
-  // const [businesses, setUpdateBusinesses] = useState(defaultBusinesses);
-  // const [page, setUpdatePage] = useState({
-  //   current: yelpUrl,
-  // });
-
-  // const { current } = page;
-  // console.log(current);
-
-  // useEffect(() => {
-  //   // if (current == yelpUrl) return;
-
-  //   async function NextYelpData() {
-  //     const res = fetch(current, apiOption);
-  //     const nextData = res.json;
-  //     console.log(nextData);
-  //   }
-  //   NextYelpData();
-  // }, [current]);
-
   return (
     <div>
       <Header />
@@ -76,14 +55,14 @@ export default function Home({ data }) {
   );
 }
 
-export async function getServerSideProps() {
-  // console.log("getRestaurantsFromYelp STARTED");
-  const yelpPath = await fetch(`${yelpUrl}`, apiOption);
-  const yelpData = await yelpPath.json();
+// export async function getServerSideProps() {
+//   // console.log("getRestaurantsFromYelp STARTED");
+//   const yelpPath = await fetch(`${yelpUrl}`, apiOption);
+//   const yelpData = await yelpPath.json();
 
-  return {
-    props: {
-      data: yelpData,
-    },
-  };
-}
+//   return {
+//     props: {
+//       data: yelpData,
+//     },
+//   };
+// }
