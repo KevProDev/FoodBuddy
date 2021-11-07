@@ -5,6 +5,7 @@ import { server } from "../config/index";
 const AppContext = createContext();
 
 export function AppState({ children }) {
+  // The State of the App initialized
   let appState = {
     businesses: [],
     total: 0,
@@ -20,6 +21,7 @@ export function AppState({ children }) {
     loading: false,
   };
 
+  // using useReducer help us not have to use callbacks, this allows us to use dispatch with types of action we want to perform and payload as parameters.
   const [state, dispatch] = useReducer(appReducer, appState);
 
   const searchBusinesses = async (term, location, sortBy, offset) => {
@@ -30,7 +32,7 @@ export function AppState({ children }) {
         `${server}/api/businesses/search?limit=${appState.limit}&offset=${offset}&term=${term}&location=${location}&sort_by=${sortBy}`
       );
 
-      const data = res.json();
+      const data = await res.json();
 
       dispatch({
         type: "SEARCH_BUSINESSES",
@@ -56,7 +58,7 @@ export function AppState({ children }) {
     });
   };
 
-  const clearBusinesses = () => dispatch({ type: "CLEAR_BUSINESSESS" });
+  const clearBusinesses = () => dispatch({ type: "CLEAR_BUSINESSES" });
   const setLoading = () => dispatch({ type: "SET_LOADING" });
 
   return (

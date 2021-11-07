@@ -4,7 +4,8 @@ import Link from "next/link";
 import Head from "next/head";
 import Banner from "./components/Banner";
 import Header from "./components/Header";
-import SmallCard from "./components/SmallCard";
+import SmallCard from "./components/Business";
+import BusinessList from "./components/BusinessList";
 
 // const yelpUrl =
 //   "https://api.yelp.com/v3/businesses/search?term=restaurant&location=chicago";
@@ -17,7 +18,79 @@ import SmallCard from "./components/SmallCard";
 //   },
 // };
 
-export default function Home({ data }) {
+export default function Home() {
+  // const appState = useAppContext();
+  // const {
+  //   term,
+  //   location,
+  //   sortBy,
+  //   searchBusinesses,
+  //   clearBusiness,
+  //   setSearchParams,
+  // } = appState;
+
+  // useEffect(() => {
+  //   setState({ ...state, term: term });
+  // }, [term]);
+
+  // const [state, setState] = useState({
+  //   term: term,
+  //   location: location,
+  //   sortBy: sortBy,
+  // });
+
+  // const sortByOptions = {
+  //   "Best Match": "best_match",
+  //   "Highest Rated": "rating",
+  //   "Most Reviewed": "review_count",
+  //   Distance: "distance",
+  // };
+
+  // const handleSortByChange = (sortByOption) => {
+  //   setState({ ...state, sortBy: sortByOption });
+  // };
+
+  // const handleInputSearch = (e) =>
+  //   setState({
+  //     ...state,
+  //     [e.target.name]: e.target.value,
+  //   });
+
+  // const handleSearch = (e) => {
+  //   clearBusiness();
+  //   if (state.location === "" || (state.term === "" && state.location === ""))
+  //     return;
+  //   setSearchParams({
+  //     term: state.term,
+  //     location: state.location,
+  //     sortBy: state.sortBy,
+  //   });
+  //   searchBusinesses(state.term, state.location, state.sortBy, 0);
+  //   e.preventDefault();
+  // };
+
+  // const renderSortByOptions = () => {
+  //   // object keys return sortByOptions key properties
+  //   // map through that array based on the keys
+  //   // create sortByOptionValue the key value based off the key array
+  //   return Object.keys(sortByOptions).map((sortByOption) => {
+  //     let sortByOptionValue = sortByOptions[sortByOption];
+  //     return (
+  //       <li
+  //         key={sortByOptionValue}
+  //         className={
+  //           sortByOptionValue === state.sortBy
+  //             ? `${styles.sort_option} ${styles.active}`
+  //             : styles.sort_option
+  //         }
+  //         onClick={handleSortByChange.bind(this, sortByOptionValue)}
+  //       >
+  //         {sortByOption}
+  //       </li>
+  //     );
+  //   });
+  // };
+
   return (
     <div>
       <Header />
@@ -27,8 +100,8 @@ export default function Home({ data }) {
       <main className="max-w-7xl mx-auto px-4 sm:px-16">
         <section className="pt-6">
           <h2 className="text-4xl font-semibold pb-5">Explore Nearby</h2>
-          {/* Pull some data from server  API endpoints */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-5">
+          <BusinessList />
+          {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-5">
             {businesses.map((business) => {
               const { id, image_url, name, rating, photos, price, location } =
                 business;
@@ -48,7 +121,7 @@ export default function Home({ data }) {
                 </Link>
               );
             })}
-          </div>
+          </div> */}
         </section>
       </main>
     </div>

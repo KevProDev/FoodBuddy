@@ -1,5 +1,82 @@
+import { useState, useEffect } from "react";
+import { useAppContext } from "../../context/store";
 import Image from "next/image";
+import { SearchIcon } from "@heroicons/react/solid";
 function Banner() {
+  const appState = useAppContext();
+  const {
+    term,
+    location,
+    sortBy,
+    searchBusinesses,
+    clearBusinesses,
+    setSearchParams,
+  } = appState;
+
+  // const term = appState.term;
+
+  useEffect(() => {
+    setState({ ...state, term: term });
+  }, [term]);
+
+  const [state, setState] = useState({
+    term: term,
+    location: location,
+    sortBy: sortBy,
+  });
+
+  const sortByOptions = {
+    "Best Match": "best_match",
+    "Highest Rated": "rating",
+    "Most Reviewed": "review_count",
+    Distance: "distance",
+  };
+
+  const handleSortByChange = (sortByOption) => {
+    setState({ ...state, sortBy: sortByOption });
+  };
+
+  const handleInputChange = (e) =>
+    setState({
+      ...state,
+      [e.target.name]: e.target.value,
+    });
+
+  const handleSearch = (e) => {
+    clearBusinesses();
+    if (state.location === "" || (state.term === "" && state.location === ""))
+      return;
+    setSearchParams({
+      term: state.term,
+      location: state.location,
+      sortBy: state.sortBy,
+    });
+    searchBusinesses(state.term, state.location, state.sortBy, 0);
+    e.preventDefault();
+  };
+
+  const renderSortByOptions = () => {
+    // object keys return sortByOptions key properties
+    // map through that array based on the keys
+    // create sortByOptionValue the key value based off the key array
+    return Object.keys(sortByOptions).map((sortByOption) => {
+      let sortByOptionValue = sortByOptions[sortByOption];
+      return (
+        <li
+          key={sortByOptionValue}
+          className={
+            sortByOptionValue === state.sortBy
+              ? `${styles.sort_option} ${styles.active}`
+              : styles.sort_option
+          }
+          onClick={handleSortByChange.bind(this, sortByOptionValue)}
+        >
+          {sortByOption}
+        </li>
+      );
+    });
+  };
+
   return (
     <div className="relative h-[300px] sm:h-[400px] lg:h-[500px] xl:h-[600px] 2xl:h-[700px]">
       <Image
@@ -8,11 +85,31 @@ function Banner() {
         objectFit="cover"
       />
       <div className="absolute top-1/3 text-white w-full text-center">
-        <p className="text-sm sm:text-2xl">
-          Not sure where what to pick? Perfect.
-        </p>
-        <button className="text-black bg-white rounded-lg px-10 py-4 shadow-md font-bold hover:shadow-xl my-3 active:scale-90 transition duration-150">
-          Know What To Get
+        <div className="flex flex-col bg-indigo-50 w-11/12 mx-auto px-4 mb-5 md:border-2 rounded-full py-2 md:shadow-sm md:w-1/2">
+          <input
+            className="pl-5 bg-transparent outline-none flex-grow text-l text-gray-600 placeholder-gray-400"
+            placeholder="Start your search"
+            name="term"
+            onChange={handleInputChange}
+            value={state.term}
+            placeholder="Search a restaurant?"
+          />
+          {/* <div className="border-b-2 border-gray-300" /> */}
+          <input
+            className="pl-5 bg-transparent outline-none flex-grow text-l text-gray-600 placeholder-gray-400"
+            placeholder="Start your search"
+            name="location"
+            onChange={handleInputChange}
+            value={state.location}
+            placeholder="Where?"
+          />
+        </div>
+        <button
+          className="flex justify-center items-center w-11/12 py-5 mx-auto h-8 text-white text-l rounded-full bg-red-500 p-2 cursor-pointer md:inline-flex md:mx-2 md:w-1/2"
+          onClick={handleSearch}
+        >
+          <SearchIcon className="text-white h-5 pr-1" />
+          SEARCH
         </button>
       </div>
     </div>
