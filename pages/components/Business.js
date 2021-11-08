@@ -1,7 +1,6 @@
 import Image from "next/image";
-import { HeartIcon } from "@heroicons/react/outline";
+import { HeartIcon, ChatIcon } from "@heroicons/react/outline";
 import Link from "next/link";
-// import PropTypes from "prop-types";
 
 export default function Business(props) {
   const { business } = props;
@@ -9,14 +8,14 @@ export default function Business(props) {
   return (
     <Link href={"/restaurant/" + business.id}>
       <a>
-        <div className="flex flex-col rounded-xl cursor-pointer hover:bg-gray-100 hover:scale-105 transition transform duration-200 ease-out border-2 p-5">
+        <div className="flex flex-col cursor-pointer hover:bg-gray-100 hover:scale-105 transition transform duration-200 ease-out border-b-2 bg-white pb-4 ">
           {/* Left Side */}
           <div className="relative h-40 w-full mx-auto">
             <Image
               src={business.imageSrc}
               layout="fill"
               objectFit="cover"
-              className="rounded-lg"
+              className=""
             />
           </div>
 
@@ -24,17 +23,32 @@ export default function Business(props) {
           <div className="flex-grow flex flex-col px-4 mt-2">
             <div className="flex justify-between">
               <h2 className="text-xl font-bold">{business.name}</h2>
-              <HeartIcon className="h-5 cursor-pointer" />
+              <div className="flex justify-items-end space-x-5 items-center">
+                {/* <h3 className="text-gray-500">
+                  {business.rating} out of 5 Review
+                </h3> */}
+                <h3 className="text-gray-500">{business.price}</h3>
+                <HeartIcon className="h-5 cursor-pointer" />
+              </div>
             </div>
             <p className="text-gray-500 text-sm sm:text-xs">
               {business.location}
             </p>
-            <h3 className="text-gray-500">{business.rating} out of 5</h3>
             <div className="border-b w-10 pt-2" />
-            <p className="text-sm pt-2 text-gray-600">
-              The Best spicy chicken sandwich
-            </p>
-            <h3 className="text-gray-500">{business.price}</h3>
+            <div className="flex items-center">
+              <div className="flex pt-2 items-center text-sm space-x-2">
+                <ChatIcon className="h-5 cursor-pointer text-gray-500" />
+                <p className="font-bold">
+                  7 Buddies{" "}
+                  <span className="text-gray-500 font-medium">
+                    reviewed meals here
+                  </span>
+                </p>
+              </div>
+            </div>
+            <button className="bg-black text-white py-2 mt-2">
+              Give Your Opinon
+            </button>
           </div>
         </div>
       </a>
