@@ -8,7 +8,7 @@ export default function Business(props) {
   return (
     <Link href={"/restaurant/" + business.id}>
       <a>
-        <div className="flex flex-col cursor-pointer hover:bg-gray-100 hover:scale-105 transition transform duration-200 ease-out border-b-2 bg-white pb-4 ">
+        <div className="flex flex-col cursor-pointer hover:bg-gray-100 hover:scale-105 transition transform duration-200 ease-out border-b-2 bg-white pb-4 md:border-2 md:border-black">
           {/* Left Side */}
           <div className="relative h-40 w-full mx-auto">
             <Image
@@ -22,7 +22,7 @@ export default function Business(props) {
           {/* Right Side */}
           <div className="flex-grow flex flex-col px-4 mt-2">
             <div className="flex justify-between">
-              <h2 className="text-xl font-bold">{business.name}</h2>
+              <h2 className="text-xl font-bold md:text-l">{business.name}</h2>
               <div className="flex justify-items-end space-x-5 items-center">
                 {/* <h3 className="text-gray-500">
                   {business.rating} out of 5 Review

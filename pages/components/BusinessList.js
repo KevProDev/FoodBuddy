@@ -21,7 +21,7 @@ export default function BusinessList() {
 
   return (
     <div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-5 bg-gray-200 md:px-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-5 bg-gray-200 mb-10 md:px-5 md:bg-white">
         {businesses.map((business) => {
           business = {
             id: business.id,
@@ -46,7 +46,14 @@ export default function BusinessList() {
       {total > limit &&
         businesses.length < total &&
         !loading &&
-        offset <= total && <button onClick={loadMore}>Load More</button>}
+        offset <= total && (
+          <button
+            className="bg-black text-white py-2 mt-2 w-1/3 mx-auto items-center justify-center block mb-10"
+            onClick={loadMore}
+          >
+            Load More
+          </button>
+        )}
     </div>
   );
 }

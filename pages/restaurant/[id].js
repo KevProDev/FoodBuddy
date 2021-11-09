@@ -2,7 +2,7 @@ import React from "react";
 import { server } from "../../config";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { HeartIcon } from "@heroicons/react/outline";
+import { HeartIcon, UserCircleIcon } from "@heroicons/react/outline";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Header from "../components/Header";
@@ -133,7 +133,45 @@ export default function Details({ business }) {
       <Head>
         <title>FoodBuddy | {business.name}</title>
       </Head>
-      <div>{business.name}</div>
+      <div className="relative h-[300px] sm:h-[200px] lg:h-[300px] xl:h-[400px] 2xl:h-[700px]">
+        <Image src={business.image_url} layout="fill" objectFit="cover" />
+      </div>
+      <main className="max-w-4xl mx-auto px-8 sm:px-16">
+        <section className="pt-6">
+          <div className="flex justify-between">
+            <h1 className="text-xl font-bold md:text-l">{business.name}</h1>
+            <div className="flex items-center justify-end">
+              <HeartIcon className="h-5 cursor-pointer" />
+            </div>
+          </div>
+          <p>
+            {business.location.address1}, {business.location.city}{" "}
+            {business.location.state}
+          </p>
+          <p className="text-gray-500">{business.display_phone}</p>
+          <p className="text-gray-500">Price {business.price}</p>
+          <div className="border-b-2 mt-5" />
+        </section>
+
+        <section>
+          <h2 className="font-semibold text-xl md:text-l my-5 ">Reviews</h2>
+          <div>
+            <div className="flex items-center pb-2">
+              <UserCircleIcon className="h-5 cursor-pointer pr-2" />
+              <span className="text-sm">Users Name</span>
+            </div>
+            <div className="border-gray-200 border-b-2 pb-2">
+              <h3 className="font-semibold">Food Title</h3>
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem
+                dolorum necessitatibus maiores doloremque illo adipisci
+                laudantium quas, quaerat dolores commodi sunt libero. Magnam
+                tenetur iure odio error repudiandae libero! Tempora?
+              </p>
+            </div>
+          </div>
+        </section>
+      </main>
     </div>
   );
 }
