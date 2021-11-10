@@ -6,60 +6,8 @@ import { HeartIcon, UserCircleIcon } from "@heroicons/react/outline";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Header from "../components/Header";
-
-// export default function Details({business}) {
-//   return (
-//     <div className="flex flex-col">
-//       <Header />
-//       {/* Left Side */}
-//       <div className="relative h-40 w-full mx-auto md:h-96">
-//         <Image
-//           src="https://s3-media1.fl.yelpcdn.com/bphoto/P8MA9T-NoulN5YUwdL1u9w/o.jpg"
-//           layout="fill"
-//           objectFit="cover"
-//           className=""
-//         />
-//       </div>
-
-//       {/* Right Side */}
-//       <div className="flex-grow flex flex-col px-5 py-5 mt-5 w-full lg:w-5/12 mx-auto bg-gray-100 border-b-2">
-//         <div className="flex justify-between">
-//           <h2 className="text-2xl font-bold">Name</h2>
-//           <HeartIcon className="h-5 cursor-pointer" />
-//         </div>
-//         <div className="flex justify-between">
-//           <span className="text-gray-400">1008 W Armitage</span>
-//         </div>
-//         <div className="flex space-x-5">
-//           <span>Price </span>
-//           <p>
-//             Rating <span className=""> Review of 5 stars</span>
-//           </p>
-//         </div>
-//       </div>
-//       <div className="flex-grow flex flex-col px-5 pt-5 pb-10 w-full lg:w-5/12 mx-auto bg-gray-100">
-//         <p className="text-xl pb-2">
-//           Tell everyone what meal did you have and how was it?
-//         </p>
-//         <button className="border-2 py-5 items-center justify-center font-bold bg-blue-600 text-white">
-//           TELL YOUR STORY
-//         </button>
-//       </div>
-//       <div className="flex-grow flex flex-col px-5 pt-5 pb-10 mt-5 w-full lg:w-5/12 mx-auto bg-gray-100">
-//         <p className="text-xl pb-2">Reviews</p>
-//         <div>
-//           <p>Kevin J.</p>
-//           <p>
-//             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Delectus
-//             nulla doloremque rem amet iste? Facilis est impedit, qui, quod eos
-//             veritatis nemo minima consequatur explicabo praesentium ab ducimus
-//             exercitationem non.
-//           </p>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
+import { initializeApp } from "firebase/app";
+import { getFirestore, collection, getDocs } from "firebase/firestore";
 
 export const getStaticPaths = async (context) => {
   return {
@@ -81,6 +29,25 @@ export const getStaticProps = async ({ params }) => {
 };
 
 export default function Details({ business }) {
+  const clientCredentials = {
+    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  };
+  const app = initializeApp(clientCredentials);
+  const db = getFirestore(app);
+
+  async function getPosts(db) {
+    const posts = collection(db, "posts");
+    const postsSnapshot = await getDocs(posts);
+
+    postsSnapshot.docs.map((doc) => console.log(doc.data()));
+  }
+  getPosts(db);
+
   const formatTimeString = (str) => {
     if (str.length == 4) {
       return str.slice(0, 2) + ":" + str.slice(2);
@@ -136,7 +103,7 @@ export default function Details({ business }) {
       <div className="relative h-[300px] sm:h-[200px] lg:h-[300px] xl:h-[400px] 2xl:h-[700px]">
         <Image src={business.image_url} layout="fill" objectFit="cover" />
       </div>
-      <main className="max-w-4xl mx-auto px-8 sm:px-16">
+      <main className="max-w-4xl mx-auto px-8 sm:px-16 pb-16 bg-gray-100">
         <section className="pt-6">
           <div className="flex justify-between">
             <h1 className="text-xl font-bold md:text-l">{business.name}</h1>
