@@ -1,6 +1,15 @@
-import { createContext, useContext, useReducer } from "react";
+import {
+  createContext,
+  useContext,
+  useReducer,
+  useEffect,
+  useState,
+} from "react";
 import appReducer from "./reducer";
 import { server } from "../config/index";
+import { auth, db } from "../firebase/clientApp";
+import { doc, serverTimestamp, setDoc } from "firebase/firestore";
+import { data } from "autoprefixer";
 
 const AppContext = createContext();
 
@@ -19,10 +28,15 @@ export function AppState({ children }) {
       lng: 0,
     },
     loading: false,
+    currentUser: "",
+    // isAuth: false,
+    // username: "",
+    // token: "",
   };
 
   // using useReducer help us not have to use callbacks, this allows us to use dispatch with types of action we want to perform and payload as parameters.
   const [state, dispatch] = useReducer(appReducer, appState);
+  const [currentUser, setCurrentUser] = useState(null);
 
   const searchBusinesses = async (term, location, sortBy, offset) => {
     try {
@@ -61,6 +75,36 @@ export function AppState({ children }) {
   const clearBusinesses = () => dispatch({ type: "CLEAR_BUSINESSES" });
   const setLoading = () => dispatch({ type: "SET_LOADING" });
 
+  /// FIREBASE
+
+  useEffect(function CheckAuthOfUserHandler() {
+    return auth.onIdTokenChanged(async (user) => {
+      if (!user) {
+        console.log("no user");
+        setCurrentUser(null);
+        // dispatch({
+        //   type: "LOGOUT",
+        // });
+        return;
+      }
+      const token = await user.getIdToken();
+      // const userData = {
+      //   displayName: user.displayName,
+      //   email: user.email,
+      //   lastSeen: serverTimestamp(),
+      //   photoURL: user.photoURL,
+      // };
+      // await setDoc(doc(db, "users", user.uid), userData);
+      console.log("user name", user.displayName);
+      console.log(user);
+      setCurrentUser(user);
+      // dispatch({
+      //   type: "LOGIN",
+      //   payload: user,
+      // });
+    });
+  }, []);
+
   return (
     <AppContext.Provider
       value={{
@@ -76,6 +120,7 @@ export function AppState({ children }) {
         clearBusinesses,
         searchBusinesses,
         setSearchParams,
+        currentUser: currentUser,
       }}
     >
       {children}

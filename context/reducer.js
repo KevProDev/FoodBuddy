@@ -42,6 +42,22 @@ export default function appReducer(state, action) {
         ...state,
         loading: false,
       };
+    case "LOGIN":
+      return {
+        ...state,
+        currentUser: action.payload.user,
+        // isAuth: true,
+        // username: action.payload.username,
+        // token: action.payload.token,
+      };
+    case "LOGOUT":
+      return {
+        ...state,
+        currentUser: "",
+        // isAuth: false,
+        // username: "",
+        // token: "",
+      };
     default:
       return state;
   }

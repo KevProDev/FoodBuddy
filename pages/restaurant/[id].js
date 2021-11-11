@@ -1,13 +1,19 @@
 import React from "react";
 import { server } from "../../config";
 import Head from "next/head";
-import { useRouter } from "next/router";
+import { useAppContext } from "../../context/store";
 import { HeartIcon, UserCircleIcon } from "@heroicons/react/outline";
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import Header from "../components/Header";
-import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs } from "firebase/firestore";
+import {
+  collection,
+  onSnapshot,
+  orderBy,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
+import { db } from "../../firebase/clientApp";
 
 export const getStaticPaths = async (context) => {
   return {
@@ -29,24 +35,41 @@ export const getStaticProps = async ({ params }) => {
 };
 
 export default function Details({ business }) {
-  const clientCredentials = {
-    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-    appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
-  };
-  const app = initializeApp(clientCredentials);
-  const db = getFirestore(app);
+  const appState = useAppContext();
+  const { currentUser } = appState;
+  // const [state, setState] = useState({
+  //   currentUser: currentUser,
+  // });
 
-  async function getPosts(db) {
-    const posts = collection(db, "posts");
-    const postsSnapshot = await getDocs(posts);
+  const [friends, setFriends] = useState([]);
 
-    postsSnapshot.docs.map((doc) => console.log(doc.data()));
-  }
-  getPosts(db);
+  // useEffect(() => {
+  //   setState({ currentUser: currentUser });
+  // }, [currentUser]);
+
+  console.log("id part", currentUser);
+  // useEffect(() => {
+  //   async function getPosts(db) {
+  //     const posts = collection(db, "posts");
+
+  //     const postsSnapshot = await getDocs(posts);
+
+  //     postsSnapshot.docs.map((doc) => console.log(doc.data()));
+  //   }
+  //   getPosts(db);
+  // }, []);
+
+  useEffect(() => {
+    async function fetchFriends() {
+      const usersRef = collection(db, "users");
+      const q = query(usersRef, where("email", "!=", currentUser?.email));
+      const querySnapshot = await getDocs(q);
+      setFriends(
+        querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+      );
+    }
+    fetchFriends();
+  }, []);
 
   const formatTimeString = (str) => {
     if (str.length == 4) {
@@ -122,21 +145,23 @@ export default function Details({ business }) {
 
         <section>
           <h2 className="font-semibold text-xl md:text-l my-5 ">Reviews</h2>
-          <div>
-            <div className="flex items-center pb-2">
-              <UserCircleIcon className="h-5 cursor-pointer pr-2" />
-              <span className="text-sm">Users Name</span>
+          {friends.map((friend) => (
+            <div>
+              <div className="flex items-center pb-2">
+                <UserCircleIcon className="h-5 cursor-pointer pr-2" />
+                <span className="text-sm">{friend.email}</span>
+              </div>
+              <div className="border-gray-200 border-b-2 pb-2">
+                <h3 className="font-semibold">Food Title</h3>
+                <p>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem
+                  dolorum necessitatibus maiores doloremque illo adipisci
+                  laudantium quas, quaerat dolores commodi sunt libero. Magnam
+                  tenetur iure odio error repudiandae libero! Tempora?
+                </p>
+              </div>
             </div>
-            <div className="border-gray-200 border-b-2 pb-2">
-              <h3 className="font-semibold">Food Title</h3>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem
-                dolorum necessitatibus maiores doloremque illo adipisci
-                laudantium quas, quaerat dolores commodi sunt libero. Magnam
-                tenetur iure odio error repudiandae libero! Tempora?
-              </p>
-            </div>
-          </div>
+          ))}
         </section>
       </main>
     </div>
