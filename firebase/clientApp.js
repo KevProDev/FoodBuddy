@@ -1,6 +1,11 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import { getAuth, GoogleAuthProvider } from "firebase/auth";
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signOut,
+  signInWithPopup,
+} from "firebase/auth";
 
 const clientCredentials = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -11,13 +16,20 @@ const clientCredentials = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-const app = initializeApp(clientCredentials);
-
+// initializeApp Firebase
 // initializeApp needs to be before auth and provider to work
-const db = getFirestore();
-
+const app = initializeApp(clientCredentials);
 const auth = getAuth();
-
 const provider = new GoogleAuthProvider();
 
+export function signup() {}
+
+export function login() {
+  signInWithPopup(auth, provider);
+}
+export function logout() {
+  signOut(auth);
+}
+
+const db = getFirestore();
 export { db, auth, provider };
