@@ -5,15 +5,17 @@ import { useAppContext } from "../../context/store";
 import { HeartIcon, UserCircleIcon } from "@heroicons/react/outline";
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import {
-  collection,
-  onSnapshot,
-  orderBy,
-  getDocs,
-  query,
-  where,
-} from "firebase/firestore";
-import { db } from "../../firebase/clientApp";
+// import nookies from "nookies";
+// import { verifyIdToken } from "../../firebaseAdmin";
+// import {
+//   collection,
+//   onSnapshot,
+//   orderBy,
+//   getDocs,
+//   query,
+//   where,
+// } from "firebase/firestore";
+// import { auth, db } from "../../firebase/clientApp";
 
 export const getStaticPaths = async (context) => {
   return {
@@ -22,32 +24,63 @@ export const getStaticPaths = async (context) => {
   };
 };
 
-export const getStaticProps = async ({ params }) => {
-  const res = await fetch(`${server}/api/businesses/${params.id}`);
+export const getStaticProps = async (context) => {
+  const res = await fetch(`${server}/api/businesses/${context.params.id}`);
   const business = await res.json();
+
+  // const cookies = nookies.get(context);
+  // const token = await verifyIdToken(cookies.token);
+  // const { email } = token;
+  // const collectionRef = collection(db, "users");
+  // const q = query(collectionRef, where("email", "==", email));
+  // const querySnapshot = await getDocs(q);
+  // let usersList = [];
+  // querySnapshot.forEach((doc) => {
+  //   usersList.push({ ...doc.data(), id: doc.id });
+  // });
 
   return {
     revalidate: 86400, // rebuild this static page after every x seconds (when page is visited)
     props: {
       business,
+      // usersProps: JSON.stringify(usersList) || [],
     },
   };
 };
 
-export default function Details({ business }) {
+// export async function getServerSideProps(context) {
+//   const cookies = nookies.get(context);
+//   const token = await verifyIdToken(cookies.token);
+//   const { email } = token;
+//   const collectionRef = collection(db, "users");
+//   const q = query(collectionRef, where("email", "==", email));
+//   const querySnapshot = await getDocs(q);
+//   let usersList = [];
+//   querySnapshot.forEach((doc) => {
+//     usersList.push({ ...doc.data(), id: doc.id });
+//   });
+
+//   return {
+//     props: {
+//       usersProps: JSON.stringify(usersList) || [],
+//     },
+//   };
+// }
+
+export default function Details({ business, usersProps }) {
   const appState = useAppContext();
   const { currentUser } = appState;
-  // const [state, setState] = useState({
-  //   currentUser: currentUser,
-  // });
-
+  // const [currentUserstate, setCurrentUserState] = useState([]);
   const [friends, setFriends] = useState([]);
+
+  // useEffect(() => {
+  //   setFriends(JSON.parse(usersProps));
+  // }, []);
 
   // useEffect(() => {
   //   setState({ currentUser: currentUser });
   // }, [currentUser]);
 
-  console.log("id part", currentUser);
   // useEffect(() => {
   //   async function getPosts(db) {
   //     const posts = collection(db, "posts");
@@ -59,17 +92,47 @@ export default function Details({ business }) {
   //   getPosts(db);
   // }, []);
 
-  useEffect(() => {
-    async function fetchFriends() {
-      const usersRef = collection(db, "users");
-      const q = query(usersRef, where("email", "!=", currentUser?.email));
-      const querySnapshot = await getDocs(q);
-      setFriends(
-        querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-      );
-    }
-    fetchFriends();
-  }, []);
+  // useEffect(function CheckAuthOfUserHandler() {
+  //   return auth.onIdTokenChanged(async (user) => {
+  //     if (!user) {
+  //       console.log("no user");
+  //       setCurrentUser(null);
+  //       // nookies.set(undefined, "", token, {});
+  //       // dispatch({
+  //       //   type: "LOGOUT",
+  //       // });
+  //       return;
+  //     }
+  //     const token = await user.getIdToken();
+  //     // nookies.set(undefined, "token", token, {});
+  //     // const userData = {
+  //     //   displayName: user.displayName,
+  //     //   email: user.email,
+  //     //   lastSeen: serverTimestamp(),
+  //     //   photoURL: user.photoURL,
+  //     // };
+  //     // await setDoc(doc(db, "users", user.uid), userData);
+  //     console.log("id user", user);
+  //     const usersRef = collection(db, "users");
+  //     const q = query(usersRef, where("email", "!=", user?.email));
+  //     const querySnapshot = await getDocs(q);
+  //     setFriends(
+  //       querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+  //     );
+  //   });
+  // }, []);
+
+  // useEffect(() => {
+  //   async function fetchFriends() {
+  //     const usersRef = collection(db, "users");
+  //     const q = query(usersRef, where("email", "!=", currentUser.user?.email));
+  //     const querySnapshot = await getDocs(q);
+  //     setFriends(
+  //       querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+  //     );
+  //   }
+  //   fetchFriends();
+  // }, []);
 
   const formatTimeString = (str) => {
     if (str.length == 4) {
@@ -167,26 +230,3 @@ export default function Details({ business }) {
     </div>
   );
 }
-
-// export async function getServerSideProps(context) {
-//   // console.log("getRestaurantsFromYelp STARTED");
-//   const yelpUrl =
-//     "https://api.yelp.com/v3/businesses/search?term=restaurant&location=chicago";
-//   const apiOption = {
-//     method: "GET",
-//     withCredentials: true,
-//     credentials: "include",
-//     headers: {
-//       Authorization: `Bearer ${process.env.YELP_API_KEY}`,
-//     },
-//   };
-//   const yelpPath = await fetch(yelpUrl, apiOption);
-//   const yelpData = await yelpPath.json();
-//   // console.log(yelpData);
-
-//   return {
-//     props: {
-//       restaurants: yelpData.businesses,
-//     },
-//   };
-// }

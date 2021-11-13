@@ -9,7 +9,7 @@ import appReducer from "./reducer";
 import { server } from "../config/index";
 import { auth, db } from "../firebase/clientApp";
 import { doc, serverTimestamp, setDoc } from "firebase/firestore";
-import { data } from "autoprefixer";
+import nookies from "nookies";
 
 const AppContext = createContext();
 
@@ -63,8 +63,8 @@ export function AppState({ children }) {
   const setSearchParams = (params) => {
     const data = {
       terms: params.term ? params.term : appState.term,
-      location: params.location ? params.location : appstate.location,
-      sortBy: params.sortBy ? params.sortBy : appstate.sortBy,
+      location: params.location ? params.location : appState.location,
+      sortBy: params.sortBy ? params.sortBy : appState.sortBy,
     };
     dispatch({
       type: "SET_SEARCH_PARAMS",
@@ -82,12 +82,14 @@ export function AppState({ children }) {
       if (!user) {
         console.log("no user");
         setCurrentUser(null);
+        nookies.set(undefined, "token", "", {});
         // dispatch({
         //   type: "LOGOUT",
         // });
         return;
       }
       const token = await user.getIdToken();
+      nookies.set(undefined, "token", token, {});
       // const userData = {
       //   displayName: user.displayName,
       //   email: user.email,
@@ -95,13 +97,13 @@ export function AppState({ children }) {
       //   photoURL: user.photoURL,
       // };
       // await setDoc(doc(db, "users", user.uid), userData);
-      console.log("user name", user.displayName);
-      console.log(user);
+      console.log("user name from store", user.displayName);
+      console.log("all of user data from database", user);
       setCurrentUser(user);
-      // dispatch({
-      //   type: "LOGIN",
-      //   payload: user,
-      // });
+      dispatch({
+        type: "LOGIN",
+        payload: user,
+      });
     });
   }, []);
 

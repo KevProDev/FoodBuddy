@@ -2,11 +2,15 @@ import { useState, useEffect } from "react";
 import { useAppContext } from "../../context/store";
 import Image from "next/image";
 import { SearchIcon } from "@heroicons/react/solid";
-import { auth, provider } from "../../firebase/clientApp";
+import { login, logout, auth } from "../../firebase/clientApp";
 import { signInWithPopup, signOut } from "firebase/auth";
 function Banner() {
   const loginWIthGoogle = () => {
-    signInWithPopup(auth, provider);
+    login();
+  };
+
+  const logoutWithGoogle = () => {
+    logout();
   };
 
   const appState = useAppContext();
@@ -17,8 +21,10 @@ function Banner() {
     searchBusinesses,
     clearBusinesses,
     setSearchParams,
+    currentUser,
   } = appState;
 
+  console.log("check after login", currentUser);
   // const term = appState.term;
 
   useEffect(() => {
@@ -126,7 +132,7 @@ function Banner() {
         </button>
         <button
           className="flex justify-center items-center w-11/12 py-5 mx-auto h-8 text-white text-l rounded-full bg-blue-500 p-2 cursor-pointer md:inline-flex md:mx-2 md:w-1/2"
-          onClick={() => signOut(auth, provider)}
+          onClick={logoutWithGoogle}
         >
           <SearchIcon className="text-white h-5 pr-1" />
           SIGN OUT
