@@ -7,15 +7,15 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 // import nookies from "nookies";
 // import { verifyIdToken } from "../../firebaseAdmin";
-// import {
-//   collection,
-//   onSnapshot,
-//   orderBy,
-//   getDocs,
-//   query,
-//   where,
-// } from "firebase/firestore";
-// import { auth, db } from "../../firebase/clientApp";
+import {
+  collection,
+  onSnapshot,
+  orderBy,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
+import { auth, db } from "../../firebase/clientApp";
 
 export const getStaticPaths = async (context) => {
   return {
@@ -71,7 +71,7 @@ export default function Details({ business, usersProps }) {
   const appState = useAppContext();
   const { currentUser } = appState;
   // const [currentUserstate, setCurrentUserState] = useState([]);
-  const [friends, setFriends] = useState([]);
+  const [menuItems, setMenuItems] = useState([]);
 
   // useEffect(() => {
   //   setFriends(JSON.parse(usersProps));
@@ -81,16 +81,19 @@ export default function Details({ business, usersProps }) {
   //   setState({ currentUser: currentUser });
   // }, [currentUser]);
 
-  // useEffect(() => {
-  //   async function getPosts(db) {
-  //     const posts = collection(db, "posts");
+  useEffect(() => {
+    async function getPosts(db) {
+      const posts = collection(db, "favoriteMenuItem");
 
-  //     const postsSnapshot = await getDocs(posts);
+      const postsSnapshot = await getDocs(posts);
 
-  //     postsSnapshot.docs.map((doc) => console.log(doc.data()));
-  //   }
-  //   getPosts(db);
-  // }, []);
+      postsSnapshot.docs.map((doc) => console.log(doc.data()));
+      setMenuItems(
+        postsSnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.rest_id }))
+      );
+    }
+    getPosts(db);
+  }, []);
 
   // useEffect(function CheckAuthOfUserHandler() {
   //   return auth.onIdTokenChanged(async (user) => {
@@ -123,15 +126,15 @@ export default function Details({ business, usersProps }) {
   // }, []);
 
   // useEffect(() => {
-  //   async function fetchFriends() {
-  //     const usersRef = collection(db, "users");
+  //   async function fetchmenuItems() {
+  //     const usersRef = collection(db, "restaurant");
   //     const q = query(usersRef, where("email", "!=", currentUser.user?.email));
   //     const querySnapshot = await getDocs(q);
   //     setFriends(
   //       querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
   //     );
   //   }
-  //   fetchFriends();
+  //   fetchmenuItems();
   // }, []);
 
   const formatTimeString = (str) => {
@@ -208,20 +211,15 @@ export default function Details({ business, usersProps }) {
 
         <section>
           <h2 className="font-semibold text-xl md:text-l my-5 ">Reviews</h2>
-          {friends.map((friend) => (
+          {menuItems.map((menuItem) => (
             <div>
               <div className="flex items-center pb-2">
                 <UserCircleIcon className="h-5 cursor-pointer pr-2" />
-                <span className="text-sm">{friend.email}</span>
+                <span className="text-sm">{menuItem.user_id}</span>
               </div>
               <div className="border-gray-200 border-b-2 pb-2">
-                <h3 className="font-semibold">Food Title</h3>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem
-                  dolorum necessitatibus maiores doloremque illo adipisci
-                  laudantium quas, quaerat dolores commodi sunt libero. Magnam
-                  tenetur iure odio error repudiandae libero! Tempora?
-                </p>
+                <h3 className="font-semibold">{menuItem.menu_item}</h3>
+                <p>{menuItem.thoughts}</p>
               </div>
             </div>
           ))}
