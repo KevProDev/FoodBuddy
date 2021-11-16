@@ -24,8 +24,8 @@ export const getStaticPaths = async (context) => {
   };
 };
 
-export const getStaticProps = async (context) => {
-  const res = await fetch(`${server}/api/businesses/${context.params.id}`);
+export const getStaticProps = async ({ params }) => {
+  const res = await fetch(`${server}/api/businesses/${params.id}`);
   const business = await res.json();
 
   // const cookies = nookies.get(context);
@@ -42,8 +42,7 @@ export const getStaticProps = async (context) => {
   return {
     revalidate: 86400, // rebuild this static page after every x seconds (when page is visited)
     props: {
-      business,
-      // usersProps: JSON.stringify(usersList) || [],
+      business: business,
     },
   };
 };
@@ -67,11 +66,13 @@ export const getStaticProps = async (context) => {
 //   };
 // }
 
-export default function Details({ business, usersProps }) {
-  const appState = useAppContext();
-  const { currentUser } = appState;
+export default function Details(props) {
+  const business = props.pageProps.business;
+  // const appState = useAppContext();
+  // const { currentUser } = appState;
   // const [currentUserstate, setCurrentUserState] = useState([]);
   const [menuItems, setMenuItems] = useState([]);
+  // console.log(business);
 
   // useEffect(() => {
   //   setFriends(JSON.parse(usersProps));

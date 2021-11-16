@@ -1,7 +1,7 @@
 import "tailwindcss/tailwind.css";
 import { AppState } from "../context/store";
 
-export default function MyApp({ Component, pageProps }) {
+export default function MyApp({ Component, ...pageProps }) {
   return (
     <AppState>
       <Component {...pageProps} />

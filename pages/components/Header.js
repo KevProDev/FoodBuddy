@@ -48,7 +48,7 @@ export default function Header() {
       </div>
       {/* Right */}
       <div className="flex items-center space-x-4 justify-end text-gray-600 col-span-2">
-        <p className="hidden md:inline-flex cursor-pointer">Create a account</p>
+        <p className="hidden md:inline-flex cursor-pointer">Sign In</p>
         <GlobeAltIcon className="h-6 cursor-pointer" />
         <div className="flex border-2 rounded-full p-2 items-center space-x-2">
           <MenuIcon className="h-6" />
