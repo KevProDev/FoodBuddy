@@ -22,8 +22,6 @@ const app = initializeApp(clientCredentials);
 const auth = getAuth();
 const provider = new GoogleAuthProvider();
 
-export function signup() {}
-
 export function login() {
   signInWithPopup(auth, provider);
 }

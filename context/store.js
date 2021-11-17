@@ -14,6 +14,7 @@ import nookies from "nookies";
 const AppContext = createContext();
 
 export function AppState({ children }) {
+  console.log("AppState Function Begin");
   // The State of the App initialized
   let appState = {
     businesses: [],
@@ -80,6 +81,7 @@ export function AppState({ children }) {
   useEffect(function CheckAuthOfUserHandler() {
     return auth.onIdTokenChanged(async (user) => {
       if (!user) {
+        console.log("AppState UseEffect Begin");
         console.log("no user");
         setCurrentUser(null);
         nookies.set(undefined, "token", "", {});
@@ -97,8 +99,9 @@ export function AppState({ children }) {
       //   photoURL: user.photoURL,
       // };
       // await setDoc(doc(db, "users", user.uid), userData);
-      console.log("user name from store", user.displayName);
-      console.log("all of user data from database", user);
+      // console.log("user name from store", user.displayName);
+      // console.log("all of user data from database", user);
+      console.log("AppState UseEffect Begin");
       setCurrentUser(user);
       dispatch({
         type: "LOGIN",
@@ -106,7 +109,6 @@ export function AppState({ children }) {
       });
     });
   }, []);
-
   return (
     <AppContext.Provider
       value={{

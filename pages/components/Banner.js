@@ -5,6 +5,7 @@ import { SearchIcon } from "@heroicons/react/solid";
 import { login, logout, auth } from "../../firebase/clientApp";
 import { signInWithPopup, signOut } from "firebase/auth";
 function Banner() {
+  console.log("Banner Function Begin");
   const loginWIthGoogle = () => {
     login();
   };
@@ -24,10 +25,11 @@ function Banner() {
     currentUser,
   } = appState;
 
-  console.log("check after login", currentUser);
+  // console.log("check after login", currentUser);
   // const term = appState.term;
 
   useEffect(() => {
+    console.log("Banner useEffect for TERM");
     setState({ ...state, term: term });
   }, [term]);
 
@@ -91,6 +93,7 @@ function Banner() {
 
   return (
     <div className="relative h-[300px] sm:h-[400px] lg:h-[500px] xl:h-[600px] 2xl:h-[700px]">
+      {console.log("Banner HTML BEGIN")}
       <Image
         src="https://images.unsplash.com/photo-1565895405227-31cffbe0cf86?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2940&q=80"
         layout="fill"

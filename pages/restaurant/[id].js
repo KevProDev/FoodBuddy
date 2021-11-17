@@ -5,8 +5,6 @@ import { useAppContext } from "../../context/store";
 import { HeartIcon, UserCircleIcon } from "@heroicons/react/outline";
 import { useState, useEffect } from "react";
 import Image from "next/image";
-// import nookies from "nookies";
-// import { verifyIdToken } from "../../firebaseAdmin";
 import {
   collection,
   onSnapshot,
@@ -27,17 +25,6 @@ export const getStaticPaths = async (context) => {
 export const getStaticProps = async ({ params }) => {
   const res = await fetch(`${server}/api/businesses/${params.id}`);
   const business = await res.json();
-
-  // const cookies = nookies.get(context);
-  // const token = await verifyIdToken(cookies.token);
-  // const { email } = token;
-  // const collectionRef = collection(db, "users");
-  // const q = query(collectionRef, where("email", "==", email));
-  // const querySnapshot = await getDocs(q);
-  // let usersList = [];
-  // querySnapshot.forEach((doc) => {
-  //   usersList.push({ ...doc.data(), id: doc.id });
-  // });
 
   return {
     revalidate: 86400, // rebuild this static page after every x seconds (when page is visited)
@@ -67,23 +54,16 @@ export const getStaticProps = async ({ params }) => {
 // }
 
 export default function Details(props) {
+  console.log("Details Function Begin");
   const business = props.pageProps.business;
   // const appState = useAppContext();
   // const { currentUser } = appState;
-  // const [currentUserstate, setCurrentUserState] = useState([]);
+  const [currentUser, setCurrentUser] = useState([]);
   const [menuItems, setMenuItems] = useState([]);
-  // console.log(business);
-
-  // useEffect(() => {
-  //   setFriends(JSON.parse(usersProps));
-  // }, []);
-
-  // useEffect(() => {
-  //   setState({ currentUser: currentUser });
-  // }, [currentUser]);
+  // console.log("current user in id page", currentUser);
 
   useEffect(() => {
-    async function getPosts(db) {
+    async function getPosts() {
       const posts = collection(db, "favoriteMenuItem");
 
       const postsSnapshot = await getDocs(posts);
@@ -93,38 +73,21 @@ export default function Details(props) {
         postsSnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.rest_id }))
       );
     }
-    getPosts(db);
+    getPosts();
   }, []);
 
-  // useEffect(function CheckAuthOfUserHandler() {
-  //   return auth.onIdTokenChanged(async (user) => {
-  //     if (!user) {
-  //       console.log("no user");
-  //       setCurrentUser(null);
-  //       // nookies.set(undefined, "", token, {});
-  //       // dispatch({
-  //       //   type: "LOGOUT",
-  //       // });
-  //       return;
-  //     }
-  //     const token = await user.getIdToken();
-  //     // nookies.set(undefined, "token", token, {});
-  //     // const userData = {
-  //     //   displayName: user.displayName,
-  //     //   email: user.email,
-  //     //   lastSeen: serverTimestamp(),
-  //     //   photoURL: user.photoURL,
-  //     // };
-  //     // await setDoc(doc(db, "users", user.uid), userData);
-  //     console.log("id user", user);
-  //     const usersRef = collection(db, "users");
-  //     const q = query(usersRef, where("email", "!=", user?.email));
-  //     const querySnapshot = await getDocs(q);
-  //     setFriends(
-  //       querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-  //     );
-  //   });
-  // }, []);
+  useEffect(function CheckAuthOfUserHandler() {
+    return auth.onIdTokenChanged(async (user) => {
+      if (!user) {
+        console.log("no user");
+        setCurrentUser(null);
+        return;
+      }
+      const token = await user.getIdToken();
+      console.log("user in id after token recieve", user);
+      setCurrentUser(user);
+    });
+  }, []);
 
   // useEffect(() => {
   //   async function fetchmenuItems() {
@@ -187,6 +150,7 @@ export default function Details(props) {
 
   return (
     <div>
+      {console.log("Banner HTML BEGIN")}
       <Head>
         <title>FoodBuddy | {business.name}</title>
       </Head>
