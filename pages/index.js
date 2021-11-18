@@ -21,7 +21,7 @@ export default function Home() {
           <Suggestions />
         </section>
         <section className="pt-6">
-          <h2 className="text-4xl font-semibold pb-5 px-4">Explore Nearby</h2>
+          <h2 className="text-4xl font-semibold pb-5 px-4">Friends Meals</h2>
           <BusinessList />
         </section>
       </main>

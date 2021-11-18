@@ -22,7 +22,7 @@ export function AppState({ children }) {
     limit: 20,
     offset: 0,
     term: "",
-    location: "Chicago",
+    location: "",
     sortBy: "best_match",
     mapCenterCoords: {
       lat: 0,

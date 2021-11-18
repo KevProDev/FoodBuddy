@@ -100,41 +100,41 @@ function Banner() {
         objectFit="cover"
       />
       <div className="absolute top-1/3 text-white w-full text-center">
-        <div className="flex flex-col bg-indigo-50 w-11/12 mx-auto px-4 mb-5 md:border-2 rounded-full py-2 md:shadow-sm md:w-1/2">
+        <div className="sm:flex-row gap-3 flex flex-col justify-center bg-indigo-50 w-11/12 mx-auto px-4 mb-5 text-xl md:border-2 rounded-md sm:rounded-full py-2 pt-4 sm:pt-2 md:shadow-sm md:w-2/3">
           <input
-            className="pl-5 bg-transparent outline-none flex-grow text-l text-gray-600 placeholder-gray-400"
+            className="text-sm sm:text-xl pl-5 bg-transparent outline-none text-gray-600 placeholder-gray-400"
             placeholder="Start your search"
             name="term"
             onChange={handleInputChange}
             value={state.term}
-            placeholder="Search a restaurant?"
+            placeholder="Search Restaurant"
           />
           {/* <div className="border-b-2 border-gray-300" /> */}
           <input
-            className="pl-5 bg-transparent outline-none flex-grow text-l text-gray-600 placeholder-gray-400"
+            className="text-sm sm:text-xl pl-5 bg-transparent outline-none text-gray-600 placeholder-gray-400"
             placeholder="Start your search"
             name="location"
             onChange={handleInputChange}
             value={state.location}
-            placeholder="Where?"
+            placeholder="City"
           />
+          <button
+            className="flex w-full sm:w-auto justify-center items-center py-5 ml-auto h-8 text-white text-l rounded-full bg-red-500 p-2 cursor-pointer"
+            onClick={handleSearch}
+          >
+            <SearchIcon className="text-white h-5 pr-1" />
+          </button>
         </div>
+
         <button
-          className="flex justify-center items-center w-11/12 py-5 mx-auto h-8 text-white text-l rounded-full bg-red-500 p-2 cursor-pointer md:inline-flex md:mx-2 md:w-1/2"
-          onClick={handleSearch}
-        >
-          <SearchIcon className="text-white h-5 pr-1" />
-          SEARCH
-        </button>
-        <button
-          className="flex justify-center items-center w-11/12 py-5 mx-auto h-8 text-white text-l rounded-full bg-blue-500 p-2 cursor-pointer md:inline-flex md:mx-2 md:w-1/2"
+          className="hidden sm:inline-flex justify-center items-center w-11/12 py-5 mx-auto h-8 text-white text-l rounded-full bg-blue-500 p-2 cursor-pointer md:inline-flex md:mx-2 md:w-2/3"
           onClick={loginWIthGoogle}
         >
           <SearchIcon className="text-white h-5 pr-1" />
           SIGN IN
         </button>
         <button
-          className="flex justify-center items-center w-11/12 py-5 mx-auto h-8 text-white text-l rounded-full bg-blue-500 p-2 cursor-pointer md:inline-flex md:mx-2 md:w-1/2"
+          className="hidden sm:flex justify-center items-center w-11/12 py-5 mx-auto h-8 text-white text-l rounded-full bg-blue-500 p-2 cursor-pointer md:inline-flex md:mx-2 md:w-2/3"
           onClick={logoutWithGoogle}
         >
           <SearchIcon className="text-white h-5 pr-1" />
