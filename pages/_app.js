@@ -1,10 +1,13 @@
 import "tailwindcss/tailwind.css";
+import { Layout } from "../components/Layout";
 import { AppState } from "../context/store";
 
 export default function MyApp({ Component, ...pageProps }) {
   return (
     <AppState>
-      <Component {...pageProps} />
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
     </AppState>
   );
 }

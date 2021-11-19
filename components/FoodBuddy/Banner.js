@@ -119,7 +119,7 @@ function Banner() {
             placeholder="City"
           />
           <button
-            className="flex w-full sm:w-auto justify-center items-center py-5 ml-auto h-8 text-white text-l rounded-full bg-red-500 p-2 cursor-pointer"
+            className="flex w-full sm:w-auto justify-center items-center py-5 ml-auto h-8 text-white text-l rounded-full bg-green-500 p-2 cursor-pointer"
             onClick={handleSearch}
           >
             <SearchIcon className="text-white h-5 pr-1" />

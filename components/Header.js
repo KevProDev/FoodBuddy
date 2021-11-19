@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useAppContext } from "../../context/store";
+import { useAppContext } from "../context/store";
 import Image from "next/image";
 import {
   GlobeAltIcon,
@@ -8,8 +8,11 @@ import {
   UsersIcon,
   SearchIcon,
 } from "@heroicons/react/solid";
+import { Link } from "react-scroll";
+import { Transition } from "@headlessui/react";
 
 export default function Header() {
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <header className="sticky top-0 z-50 grid grid-cols-2 shadow-md py-5 px-5 md:px-10 bg-white md:grid-cols-6">
       {/* Left */}
@@ -25,17 +28,31 @@ export default function Header() {
       {/* Middle */}
       <div className="hidden md:flex items-center py-2 font-semibold col-span-4 justify-end pr-5 list-none space-x-8 text-lg ">
         <li>Find A Restaurant</li>
-        <li>FoodBuddy</li>
+        <li>FoodBuddies</li>
         <li>Saves</li>
       </div>
       {/* Right */}
       <div className="flex items-center space-x-4 justify-end text-gray-600 col-span-1">
         <p className="hidden lg:inline-flex cursor-pointer text-lg">Sign In</p>
         {/* <GlobeAltIcon className="h-6 cursor-pointer" /> */}
-        <div className="flex border-2 rounded-full p-2 items-center space-x-2">
-          <MenuIcon className="h-6" />
-          <UserCircleIcon className="h-8" />
-        </div>
+        <button
+          className="flex border-2 rounded-full p-2"
+          onClick={() => setIsOpen(!isOpen)}
+          type="button"
+          aria-controls="mobile-menu"
+          aria-expanded="false"
+        >
+          <span></span>
+
+          {!isOpen ? (
+            <div className="flex items-center space-x-2">
+              <MenuIcon className="h-6" />
+              <UserCircleIcon className="h-8" />
+            </div>
+          ) : (
+            <div></div>
+          )}
+        </button>
       </div>
     </header>
   );

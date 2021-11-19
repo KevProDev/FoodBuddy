@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { useAppContext } from "../../context/store";
+import { useAppContext } from "../context/store";
 import Skeleton from "react-loading-skeleton";
-import useUser from "../../hooks/useUser";
+import useUser from "../hooks/useUser";
 
 export default function Suggestions() {
   console.log("Suggestions Function Begin");
