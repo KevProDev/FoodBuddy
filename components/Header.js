@@ -59,6 +59,7 @@ export default function Header() {
           )} */}
         </button>
       </div>
+      {// This works}
       <Transition
         show={isOpen}
         enter="transition ease-out duration-100 transform"
