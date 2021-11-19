@@ -36,24 +36,56 @@ export default function Header() {
         <p className="hidden lg:inline-flex cursor-pointer text-lg">Sign In</p>
         {/* <GlobeAltIcon className="h-6 cursor-pointer" /> */}
         <button
-          className="flex border-2 rounded-full p-2"
+          className="flex items-center space-x-2 border-2 rounded-full p-2"
           onClick={() => setIsOpen(!isOpen)}
           type="button"
           aria-controls="mobile-menu"
           aria-expanded="false"
         >
-          <span></span>
+          <MenuIcon className="h-6" />
+          <UserCircleIcon className="h-8" />
+          {/* <span className="sr-only">Open main menu</span> */}
 
-          {!isOpen ? (
+          {/* {!isOpen ? (
             <div className="flex items-center space-x-2">
               <MenuIcon className="h-6" />
               <UserCircleIcon className="h-8" />
             </div>
           ) : (
-            <div></div>
-          )}
+            <div className="flex items-center space-x-2">
+              <MenuIcon className="h-6" />
+              <UserCircleIcon className="h-8" />
+            </div>
+          )} */}
         </button>
       </div>
+      <Transition
+        show={isOpen}
+        enter="transition ease-out duration-100 transform"
+        enterFrom="opacity-0 scale-95"
+        enterTo="opacity-100 scale-100"
+        leave="transition ease-in duration-75 transform"
+        leaveFrom="opacity-100 scale-100"
+        leaveTo="opacity-0 scale-95"
+      >
+        {(ref) => (
+          <div className="md:hidden id:mobile-menu">
+            <div ref={ref} className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+              <Link
+                href="/"
+                activeClass="/"
+                to="/"
+                smooth={true}
+                offset={50}
+                duration={500}
+                className="cursor-pointer hover:bg-green-500 text-black hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+              >
+                Home
+              </Link>
+            </div>
+          </div>
+        )}
+      </Transition>
     </header>
   );
 }
