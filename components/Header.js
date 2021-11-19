@@ -14,7 +14,7 @@ import { Transition } from "@headlessui/react";
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <header className="sticky top-0 z-50 grid grid-cols-2 shadow-md py-5 px-5 md:px-10 bg-white md:grid-cols-6">
+    <header className="sticky top-0 z-50 grid grid-cols-3 shadow-md py-5 px-5 md:px-10 bg-white md:grid-cols-6">
       {/* Left */}
       <div className="relative flex items-center h-10 cursor-pointer my-auto col-span-1">
         <Image
@@ -32,7 +32,7 @@ export default function Header() {
         <li>Saves</li>
       </div>
       {/* Right */}
-      <div className="flex items-center space-x-4 justify-end text-gray-600 col-span-1">
+      <div className="flex items-center space-x-4 justify-end text-gray-600 col-span-2">
         <p className="hidden lg:inline-flex cursor-pointer text-lg">Sign In</p>
         {/* <GlobeAltIcon className="h-6 cursor-pointer" /> */}
         <button
@@ -40,11 +40,11 @@ export default function Header() {
           onClick={() => setIsOpen(!isOpen)}
           type="button"
           aria-controls="mobile-menu"
-          aria-expanded="false"
+          aria-expanded="true"
         >
+          <span className="sr-only">Open main menu</span>
           <MenuIcon className="h-6" />
           <UserCircleIcon className="h-8" />
-          {/* <span className="sr-only">Open main menu</span> */}
 
           {/* {!isOpen ? (
             <div className="flex items-center space-x-2">
@@ -59,8 +59,8 @@ export default function Header() {
           )} */}
         </button>
       </div>
-      {// This works}
       <Transition
+        className="flex col-span-3"
         show={isOpen}
         enter="transition ease-out duration-100 transform"
         enterFrom="opacity-0 scale-95"
@@ -82,6 +82,28 @@ export default function Header() {
                 className="cursor-pointer hover:bg-green-500 text-black hover:text-white block px-3 py-2 rounded-md text-base font-medium"
               >
                 Home
+              </Link>
+              <Link
+                href="/"
+                activeClass="/"
+                to="/"
+                smooth={true}
+                offset={50}
+                duration={500}
+                className="cursor-pointer hover:bg-green-500 text-black hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+              >
+                FoodBuddies
+              </Link>
+              <Link
+                href="/"
+                activeClass="/"
+                to="/"
+                smooth={true}
+                offset={50}
+                duration={500}
+                className="cursor-pointer hover:bg-green-500 text-black hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+              >
+                Favorite Meals
               </Link>
             </div>
           </div>

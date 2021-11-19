@@ -29,15 +29,3 @@ export default function Home() {
     </div>
   );
 }
-
-// export async function getServerSideProps() {
-//   // console.log("getRestaurantsFromYelp STARTED");
-//   const yelpPath = await fetch(`${yelpUrl}`, apiOption);
-//   const yelpData = await yelpPath.json();
-
-//   return {
-//     props: {
-//       data: yelpData,
-//     },
-//   };
-// }
