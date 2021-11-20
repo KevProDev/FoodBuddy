@@ -109,7 +109,7 @@ function Banner() {
             value={state.term}
             placeholder="Search Restaurant"
           />
-          {/* <div className="border-b-2 border-gray-300" /> */}
+          {/* <div className="border-b-2 border-gray-300" /> -*/}
           <input
             className="text-sm sm:text-xl pl-5 bg-transparent outline-none text-gray-600 placeholder-gray-400"
             placeholder="Start your search"
