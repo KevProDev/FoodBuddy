@@ -100,7 +100,7 @@ function Banner() {
         objectFit="cover"
       />
       <div className="absolute top-1/3 text-white w-full text-center">
-        <div className="sm:flex-row gap-3 flex flex-col justify-center bg-indigo-50 w-11/12 mx-auto px-4 mb-5 text-xl md:border-2 rounded-md sm:rounded-full py-2 pt-4 sm:pt-2 md:shadow-sm md:w-2/3">
+        <div className="sm:flex-row gap-3 flex flex-col justify-center bg-indigo-50 w-11/12 md:w-2/3 lg:w-1/2 mx-auto px-4 mb-5 text-xl md:border-2 rounded-md sm:rounded-full py-2 pt-4 sm:pt-2 md:shadow-sm ">
           <input
             className="text-sm sm:text-xl pl-5 bg-transparent outline-none text-gray-600 placeholder-gray-400"
             placeholder="Start your search"
