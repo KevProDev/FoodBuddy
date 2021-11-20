@@ -10,11 +10,18 @@ import {
 } from "@heroicons/react/solid";
 import { Link } from "react-scroll";
 import { Transition } from "@headlessui/react";
+import { login, logout } from "../firebase/clientApp";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const loginWIthGoogle = () => {
+    login();
+  };
+  const logoutWithGoogle = () => {
+    logout();
+  };
   return (
-    <header className="sticky top-0 z-50 max-w-7xl mx-auto grid grid-cols-2 shadow-md py-5 px-5 md:px-10 bg-white md:grid-cols-5">
+    <header className="sticky top-0 z-50 max-w-7xl mx-auto grid grid-cols-2 py-5 px-5 md:px-10 bg-white md:grid-cols-5">
       {/* Left */}
       <div className="relative flex items-center h-10 cursor-pointer my-auto col-span-1">
         <Image
@@ -33,8 +40,17 @@ export default function Header() {
       </div>
       {/* Right */}
       <div className="flex items-center space-x-4 justify-end text-gray-600 col-span-1 sm:col-span-1">
-        <p className="hidden md:inline-flex cursor-pointer text-lg text-white rounded-2xl px-5 py-2 bg-green-500">
+        <p
+          className="hidden md:inline-flex cursor-pointer text-lg text-white rounded-2xl px-5 py-2 bg-green-500"
+          onClick={loginWIthGoogle}
+        >
           Sign In
+        </p>
+        <p
+          className="hidden md:inline-flex cursor-pointer text-lg text-white rounded-2xl px-5 py-2 bg-green-500"
+          onClick={logoutWithGoogle}
+        >
+          Sign Out
         </p>
         {/* <GlobeAltIcon className="h-6 cursor-pointer" /> */}
         <button
