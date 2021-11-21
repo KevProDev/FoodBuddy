@@ -8,9 +8,10 @@ import {
   UsersIcon,
   SearchIcon,
 } from "@heroicons/react/solid";
-import { Link } from "react-scroll";
+import { Link as ScrollLink } from "react-scroll";
 import { Transition } from "@headlessui/react";
 import { login, logout } from "../firebase/clientApp";
+import Link from "next/link";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,46 +22,55 @@ export default function Header() {
     logout();
   };
   return (
-    <header className="sticky top-0 z-50 max-w-7xl mx-auto grid grid-cols-2 py-5 px-5 md:px-10 bg-white md:grid-cols-5">
+    <header className="sticky top-0 z-50 max-w-7xl mx-auto grid grid-cols-2 py-5 px-5 md:px-10 bg-white lg:grid-cols-5">
       {/* Left */}
       <div className="relative flex items-center h-10 cursor-pointer my-auto col-span-1">
-        <Image
-          src="https://image.flaticon.com/icons/png/512/921/921265.png"
-          layout="fill"
-          objectFit="contain"
-          objectPosition="left"
-        />
+        <Link href="/">
+          <a href="">
+            <Image
+              src="https://image.flaticon.com/icons/png/512/921/921265.png"
+              layout="fill"
+              objectFit="contain"
+              objectPosition="left"
+            />
+          </a>
+        </Link>
       </div>
 
       {/* Middle */}
-      <div className="hidden md:flex items-center py-2 font-semibold col-span-3 justify-end pr-5 list-none space-x-8 text-lg ">
-        <li>Find A Restaurant</li>
-        <li>FoodBuddies</li>
-        <li>Saves</li>
+      <div className="hidden lg:flex items-center py-2 font-semibold col-span-3 justify-end pr-5 list-none space-x-8 text-lg ">
+        <Link href="/restaurantsearch">
+          <a href="">Find A Restaurant</a>
+        </Link>
+        <Link href="/foodbuddy">
+          <a href="">FoodBuddies</a>
+        </Link>
+        <Link href="/myFavorites">
+          <a href="">Saves</a>
+        </Link>
       </div>
       {/* Right */}
-      <div className="flex items-center space-x-4 justify-end text-gray-600 col-span-1 sm:col-span-1">
+      <div className="flex grid-cols-2 items-center space-x-4 justify-end text-gray-600 col-span-1 sm:col-span-1">
         <p
-          className="hidden md:inline-flex cursor-pointer text-lg text-white rounded-2xl px-5 py-2 bg-green-500"
+          className="hidden lg:inline-flex col-span-1 cursor-pointer text-lg rounded-2xl py-2"
           onClick={loginWIthGoogle}
         >
           Sign In
         </p>
         <p
-          className="hidden md:inline-flex cursor-pointer text-lg text-white rounded-2xl px-5 py-2 bg-green-500"
+          className="hidden lg:inline-flex col-span-1 cursor-pointer text-lg rounded-2xl py-2"
           onClick={logoutWithGoogle}
         >
           Sign Out
         </p>
         {/* <GlobeAltIcon className="h-6 cursor-pointer" /> */}
         <button
-          className="flex md:hidden items-center space-x-2 border-2 rounded-full p-2"
+          className="flex lg:hidden items-center space-x-2 border-2 rounded-full p-2"
           onClick={() => setIsOpen(!isOpen)}
           type="button"
           aria-controls="mobile-menu"
           aria-expanded="true"
         >
-          <span className="sr-only">Open main menu</span>
           <MenuIcon className="h-6" />
           <UserCircleIcon className="h-8" />
         </button>
@@ -75,10 +85,10 @@ export default function Header() {
         leaveFrom="opacity-100 scale-100"
         leaveTo="opacity-0 scale-95"
       >
-        {(ref) => (
+        {() => (
           <div className="md:hidden id:mobile-menu">
-            <div ref={ref} className="px-2 pt-2 pb-3 space-y-1">
-              <Link
+            <div className="px-2 pt-2 pb-3 space-y-1">
+              <ScrollLink
                 href="/"
                 activeClass="/"
                 to="/"
@@ -88,8 +98,19 @@ export default function Header() {
                 className="cursor-pointer hover:bg-green-500 text-black hover:text-white block py-2 rounded-md text-base font-medium"
               >
                 Home
-              </Link>
-              <Link
+              </ScrollLink>
+              <ScrollLink
+                href="/restaurantsearch"
+                activeClass="/"
+                to="/restaurantSearch"
+                smooth={true}
+                offset={50}
+                duration={500}
+                className="cursor-pointer hover:bg-green-500 text-black hover:text-white block py-2 rounded-md text-base font-medium"
+              >
+                Search Resturants
+              </ScrollLink>
+              <ScrollLink
                 href="/foodbuddy"
                 activeClass="/"
                 to="/foodbuddy"
@@ -99,30 +120,30 @@ export default function Header() {
                 className="cursor-pointer hover:bg-green-500 text-black hover:text-white block py-2 rounded-md text-base font-medium"
               >
                 FoodBuddies
-              </Link>
-              <Link
-                href="/"
+              </ScrollLink>
+              <ScrollLink
+                href="/myfavorites"
                 activeClass="/"
-                to="/"
+                to="/myfavorites"
                 smooth={true}
                 offset={50}
                 duration={500}
                 className="cursor-pointer hover:bg-green-500 text-black hover:text-white block py-2 rounded-md text-base font-medium"
               >
-                Favorite Meals
-              </Link>
-              <Link
-                href="/"
+                Your Favorites
+              </ScrollLink>
+              <ScrollLink
+                href="/myfavorites"
                 activeClass="/"
-                to="/"
+                to="/myfavorites"
                 smooth={true}
                 offset={50}
                 duration={500}
                 className="cursor-pointer hover:bg-green-500 text-black hover:text-white block py-2 rounded-md text-base font-sm"
               >
                 Sign In
-              </Link>
-              <Link
+              </ScrollLink>
+              <ScrollLink
                 href="/"
                 activeClass="/"
                 to="/"
@@ -132,7 +153,7 @@ export default function Header() {
                 className="cursor-pointer hover:bg-green-500 text-black hover:text-white block py-2 rounded-md text-base font-sm"
               >
                 Sign Out
-              </Link>
+              </ScrollLink>
             </div>
           </div>
         )}

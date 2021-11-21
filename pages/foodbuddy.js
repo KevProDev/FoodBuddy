@@ -12,7 +12,7 @@ export default function Foodbuddy() {
         </section> */}
         <section className="pt-6">
           <h2 className="text-xl sm:text-4xl font-semibold pb-5 px-4">
-            Lists Of Restaurants
+            Your Foodbuddy Favorites
           </h2>
         </section>
       </main>

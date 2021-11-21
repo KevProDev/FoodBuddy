@@ -11,7 +11,6 @@ export default function MyFavorites() {
           <h2 className="text-xl sm:text-4xl font-semibold pb-5 px-4">
             FoodBuddies
           </h2>
-          <BusinessList />
         </section>
       </main>
     </div>
