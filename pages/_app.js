@@ -1,14 +1,20 @@
 import "tailwindcss/tailwind.css";
 import { Layout } from "../components/Layout";
 import { AppState } from "../context/store";
+import { Provider } from "next-auth/client";
 
-export default function MyApp({ Component, ...pageProps }) {
+export default function MyApp({
+  Component,
+  pageProps: { session, ...pageProps },
+}) {
   return (
-    <AppState>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
-    </AppState>
+    <Provider session={pageProps.session}>
+      <AppState>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </AppState>
+    </Provider>
   );
 }
 

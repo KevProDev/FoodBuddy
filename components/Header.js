@@ -10,17 +10,21 @@ import {
 } from "@heroicons/react/solid";
 import { Link as ScrollLink } from "react-scroll";
 import { Transition } from "@headlessui/react";
-import { login, logout } from "../firebase/clientApp";
+// import { login, logout } from "../firebase/clientApp";
+import { signIn, signOut, useSession } from "next-auth/client";
 import Link from "next/link";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
-  const loginWIthGoogle = () => {
-    login();
+  const [session] = useSession();
+
+  const loginWithGoogle = () => {
+    signIn("google");
   };
   const logoutWithGoogle = () => {
-    logout();
+    signOut("google");
   };
+
   return (
     <header className="sticky top-0 z-50 max-w-7xl mx-auto grid grid-cols-2 py-5 px-5 md:px-10 bg-white lg:grid-cols-5">
       {/* Left */}
@@ -51,18 +55,33 @@ export default function Header() {
       </div>
       {/* Right */}
       <div className="flex grid-cols-2 items-center space-x-4 justify-end text-gray-600 col-span-1 sm:col-span-1">
-        <p
-          className="hidden lg:inline-flex col-span-1 cursor-pointer text-lg rounded-2xl py-2"
-          onClick={loginWIthGoogle}
-        >
-          Sign In
-        </p>
-        <p
-          className="hidden lg:inline-flex col-span-1 cursor-pointer text-lg rounded-2xl py-2"
-          onClick={logoutWithGoogle}
-        >
-          Sign Out
-        </p>
+        {session ? (
+          <div className="flex items-center space-x-4">
+            <p>{session.user.name}</p>
+            <p
+              className="hidden lg:inline-flex col-span-1 cursor-pointer text-lg rounded-2xl py-2"
+              onClick={logoutWithGoogle}
+            >
+              Sign Out
+            </p>
+          </div>
+        ) : (
+          <div className="space-x-4">
+            <p
+              className="hidden lg:inline-flex col-span-1 cursor-pointer text-lg rounded-2xl py-2"
+              onClick={loginWithGoogle}
+            >
+              Sign In
+              {session && `as ${session.user.name}`}
+            </p>
+            <p
+              className="hidden lg:inline-flex col-span-1 cursor-pointer text-lg rounded-2xl py-2"
+              onClick={logoutWithGoogle}
+            >
+              Sign Out
+            </p>
+          </div>
+        )}
         {/* <GlobeAltIcon className="h-6 cursor-pointer" /> */}
         <button
           className="flex lg:hidden items-center space-x-2 border-2 rounded-full p-2"
