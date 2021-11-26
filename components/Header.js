@@ -11,12 +11,14 @@ import {
 import { Link as ScrollLink } from "react-scroll";
 import { Transition } from "@headlessui/react";
 // import { login, logout } from "../firebase/clientApp";
-import { signIn, signOut, useSession } from "next-auth/client";
+import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
-  const [session] = useSession();
+  const { data: session } = useSession();
+
+  console.log(session);
 
   const loginWithGoogle = () => {
     signIn("google");
@@ -55,7 +57,40 @@ export default function Header() {
       </div>
       {/* Right */}
       <div className="flex grid-cols-2 items-center space-x-4 justify-end text-gray-600 col-span-1 sm:col-span-1">
-        {session ? (
+        {!session && (
+          <div className="flex items-center space-x-4">
+            <p
+              className="hidden lg:inline-flex col-span-1 cursor-pointer text-lg rounded-2xl py-2"
+              onClick={loginWithGoogle}
+            >
+              Sign In
+              {session && `as ${session.user.name}`}
+            </p>
+            <p
+              className="hidden lg:inline-flex col-span-1 cursor-pointer text-lg rounded-2xl py-2"
+              onClick={logoutWithGoogle}
+            >
+              Sign Out
+            </p>
+          </div>
+        )}
+        {session && (
+          <div className="space-x-4">
+            <p
+              className="hidden lg:inline-flex col-span-1 cursor-pointer text-lg rounded-2xl py-2"
+              onClick={loginWithGoogle}
+            >
+              {session.user.name}
+            </p>
+            <p
+              className="hidden lg:inline-flex col-span-1 cursor-pointer text-lg rounded-2xl py-2"
+              onClick={logoutWithGoogle}
+            >
+              Sign Out
+            </p>
+          </div>
+        )}
+        {/* {session ? (
           <div className="flex items-center space-x-4">
             <p>{session.user.name}</p>
             <p
@@ -81,7 +116,7 @@ export default function Header() {
               Sign Out
             </p>
           </div>
-        )}
+        )} */}
         {/* <GlobeAltIcon className="h-6 cursor-pointer" /> */}
         <button
           className="flex lg:hidden items-center space-x-2 border-2 rounded-full p-2"
