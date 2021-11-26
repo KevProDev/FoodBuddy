@@ -7,11 +7,11 @@ import Header from "../components/Header";
 import SmallCard from "../components/Home/Business";
 import BusinessList from "../components/Home/BusinessList";
 import Suggestions from "../components/Suggestions";
-
 export default function Home() {
   return (
     <div>
       {/* Banner */}
+      <Header />
       <Banner />
 
       <main className="max-w-7xl mx-auto sm:px-16">

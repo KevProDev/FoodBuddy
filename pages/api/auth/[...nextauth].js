@@ -16,22 +16,23 @@ export default NextAuth({
   ],
   secret: process.env.SECRET,
   database: process.env.DATABASE_URL,
-
-  jwt: {
-    encryption: true,
-  },
   // callbacks: {
-  //   async jwt(token, account) {
-  //     if (account?.accessToken) {
-  //       token.accessToken = account.accessToken;
+  //   jwt: ({ token, user }) => {
+  //     // first time jwt callback is run, user object is available
+  //     if (user) {
+  //       token.id = user.id;
   //     }
   //     return token;
   //   },
-  //   redirect: async (url, _baseUrl) => {
-  //     if (url === "/") {
-  //       return Promise.resolve("/");
+  //   session: ({ session, token }) => {
+  //     if (token) {
+  //       session.id = token.id;
   //     }
-  //     return Promise.resolve("/");
+  //     return session;
   //   },
   // },
+  jwt: {
+    encryption: true,
+    secret: process.env.SECRET,
+  },
 });

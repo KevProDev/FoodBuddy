@@ -11,14 +11,18 @@ import {
 import { Link as ScrollLink } from "react-scroll";
 import { Transition } from "@headlessui/react";
 // import { login, logout } from "../firebase/clientApp";
-import { signIn, signOut, useSession } from "next-auth/react";
+import {
+  signIn,
+  signOut,
+  GetSessionParams,
+  useSession,
+  getSession,
+} from "next-auth/react";
 import Link from "next/link";
 
-export default function Header() {
+export default function Header({ data }) {
   const [isOpen, setIsOpen] = useState(false);
   const { data: session } = useSession();
-
-  console.log(session);
 
   const loginWithGoogle = () => {
     signIn("google");
@@ -214,4 +218,14 @@ export default function Header() {
       </Transition>
     </header>
   );
+}
+
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+  return {
+    props: {
+      session,
+      data: session,
+    },
+  };
 }
