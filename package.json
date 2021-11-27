@@ -9,7 +9,7 @@
     "@headlessui/react": "^1.4.2",
     "@heroicons/react": "^1.0.5",
     "@next-auth/prisma-adapter": "^0.5.2-next.19",
-    "@prisma/client": "^2.30.3",
+    "@prisma/client": "^3.5.0",
     "@reduxjs/toolkit": "^1.6.2",
     "firebase": "^9.4.0",
     "firebase-admin": "^10.0.0",
