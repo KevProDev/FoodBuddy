@@ -1,9 +1,11 @@
+import Header from "../components/Header";
 import Banner from "../components/Home/Banner";
 import BusinessList from "../components/Home/BusinessList";
 
 export default function MyFavorites() {
   return (
     <div>
+      <Header />
       <Banner />
 
       <main className="max-w-7xl mx-auto sm:px-16">

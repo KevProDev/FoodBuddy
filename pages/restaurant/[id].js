@@ -5,15 +5,6 @@ import { useAppContext } from "../../context/store";
 import { HeartIcon, UserCircleIcon } from "@heroicons/react/outline";
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import {
-  collection,
-  onSnapshot,
-  orderBy,
-  getDocs,
-  query,
-  where,
-} from "firebase/firestore";
-import { auth, db } from "../../firebase/clientApp";
 
 export const getStaticPaths = async (context) => {
   return {

@@ -2,10 +2,8 @@ import { useState, useEffect } from "react";
 import { useAppContext } from "../../context/store";
 import Image from "next/image";
 import { SearchIcon } from "@heroicons/react/solid";
-import { login, logout, auth } from "../../firebase/clientApp";
-import { signInWithPopup, signOut } from "firebase/auth";
 function Banner() {
-  console.log("Banner Function Begin");
+  console.log("Banner Function Begin Home");
   const loginWIthGoogle = () => {
     login();
   };
@@ -92,7 +90,7 @@ function Banner() {
   };
 
   return (
-    <div className="relative h-[300px] sm:h-[400px] lg:h-[500px] xl:h-[600px] 2xl:h-[700px]">
+    <div className="relative h-[200px] sm:h-[400px] lg:h-[500px] xl:h-[600px] 2xl:h-[700px]">
       {console.log("Banner HTML BEGIN")}
       <Image
         src="https://images.squarespace-cdn.com/content/v1/551aba82e4b06ddeea1f4958/1636043991946-NN53WAVJ8A68H2AU8TU8/CHIUB-Brunch-Table-Cindys.jpg"

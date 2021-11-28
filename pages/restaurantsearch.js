@@ -11,7 +11,7 @@ import Suggestions from "../components/Suggestions";
 export default function RestaurantSearch() {
   return (
     <div>
-      {/* Banner */}
+      <Header />
       <Banner />
 
       <main className="max-w-7xl mx-auto sm:px-16">

@@ -21,7 +21,7 @@ export default function BusinessList() {
 
   return (
     <div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-5 bg-gray-200 mb-10 md:px-5 md:bg-white">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-8 mb-10 md:px-5 md:bg-white">
         {businesses.map((business) => {
           business = {
             id: business.id,

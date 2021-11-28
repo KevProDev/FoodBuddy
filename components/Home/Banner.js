@@ -2,8 +2,6 @@ import { useState, useEffect } from "react";
 import { useAppContext } from "../../context/store";
 import Image from "next/image";
 import { SearchIcon } from "@heroicons/react/solid";
-// import { login, logout, auth } from "../../firebase/clientApp";
-// import { signInWithPopup, signOut } from "firebase/auth";
 function Banner() {
   console.log("Banner Function Begin Home");
   const loginWIthGoogle = () => {

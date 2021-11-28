@@ -4,6 +4,7 @@ import Header from "../components/Header";
 export default function Foodbuddy() {
   return (
     <div>
+      <Header />
       <Banner />
       <main className="max-w-7xl mx-auto sm:px-16">
         {/* <section className="pt-6">

@@ -7,8 +7,6 @@ import {
 } from "react";
 import appReducer from "./reducer";
 import { server } from "../config/index";
-import { auth, db } from "../firebase/clientApp";
-import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import nookies from "nookies";
 
 const AppContext = createContext();
@@ -76,39 +74,6 @@ export function AppState({ children }) {
   const clearBusinesses = () => dispatch({ type: "CLEAR_BUSINESSES" });
   const setLoading = () => dispatch({ type: "SET_LOADING" });
 
-  /// FIREBASE
-
-  useEffect(function CheckAuthOfUserHandler() {
-    return auth.onIdTokenChanged(async (user) => {
-      if (!user) {
-        console.log("AppState UseEffect Begin");
-        console.log("no user");
-        setCurrentUser(null);
-        nookies.set(undefined, "token", "", {});
-        // dispatch({
-        //   type: "LOGOUT",
-        // });
-        return;
-      }
-      const token = await user.getIdToken();
-      nookies.set(undefined, "token", token, {});
-      // const userData = {
-      //   displayName: user.displayName,
-      //   email: user.email,
-      //   lastSeen: serverTimestamp(),
-      //   photoURL: user.photoURL,
-      // };
-      // await setDoc(doc(db, "users", user.uid), userData);
-      // console.log("user name from store", user.displayName);
-      // console.log("all of user data from database", user);
-      console.log("AppState UseEffect Begin");
-      setCurrentUser(user);
-      dispatch({
-        type: "LOGIN",
-        payload: user,
-      });
-    });
-  }, []);
   return (
     <AppContext.Provider
       value={{
