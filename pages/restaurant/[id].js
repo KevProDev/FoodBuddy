@@ -88,20 +88,31 @@ export default function Details(props) {
         <Image src={business.image_url} layout="fill" objectFit="cover" />
       </div>
       <main className="max-w-4xl mx-auto px-8 sm:px-16 pb-16 bg-gray-100">
-        <section className="pt-6">
-          <div className="flex justify-between">
-            <h1 className="text-xl font-bold md:text-l">{business.name}</h1>
-            <div className="flex items-center justify-end">
-              <HeartIcon className="h-5 cursor-pointer" />
+        <section className="pt-6 flex flex-col md:flex-row gap-2 md:gap-32  lg:gap-64 ">
+          <div>
+            <div className="flex flex-col justify-between">
+              <h1 className="text-xl font-bold md:text-l">{business.name}</h1>
+              <p>{business.categories[1].title}</p>
+              <div className="flex items-center justify-end">
+                <HeartIcon className="h-5 cursor-pointer" />
+              </div>
             </div>
+            <p>
+              {business.location.address1}, {business.location.city}{" "}
+              {business.location.state}
+            </p>
+            <p className="text-gray-500">{business.display_phone}</p>
+            <p className="text-gray-500 border-b-2 border-gray-200 pb-2">
+              Price {business.price}
+            </p>
+
+            <div className="" />
           </div>
-          <p>
-            {business.location.address1}, {business.location.city}{" "}
-            {business.location.state}
-          </p>
-          <p className="text-gray-500">{business.display_phone}</p>
-          <p className="text-gray-500">Price {business.price}</p>
-          <div className="border-b-2 mt-5" />
+          <div className="border-b-2 border-gray-200 pb-2">
+            {business.hours && business.hours[0].open
+              ? renderHours(business.hours[0])
+              : null}
+          </div>
         </section>
 
         <section>

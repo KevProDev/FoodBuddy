@@ -15,7 +15,9 @@ export default function BusinessList() {
     loading,
   } = appState;
 
-  useEffect(() => {}, [businesses]);
+  useEffect(() => {
+    console.log(businesses);
+  }, [businesses]);
 
   const loadMore = () => searchBusinesses(term, location, sortBy, offset);
 
