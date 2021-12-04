@@ -25,72 +25,11 @@ export const getStaticProps = async ({ params }) => {
   };
 };
 
-// export async function getServerSideProps(context) {
-//   const cookies = nookies.get(context);
-//   const token = await verifyIdToken(cookies.token);
-//   const { email } = token;
-//   const collectionRef = collection(db, "users");
-//   const q = query(collectionRef, where("email", "==", email));
-//   const querySnapshot = await getDocs(q);
-//   let usersList = [];
-//   querySnapshot.forEach((doc) => {
-//     usersList.push({ ...doc.data(), id: doc.id });
-//   });
-
-//   return {
-//     props: {
-//       usersProps: JSON.stringify(usersList) || [],
-//     },
-//   };
-// }
-
 export default function Details(props) {
   console.log("Details Function Begin");
-  const business = props.pageProps.business;
-  // const appState = useAppContext();
-  // const { currentUser } = appState;
+  const business = props.business;
   const [currentUser, setCurrentUser] = useState([]);
   const [menuItems, setMenuItems] = useState([]);
-  // console.log("current user in id page", currentUser);
-
-  useEffect(() => {
-    async function getPosts() {
-      const posts = collection(db, "favoriteMenuItem");
-
-      const postsSnapshot = await getDocs(posts);
-
-      postsSnapshot.docs.map((doc) => console.log(doc.data()));
-      setMenuItems(
-        postsSnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.rest_id }))
-      );
-    }
-    getPosts();
-  }, []);
-
-  useEffect(function CheckAuthOfUserHandler() {
-    return auth.onIdTokenChanged(async (user) => {
-      if (!user) {
-        console.log("no user");
-        setCurrentUser(null);
-        return;
-      }
-      const token = await user.getIdToken();
-      console.log("user in id after token recieve", user);
-      setCurrentUser(user);
-    });
-  }, []);
-
-  // useEffect(() => {
-  //   async function fetchmenuItems() {
-  //     const usersRef = collection(db, "restaurant");
-  //     const q = query(usersRef, where("email", "!=", currentUser.user?.email));
-  //     const querySnapshot = await getDocs(q);
-  //     setFriends(
-  //       querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-  //     );
-  //   }
-  //   fetchmenuItems();
-  // }, []);
 
   const formatTimeString = (str) => {
     if (str.length == 4) {

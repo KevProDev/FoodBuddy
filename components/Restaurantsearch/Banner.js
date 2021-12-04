@@ -90,12 +90,13 @@ function Banner() {
   };
 
   return (
-    <div className="relative h-[200px] sm:h-[400px] lg:h-[500px] xl:h-[600px] 2xl:h-[700px]">
+    <div className="relative w-full h-[200px] sm:h-[400px] lg:h-[500px] xl:h-[600px] 2xl:h-[700px]">
       {console.log("Banner HTML BEGIN")}
       <Image
         src="https://images.squarespace-cdn.com/content/v1/551aba82e4b06ddeea1f4958/1636043991946-NN53WAVJ8A68H2AU8TU8/CHIUB-Brunch-Table-Cindys.jpg"
         layout="fill"
         objectFit="cover"
+        priority="true"
       />
       <div className="absolute top-1/3 text-white w-full text-center">
         <div className="sm:flex-row gap-3 flex flex-col justify-center bg-indigo-50 w-11/12 md:w-2/3 lg:w-1/2 mx-auto px-4 mb-5 text-xl md:border-2 rounded-md sm:rounded-full py-2 pt-4 sm:pt-2 md:shadow-sm ">

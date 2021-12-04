@@ -36,14 +36,7 @@ export default function Header({ data }) {
       {/* Left */}
       <div className="relative flex items-center h-10 cursor-pointer my-auto col-span-1">
         <Link href="/">
-          <a href="">
-            <Image
-              src="https://image.flaticon.com/icons/png/512/921/921265.png"
-              layout="fill"
-              objectFit="contain"
-              objectPosition="left"
-            />
-          </a>
+          <a href="">FoodBuddy</a>
         </Link>
       </div>
 
@@ -190,28 +183,39 @@ export default function Header({ data }) {
               >
                 Your Favorites
               </ScrollLink>
-              <ScrollLink
-                href="/myfavorites"
-                activeClass="/"
-                to="/myfavorites"
-                smooth={true}
-                offset={50}
-                duration={500}
-                className="cursor-pointer hover:bg-green-500 text-black hover:text-white block py-2 rounded-md text-base font-sm"
-              >
-                Sign In
-              </ScrollLink>
-              <ScrollLink
-                href="/"
-                activeClass="/"
-                to="/"
-                smooth={true}
-                offset={50}
-                duration={500}
-                className="cursor-pointer hover:bg-green-500 text-black hover:text-white block py-2 rounded-md text-base font-sm"
-              >
-                Sign Out
-              </ScrollLink>
+              {!session && (
+                <div className="flex items-center space-x-4">
+                  <p
+                    className="inline-flex lg:hidden col-span-1 cursor-pointer text-lg rounded-2xl py-2"
+                    onClick={loginWithGoogle}
+                  >
+                    Sign In
+                    {session && `as ${session.user.name}`}
+                  </p>
+                  <p
+                    className="inline-flex lg:hidden col-span-1 cursor-pointer text-lg rounded-2xl py-2"
+                    onClick={logoutWithGoogle}
+                  >
+                    Sign Out
+                  </p>
+                </div>
+              )}
+              {session && (
+                <div className="space-x-4">
+                  <p
+                    className="hidden lg:inline-flex col-span-1 cursor-pointer text-lg rounded-2xl py-2"
+                    onClick={loginWithGoogle}
+                  >
+                    {session.user.name}
+                  </p>
+                  <p
+                    className="hidden lg:inline-flex col-span-1 cursor-pointer text-lg rounded-2xl py-2"
+                    onClick={logoutWithGoogle}
+                  >
+                    Sign Out
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         )}
