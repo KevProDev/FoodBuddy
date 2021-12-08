@@ -5,6 +5,12 @@ const primsa = new PrismaClient();
 
 export default async function (req, res) {
   try {
+    const session = await getSession({ req });
+
+    if (!session) {
+      return res.status(401);
+    }
+
     const {
       id,
       name,
@@ -14,17 +20,26 @@ export default async function (req, res) {
 
     // console.log(id);
 
-    const session = await getSession({ req });
+    // const restaurant = await primsa.restaurant.create({
+    //   data: { id, name, address, city },
+    // });
 
-    if (!session) {
-      return res.status(401);
-    }
-
-    const restaurant = await primsa.restaurant.create({
-      data: { id, name, address, city },
+    const getRestaurant = await primsa.restaurant.findUnique({
+      where: {
+        id: id,
+      },
     });
 
-    return res.status(200).json(restaurant);
+    if (!getRestaurant) {
+      const restaurant = await primsa.restaurant.create({
+        data: { id, name, address, city },
+      });
+      return res.status(200).json(restaurant);
+    }
+
+    return res
+      .status(200)
+      .json({ Verdict: "This is a restaurant store already" });
   } catch (error) {
     return res.status(500).send(error);
   }
