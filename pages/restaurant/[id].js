@@ -28,8 +28,22 @@ export const getStaticProps = async ({ params }) => {
 export default function Details(props) {
   console.log("Details Function Begin");
   const business = props.business;
+  // console.log("business", business);
   const [currentUser, setCurrentUser] = useState([]);
   const [menuItems, setMenuItems] = useState([]);
+
+  const submitRestaurant = async () => {
+    console.log("business", business);
+    const restaurant = await fetch("/api/createrestaurant", {
+      method: "POST",
+      body: JSON.stringify(business),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const submitdata = await restaurant.json();
+    console.log(submitdata);
+  };
 
   const formatTimeString = (str) => {
     if (str.length == 4) {
@@ -92,7 +106,7 @@ export default function Details(props) {
           <div>
             <div className="flex flex-col justify-between">
               <h1 className="text-xl font-bold md:text-l">{business.name}</h1>
-              <p>{business.categories[1].title}</p>
+              <p>{business.categories[0].title}</p>
               {/* <div className="flex items-center justify-end">
                 <HeartIcon className="h-5 cursor-pointer" />
               </div> */}
@@ -119,6 +133,12 @@ export default function Details(props) {
           <h2 className="font-semibold text-xl md:text-l pb-4 ">
             Meal Reviews
           </h2>
+          <button
+            className="text-lg rounded-2xl py-2"
+            onClick={submitRestaurant}
+          >
+            Submit
+          </button>
           <div className="border-gray-200 border-b-2 pb-4 mb-4">
             <div className="flex items-center pb-2">
               <UserCircleIcon className="h-5 cursor-pointer pr-2" />
