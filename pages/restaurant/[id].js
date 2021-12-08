@@ -87,15 +87,15 @@ export default function Details(props) {
       <div className="relative h-[300px] sm:h-[200px] lg:h-[300px] xl:h-[400px] 2xl:h-[700px]">
         <Image src={business.image_url} layout="fill" objectFit="cover" />
       </div>
-      <main className="max-w-4xl mx-auto px-8 sm:px-16 pb-16 bg-gray-100">
-        <section className="pt-6 flex flex-col md:flex-row gap-2 md:gap-32  lg:gap-64 ">
+      <main className=" ">
+        <section className="w-11/12 max-w-4xl mx-auto px-4 sm:px-16 pb-4 bg-gray-100 pt-2 flex flex-col md:flex-row gap-2 md:gap-32  lg:gap-64 ">
           <div>
             <div className="flex flex-col justify-between">
               <h1 className="text-xl font-bold md:text-l">{business.name}</h1>
               <p>{business.categories[1].title}</p>
-              <div className="flex items-center justify-end">
+              {/* <div className="flex items-center justify-end">
                 <HeartIcon className="h-5 cursor-pointer" />
-              </div>
+              </div> */}
             </div>
             <p>
               {business.location.address1}, {business.location.city}{" "}
@@ -108,27 +108,47 @@ export default function Details(props) {
 
             <div className="" />
           </div>
-          <div className="border-b-2 border-gray-200 pb-2">
+          <div className="">
             {business.hours && business.hours[0].open
               ? renderHours(business.hours[0])
               : null}
           </div>
         </section>
 
-        <section>
-          <h2 className="font-semibold text-xl md:text-l my-5 ">Reviews</h2>
-          {menuItems.map((menuItem) => (
-            <div>
-              <div className="flex items-center pb-2">
-                <UserCircleIcon className="h-5 cursor-pointer pr-2" />
-                <span className="text-sm">{menuItem.user_id}</span>
-              </div>
-              <div className="border-gray-200 border-b-2 pb-2">
-                <h3 className="font-semibold">{menuItem.menu_item}</h3>
-                <p>{menuItem.thoughts}</p>
-              </div>
+        <section className="w-11/12 max-w-4xl mx-auto px-4 sm:px-16 pb-16 bg-gray-100 pt-2 mt-4">
+          <h2 className="font-semibold text-xl md:text-l pb-4 ">
+            Meal Reviews
+          </h2>
+          <div className="border-gray-200 border-b-2 pb-4 mb-4">
+            <div className="flex items-center pb-2">
+              <UserCircleIcon className="h-5 cursor-pointer pr-2" />
+              <span className="text-sm">Kevin Johnson</span>
             </div>
-          ))}
+            <div className="">
+              <h3 className="font-semibold">Spick Chicken Soup </h3>
+              <p>
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                Dolores magnam minus animi debitis provident unde dolorem magni
+                eos hic aperiam, distinctio modi iste officia numquam sunt earum
+                quia maiores odit.
+              </p>
+            </div>
+          </div>
+          <div className="border-gray-200 border-b-2 pb-4 mb-4">
+            <div className="flex items-center pb-2">
+              <UserCircleIcon className="h-5 cursor-pointer pr-2" />
+              <span className="text-sm">Kevin Johnson</span>
+            </div>
+            <div className="">
+              <h3 className="font-semibold">Spick Chicken Soup </h3>
+              <p>
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                Dolores magnam minus animi debitis provident unde dolorem magni
+                eos hic aperiam, distinctio modi iste officia numquam sunt earum
+                quia maiores odit.
+              </p>
+            </div>
+          </div>
         </section>
       </main>
     </div>

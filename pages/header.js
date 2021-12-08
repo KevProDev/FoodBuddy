@@ -10,25 +10,20 @@ import {
 } from "@heroicons/react/solid";
 import { Link as ScrollLink } from "react-scroll";
 import { Transition } from "@headlessui/react";
-// import { login, logout } from "../firebase/clientApp";
-import {
-  signIn,
-  signOut,
-  GetSessionParams,
-  useSession,
-  getSession,
-} from "next-auth/react";
+import { signIn, signOut, useSession, getSession } from "next-auth/react";
 import Link from "next/link";
+import { PrismaClient } from "@prisma/client";
 
-export default function Header({ data }) {
+export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const { data: session } = useSession();
+  console.log("header", session);
 
   const loginWithGoogle = () => {
-    signIn("google");
+    signIn();
   };
   const logoutWithGoogle = () => {
-    signOut("google");
+    signOut();
   };
 
   return (
@@ -87,34 +82,6 @@ export default function Header({ data }) {
             </p>
           </div>
         )}
-        {/* {session ? (
-          <div className="flex items-center space-x-4">
-            <p>{session.user.name}</p>
-            <p
-              className="hidden lg:inline-flex col-span-1 cursor-pointer text-lg rounded-2xl py-2"
-              onClick={logoutWithGoogle}
-            >
-              Sign Out
-            </p>
-          </div>
-        ) : (
-          <div className="space-x-4">
-            <p
-              className="hidden lg:inline-flex col-span-1 cursor-pointer text-lg rounded-2xl py-2"
-              onClick={loginWithGoogle}
-            >
-              Sign In
-              {session && `as ${session.user.name}`}
-            </p>
-            <p
-              className="hidden lg:inline-flex col-span-1 cursor-pointer text-lg rounded-2xl py-2"
-              onClick={logoutWithGoogle}
-            >
-              Sign Out
-            </p>
-          </div>
-        )} */}
-        {/* <GlobeAltIcon className="h-6 cursor-pointer" /> */}
         <button
           className="flex lg:hidden items-center space-x-2 border-2 rounded-full p-2"
           onClick={() => setIsOpen(!isOpen)}
@@ -222,14 +189,4 @@ export default function Header({ data }) {
       </Transition>
     </header>
   );
-}
-
-export async function getServerSideProps(context) {
-  const session = await getSession(context);
-  return {
-    props: {
-      session,
-      data: session,
-    },
-  };
 }
