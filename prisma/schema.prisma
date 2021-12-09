@@ -62,10 +62,10 @@ model VerificationToken {
 }
 
 model Meal {
-  id            Int         @id @default(autoincrement())
+  id            String      @id @default(cuid())
   title         String      @db.VarChar(200)
   description   String      @db.VarChar(500)
-  likecount     Int     
+  like_count    Int?     
   created_at    DateTime    @default(now())
   updated_at    DateTime    @updatedAt
   user_id       String

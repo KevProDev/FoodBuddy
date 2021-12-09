@@ -54,10 +54,10 @@ CREATE TABLE `VerificationToken` (
 
 -- CreateTable
 CREATE TABLE `Meal` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `id` VARCHAR(191) NOT NULL,
     `title` VARCHAR(200) NOT NULL,
     `description` VARCHAR(500) NOT NULL,
-    `likecount` INTEGER NOT NULL,
+    `like_count` INTEGER NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updated_at` DATETIME(3) NOT NULL,
     `user_id` VARCHAR(191) NOT NULL,

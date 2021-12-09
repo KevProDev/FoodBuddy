@@ -1,7 +1,7 @@
 import { getSession } from "next-auth/react";
 import { PrismaClient } from "@prisma/client";
 
-const primsa = new PrismaClient();
+const prisma = new PrismaClient();
 
 export default async function (req, res) {
   try {
@@ -11,35 +11,53 @@ export default async function (req, res) {
       return res.status(401);
     }
 
-    const {
-      id,
-      name,
-      location: { address1: address },
-      location: { city },
-    } = req.body;
-
-    // console.log(id);
-
-    // const restaurant = await primsa.restaurant.create({
-    //   data: { id, name, address, city },
-    // });
-
-    const getRestaurant = await primsa.restaurant.findUnique({
-      where: {
-        id: id,
-      },
-    });
-
-    if (!getRestaurant) {
-      const restaurant = await primsa.restaurant.create({
-        data: { id, name, address, city },
+    if (req.method === "POST") {
+      const userFromDb = await prisma.user.findUnique({
+        where: { email: session.user.email },
+        select: {
+          id: true,
+        },
       });
-      return res.status(200).json(restaurant);
+
+      const {
+        id: restaurant_id,
+        name,
+        location: { address1: address },
+        location: { city },
+      } = req.body;
+
+      const getRestaurantId = await prisma.restaurant.findUnique({
+        where: {
+          id: restaurant_id,
+        },
+        select: {
+          id: true,
+        },
+      });
+
+      // Create a restaurant if one doesnt exsist
+      if (!getRestaurantId) {
+        const restaurant = await prisma.restaurant.create({
+          data: { id: restaurant_id, name, address, city },
+        });
+        // return res.status(200).json(restaurant);
+      }
+
+      // Allow us to post the review on the meal
+
+      const sendMealReview = await prisma.meal.create({
+        data: {
+          title: "Combo 3",
+          description:
+            "Pancakes are fluffy sasauge meaty and bacon is pure pork fashion",
+          user_id: userFromDb.id,
+          rest_id: restaurant_id,
+        },
+      });
+      return res.status(200).json({ sendMealReview });
     }
 
-    return res
-      .status(200)
-      .json({ Verdict: "This is a restaurant store already" });
+    // return res.status(200).json(getRestaurantId);
   } catch (error) {
     return res.status(500).send(error);
   }

@@ -3,8 +3,9 @@ import { server } from "../../config";
 import Head from "next/head";
 import { useAppContext } from "../../context/store";
 import { HeartIcon, UserCircleIcon } from "@heroicons/react/outline";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import { signIn, signOut, useSession, getSession } from "next-auth/react";
 
 export const getStaticPaths = async (context) => {
   return {
@@ -31,9 +32,11 @@ export default function Details(props) {
   // console.log("business", business);
   const [currentUser, setCurrentUser] = useState([]);
   const [menuItems, setMenuItems] = useState([]);
+  const inputEl = useRef();
+  const inputEl2 = useRef();
+  const { data: session } = useSession();
 
-  const submitRestaurant = async () => {
-    console.log("business", business);
+  const submitMealReview = async () => {
     const restaurant = await fetch("/api/createrestaurant", {
       method: "POST",
       body: JSON.stringify(business),
@@ -102,7 +105,7 @@ export default function Details(props) {
         <Image src={business.image_url} layout="fill" objectFit="cover" />
       </div>
       <main className=" ">
-        <section className="w-11/12 max-w-4xl mx-auto px-4 sm:px-16 pb-4 bg-gray-100 pt-2 flex flex-col md:flex-row gap-2 md:gap-32  lg:gap-64 ">
+        <section className="w-11/12 max-w-4xl mx-auto px-4 sm:px-16 pb-4 bg-gray-100 pt-4 flex flex-col md:flex-row gap-2 md:gap-32  lg:gap-24 ">
           <div>
             <div className="flex flex-col justify-between">
               <h1 className="text-xl font-bold md:text-l">{business.name}</h1>
@@ -116,7 +119,7 @@ export default function Details(props) {
               {business.location.state}
             </p>
             <p className="text-gray-500">{business.display_phone}</p>
-            <p className="text-gray-500 border-b-2 border-gray-200 pb-2">
+            <p className="text-gray-500 border-gray-200 pb-2">
               Price {business.price}
             </p>
 
@@ -133,12 +136,49 @@ export default function Details(props) {
           <h2 className="font-semibold text-xl md:text-l pb-4 ">
             Meal Reviews
           </h2>
-          <button
+          {/* <p>Share your review of your meal</p> */}
+          {!session && (
+            <a
+              className="block w-60 text-lg rounded-2xl py-2 px-4 bg-yellow-300 text-black mb-4"
+              href="/api/auth/signin/google"
+              onClick={(e) => {
+                e.preventDefault();
+                signIn("google");
+              }}
+            >
+              Sign in to leave a review
+            </a>
+          )}
+          {session?.user && (
+            <form className="relative my-4" onSubmit={submitMealReview}>
+              <input
+                ref={inputEl}
+                aria-label="The name of the meal"
+                placeholder="The name of the meal..."
+                required
+                className="pl-4 pr-32 py-2 mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full border-gray-300 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+              />
+              <input
+                ref={inputEl2}
+                aria-label="The meal description"
+                placeholder="The meal description..."
+                required
+                className="pl-4 pr-32 py-2 mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full border-gray-300 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+              />
+              <button
+                className="flex items-center justify-center absolute right-1 top-1 px-4 pt-1 font-medium h-8 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded w-28"
+                type="submit"
+              >
+                Sign
+              </button>
+            </form>
+          )}
+          {/* <button
             className="text-lg rounded-2xl py-2"
-            onClick={submitRestaurant}
+            onClick={submitMealReview}
           >
             Submit
-          </button>
+          </button> */}
           <div className="border-gray-200 border-b-2 pb-4 mb-4">
             <div className="flex items-center pb-2">
               <UserCircleIcon className="h-5 cursor-pointer pr-2" />

@@ -37,6 +37,8 @@ export async function getServerSideProps(ctx) {
   const prisma = new PrismaClient();
   const session = await getSession(ctx);
 
+  console.log("session", session);
+
   if (!session) {
     return {
       props: {
