@@ -105,62 +105,54 @@ export default function Header() {
       >
         {() => (
           <div className="md:hidden id:mobile-menu">
-            <div className="px-2 pt-2 pb-3 space-y-1">
-              <ScrollLink
-                href="/"
-                activeClass="/"
-                to="/"
-                smooth={true}
-                offset={50}
-                duration={500}
-                className="cursor-pointer hover:bg-green-500 text-black hover:text-white block py-2 rounded-md text-base font-medium"
-              >
-                Home
-              </ScrollLink>
-              <ScrollLink
-                href="/restaurantsearch"
-                activeClass="/"
-                to="/restaurantSearch"
-                smooth={true}
-                offset={50}
-                duration={500}
-                className="cursor-pointer hover:bg-green-500 text-black hover:text-white block py-2 rounded-md text-base font-medium"
-              >
-                Search Resturants
-              </ScrollLink>
-              <ScrollLink
-                href="/foodbuddy"
-                activeClass="/"
-                to="/foodbuddy"
-                smooth={true}
-                offset={50}
-                duration={500}
-                className="cursor-pointer hover:bg-green-500 text-black hover:text-white block py-2 rounded-md text-base font-medium"
-              >
-                FoodBuddies
-              </ScrollLink>
-              <ScrollLink
-                href="/myfavorites"
-                activeClass="/"
-                to="/myfavorites"
-                smooth={true}
-                offset={50}
-                duration={500}
-                className="cursor-pointer hover:bg-green-500 text-black hover:text-white block py-2 rounded-md text-base font-medium"
-              >
-                Your Favorites
-              </ScrollLink>
+            <div className="flex flex-col px-2 pt-2 pb-3 space-y-1">
+              <Link href="/">
+                <a
+                  onClick={() => setIsOpen(!isOpen)}
+                  href=""
+                  className="cursor-pointer hover:bg-green-500 text-black hover:text-white block py-2 rounded-md text-base font-medium"
+                >
+                  Home
+                </a>
+              </Link>
+              <Link href="/restaurantsearch">
+                <a
+                  onClick={() => setIsOpen(!isOpen)}
+                  href=""
+                  className="cursor-pointer hover:bg-green-500 text-black hover:text-white block py-2 rounded-md text-base font-medium"
+                >
+                  Search Resturants
+                </a>
+              </Link>
+              <Link href="/foodbuddy">
+                <a
+                  onClick={() => setIsOpen(!isOpen)}
+                  href=""
+                  className="cursor-pointer hover:bg-green-500 text-black hover:text-white block py-2 rounded-md text-base font-medium"
+                >
+                  FoodBuddies
+                </a>
+              </Link>
+              <Link href="/myfavorites">
+                <a
+                  onClick={() => setIsOpen(!isOpen)}
+                  href=""
+                  className="cursor-pointer hover:bg-green-500 text-black hover:text-white block py-2 rounded-md text-base font-medium"
+                >
+                  Your Favorites
+                </a>
+              </Link>
               {!session && (
-                <div className="flex items-center space-x-4">
+                <div className="flex flex-col items-start">
                   <p
-                    className="inline-flex lg:hidden col-span-1 cursor-pointer text-lg rounded-2xl py-2"
+                    className=" font-bold cursor-pointer text-xl rounded-2xl py-2"
                     onClick={loginWithGoogle}
                   >
                     Sign In
                     {session && `as ${session.user.name}`}
                   </p>
                   <p
-                    className="inline-flex lg:hidden col-span-1 cursor-pointer text-lg rounded-2xl py-2"
+                    className=" text-xl font-bold  cursor-pointer  rounded-2xl py-2"
                     onClick={logoutWithGoogle}
                   >
                     Sign Out
@@ -168,15 +160,15 @@ export default function Header() {
                 </div>
               )}
               {session && (
-                <div className="space-x-4">
+                <div className="flex flex-col items-start">
                   <p
-                    className="hidden lg:inline-flex col-span-1 cursor-pointer text-lg rounded-2xl py-2"
+                    className="font-bold cursor-pointer text-xl rounded-2xl py-2"
                     onClick={loginWithGoogle}
                   >
                     {session.user.name}
                   </p>
                   <p
-                    className="hidden lg:inline-flex col-span-1 cursor-pointer text-lg rounded-2xl py-2"
+                    className="font-bold cursor-pointer text-xl rounded-2xl py-2"
                     onClick={logoutWithGoogle}
                   >
                     Sign Out

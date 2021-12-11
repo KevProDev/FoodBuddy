@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Head from "next/head";
 import Banner from "../components/Restaurantsearch/Banner";
-import Header from "../components/Header";
 import SmallCard from "../components/Restaurantsearch/Business";
 import BusinessList from "../components/Restaurantsearch/BusinessList";
 import Suggestions from "../components/Suggestions";
@@ -11,7 +10,6 @@ import Suggestions from "../components/Suggestions";
 export default function RestaurantSearch() {
   return (
     <div>
-      <Header />
       <Banner />
 
       <main className="max-w-7xl mx-auto sm:px-16">

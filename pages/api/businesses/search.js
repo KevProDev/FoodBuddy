@@ -8,7 +8,7 @@ export default async function handler({ query }, res) {
 
     if (query.offset) searchUrl += `offset=${query.offset}&`;
     if (query.limit) searchUrl += `limit=${query.limit}&`;
-    if (query.term) searchUrl += `term=${query.term}&`;
+    if (query.term) searchUrl += `term=${query.term} restaurant&`;
     if (query.location) searchUrl += `location=${query.location}&`;
     if (query.sortBy) searchUrl += `sort_by=${query.sortBy}&`;
 
