@@ -29,23 +29,29 @@ export const getStaticProps = async ({ params }) => {
 export default function Details(props) {
   console.log("Details Function Begin");
   const business = props.business;
-  // console.log("business", business);
-  const [currentUser, setCurrentUser] = useState([]);
-  const [menuItems, setMenuItems] = useState([]);
-  const inputEl = useRef();
-  const inputEl2 = useRef();
+  const [mealTitle, setMealTitle] = useState("");
+  const [mealDescription, setMealDescription] = useState("");
+  const mealTitleRef = useRef();
+  const mealDescriptionRef = useRef();
   const { data: session } = useSession();
 
+  const newSubmitData = {
+    ...business,
+    mealTitle,
+    mealDescription,
+  };
+
   const submitMealReview = async () => {
+    // console.log(newSubmitData);
     const restaurant = await fetch("/api/createrestaurant", {
       method: "POST",
-      body: JSON.stringify(business),
+      body: JSON.stringify(newSubmitData),
       headers: {
         "Content-Type": "application/json",
       },
     });
-    const submitdata = await restaurant.json();
-    console.log(submitdata);
+    const returnSubmitData = await restaurant.json();
+    // console.log(returnSubmitData);
   };
 
   const formatTimeString = (str) => {
@@ -132,11 +138,10 @@ export default function Details(props) {
           </div>
         </section>
 
-        <section className="w-11/12 max-w-4xl mx-auto px-4 sm:px-16 pb-16 bg-gray-100 pt-2 mt-4">
-          <h2 className="font-semibold text-xl md:text-l pb-4 ">
-            Meal Reviews
+        <section className="w-11/12 max-w-4xl mx-auto px-4 sm:px-16 pb-4 bg-gray-100 pt-2 mt-4">
+          <h2 className="font-semibold text-xl md:text-l ">
+            Tell People About This Meal
           </h2>
-          {/* <p>Share your review of your meal</p> */}
           {!session && (
             <a
               className="block w-60 text-lg rounded-2xl py-2 px-4 bg-yellow-300 text-black mb-4"
@@ -146,33 +151,45 @@ export default function Details(props) {
                 signIn("google");
               }}
             >
-              Sign in to leave a review
+              Sign in to write a review
             </a>
           )}
           {session?.user && (
-            <form className="relative my-4" onSubmit={submitMealReview}>
+            <form className="relative" onSubmit={submitMealReview}>
               <input
-                ref={inputEl}
-                aria-label="The name of the meal"
-                placeholder="The name of the meal..."
+                ref={mealTitleRef}
+                value={mealTitle}
+                onChange={(e) => setMealTitle(e.target.value)}
+                aria-label="Name of your Meal"
+                placeholder="Name of your Meal..."
                 required
-                className="pl-4 pr-32 py-2 mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full border-gray-300 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+                className="px-4 py-2 mt-1 focus:ring-blue-500 focus:border-blue-500 block w-4/5 md:w-1/2 border-gray-300 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
               />
               <input
-                ref={inputEl2}
-                aria-label="The meal description"
-                placeholder="The meal description..."
+                ref={mealDescriptionRef}
+                value={mealDescription}
+                onChange={(e) => setMealDescription(e.target.value)}
+                aria-label="What was so great about it"
+                placeholder="What was so great about it..."
                 required
-                className="pl-4 pr-32 py-2 mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full border-gray-300 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+                className="px-4 py-2 mt-1 mb-4 focus:ring-blue-500 focus:border-blue-500 block w-4/5 md:w-1/2 border-gray-300 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
               />
               <button
-                className="flex items-center justify-center absolute right-1 top-1 px-4 pt-1 font-medium h-8 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded w-28"
+                className="flex items-center justify-center  right-1 top-1 px-4 pt-1 font-medium h-8 bg-red-600 text-white rounded w-38"
                 type="submit"
               >
-                Sign
+                Post Review
               </button>
             </form>
           )}
+        </section>
+
+        <section className="w-11/12 max-w-4xl mx-auto px-4 sm:px-16 pb-16 bg-gray-100 pt-2 mt-4">
+          <h2 className="font-semibold text-xl md:text-l pb-4 ">
+            7 People Already Review Their Meal
+          </h2>
+          {/* <p>Share your review of your meal</p> */}
+
           {/* <button
             className="text-lg rounded-2xl py-2"
             onClick={submitMealReview}

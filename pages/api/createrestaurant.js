@@ -24,7 +24,17 @@ export default async function (req, res) {
         name,
         location: { address1: address },
         location: { city },
+        mealTitle: title,
+        mealDescription: description,
       } = req.body;
+
+      // console.log(title);
+      // const {
+      //   id: restaurant_id,
+      //   name,
+      //   location: { address1: address },
+      //   location: { city },
+      // } = req.body;
 
       const getRestaurantId = await prisma.restaurant.findUnique({
         where: {
@@ -40,24 +50,23 @@ export default async function (req, res) {
         const restaurant = await prisma.restaurant.create({
           data: { id: restaurant_id, name, address, city },
         });
-        // return res.status(200).json(restaurant);
+        return res.status(200).json(restaurant);
       }
 
       // Allow us to post the review on the meal
 
       const sendMealReview = await prisma.meal.create({
         data: {
-          title: "Combo 3",
-          description:
-            "Pancakes are fluffy sasauge meaty and bacon is pure pork fashion",
-          user_id: userFromDb.id,
-          rest_id: restaurant_id,
+          title: title,
+          description: description,
+          user_id: userFromDb.id.toString(),
+          rest_id: getRestaurantId.id.toString(),
         },
       });
-      return res.status(200).json({ sendMealReview });
+      return res.status(200).json(sendMealReview);
     }
 
-    // return res.status(200).json(getRestaurantId);
+    return res.status(200).json(getRestaurantId);
   } catch (error) {
     return res.status(500).send(error);
   }
