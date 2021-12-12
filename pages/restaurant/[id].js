@@ -144,14 +144,14 @@ export default function Details(props) {
           </h2>
           {!session && (
             <a
-              className="block w-60 text-lg rounded-2xl py-2 px-4 bg-yellow-300 text-black mb-4"
+              className="block w-60 text-lg rounded-md py-2 px-4 bg-yellow-300 text-black mb-4"
               href="/api/auth/signin/google"
               onClick={(e) => {
                 e.preventDefault();
                 signIn("google");
               }}
             >
-              Sign in to write a review
+              Sign in to post a review
             </a>
           )}
           {session?.user && (
