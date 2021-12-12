@@ -33,7 +33,7 @@ function Banner() {
     sortBy: sortBy,
   });
 
-  //enter on search trigger search
+  //enter on search trigger
   useEffect(() => {
     const locationInput = document.getElementById("locationInput");
 
