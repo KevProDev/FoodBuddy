@@ -6,6 +6,7 @@ import Banner from "../components/Restaurantsearch/Banner";
 import SmallCard from "../components/Restaurantsearch/Business";
 import BusinessList from "../components/Restaurantsearch/BusinessList";
 import Suggestions from "../components/Suggestions";
+import { signIn, signOut, useSession, getSession } from "next-auth/react";
 
 export default function RestaurantSearch() {
   return (
@@ -26,4 +27,24 @@ export default function RestaurantSearch() {
       </main>
     </div>
   );
+}
+
+export async function getServerSideProps(ctx) {
+  const session = await getSession(ctx);
+
+  console.log("session", session);
+
+  if (!session) {
+    return {
+      props: {
+        session: null,
+      },
+    };
+  }
+
+  return {
+    props: {
+      session,
+    },
+  };
 }

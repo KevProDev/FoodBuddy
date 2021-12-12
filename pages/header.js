@@ -38,12 +38,12 @@ export default function Header() {
       {/* Middle */}
       <div className="hidden lg:flex items-center py-2 font-semibold col-span-3 justify-end pr-5 list-none space-x-8 text-lg ">
         <Link href="/restaurantsearch">
-          <a href="">Find A Restaurant</a>
+          <a href="">Restaurant Search</a>
         </Link>
-        <Link href="/foodbuddy">
+        {/* <Link href="/foodbuddy">
           <a href="">FoodBuddies</a>
-        </Link>
-        <Link href="/myFavorites">
+        </Link> */}
+        <Link href="/saves">
           <a href="">Saves</a>
         </Link>
       </div>
@@ -121,10 +121,10 @@ export default function Header() {
                   href=""
                   className="cursor-pointer hover:bg-green-500 text-black hover:text-white block py-2 rounded-md text-base font-medium"
                 >
-                  Search Resturants
+                  Resturants Search
                 </a>
               </Link>
-              <Link href="/foodbuddy">
+              {/* <Link href="/foodbuddy">
                 <a
                   onClick={() => setIsOpen(!isOpen)}
                   href=""
@@ -132,8 +132,8 @@ export default function Header() {
                 >
                   FoodBuddies
                 </a>
-              </Link>
-              <Link href="/myfavorites">
+              </Link> */}
+              <Link href="/saves">
                 <a
                   onClick={() => setIsOpen(!isOpen)}
                   href=""

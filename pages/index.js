@@ -1,14 +1,9 @@
 import { useState, useEffect } from "react";
-// import useSWR from "swr";
-import Link from "next/link";
-import Head from "next/head";
 import Banner from "../components/Restaurantsearch/Banner";
-import Header from "./header";
-import SmallCard from "../components/Restaurantsearch/Business";
 import BusinessList from "../components/Restaurantsearch/BusinessList";
-import Suggestions from "../components/Suggestions";
 import { signIn, signOut, useSession, getSession } from "next-auth/react";
 import { PrismaClient } from "@prisma/client";
+
 export default function Home({ data }) {
   // console.log("index session serverside", session);
   return (
