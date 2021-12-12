@@ -20,11 +20,7 @@ function Banner() {
     searchBusinesses,
     clearBusinesses,
     setSearchParams,
-    currentUser,
   } = appState;
-
-  // console.log("check after login", currentUser);
-  // const term = appState.term;
 
   useEffect(() => {
     console.log("Banner useEffect for TERM");
@@ -36,6 +32,17 @@ function Banner() {
     location: location,
     sortBy: sortBy,
   });
+
+  useEffect(() => {
+    const locationInput = document.getElementById("locationInput");
+
+    locationInput.addEventListener("keyup", function (e) {
+      if (e.keyCode === 13) {
+        e.preventDefault();
+        document.getElementById("searchbutton").click();
+      }
+    });
+  }, []);
 
   const sortByOptions = {
     "Best Match": "best_match",
@@ -110,6 +117,7 @@ function Banner() {
           />
           {/* <div className="border-b-2 border-gray-300" /> -*/}
           <input
+            id="locationInput"
             className="text-sm sm:text-xl md:text-xl pl-5 bg-transparent outline-none text-gray-600 placeholder-gray-400"
             placeholder="Start your search"
             name="location"
@@ -118,6 +126,7 @@ function Banner() {
             placeholder="City"
           />
           <button
+            id="searchbutton"
             className="flex w-full sm:w-auto justify-center items-center py-5 ml-auto h-8 text-white text-l rounded-full bg-green-500 p-2 cursor-pointer"
             onClick={handleSearch}
           >
