@@ -69,7 +69,9 @@ model Meal {
   created_at    DateTime    @default(now())
   updated_at    DateTime    @updatedAt
   user_id       String
-  user          User        @relation(fields: [user_id], references:[id])
+  user_name     String
+  user          User        @relation(fields: [user_id,user_name], references:[id,name])
+  
   rest_id       String      @db.VarChar(200)
   rest          Restaurant  @relation(fields: [rest_id], references:[id])
 

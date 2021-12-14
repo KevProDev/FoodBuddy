@@ -12,18 +12,16 @@ import { Link as ScrollLink } from "react-scroll";
 import { Transition } from "@headlessui/react";
 import { signIn, signOut, useSession, getSession } from "next-auth/react";
 import Link from "next/link";
-import { PrismaClient } from "@prisma/client";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const { data: session } = useSession();
-  console.log("header", session);
 
   const loginWithGoogle = () => {
-    signIn();
+    signIn("google");
   };
   const logoutWithGoogle = () => {
-    signOut();
+    signOut("google");
   };
 
   return (

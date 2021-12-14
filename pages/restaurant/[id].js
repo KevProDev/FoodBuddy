@@ -6,6 +6,7 @@ import { HeartIcon, UserCircleIcon } from "@heroicons/react/outline";
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { signIn, signOut, useSession, getSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 export const getStaticPaths = async (context) => {
   return {
@@ -15,25 +16,38 @@ export const getStaticPaths = async (context) => {
 };
 
 export const getStaticProps = async ({ params }) => {
-  const res = await fetch(`${server}/api/businesses/${params.id}`);
+  const res = await fetch(`${server}/api/businesses/${params.id}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
   const business = await res.json();
 
   return {
     revalidate: 86400, // rebuild this static page after every x seconds (when page is visited)
     props: {
       business: business,
+      // restaurantReviews,
     },
   };
 };
 
 export default function Details(props) {
-  console.log("Details Function Begin");
-  const business = props.business;
+  // console.log("Details Function Begin");
+
+  const business = props.business.dataYelp;
+  const restaurantReview = props.business.getRestaurantReview;
+  // console.log("Id Details Page", business);
+  // console.log("Id Details Page", restaurantReview);
+
   const [mealTitle, setMealTitle] = useState("");
   const [mealDescription, setMealDescription] = useState("");
   const mealTitleRef = useRef();
   const mealDescriptionRef = useRef();
   const { data: session } = useSession();
+  const router = useRouter();
+  const { id } = router.query;
 
   const newSubmitData = {
     ...business,
@@ -41,9 +55,10 @@ export default function Details(props) {
     mealDescription,
   };
 
-  const submitMealReview = async () => {
+  const submitMealReview = async (e) => {
     // console.log(newSubmitData);
-    const restaurant = await fetch("/api/createrestaurant", {
+    e.preventDefault();
+    const restaurant = await fetch(`/api/businesses/${id}`, {
       method: "POST",
       body: JSON.stringify(newSubmitData),
       headers: {
@@ -51,7 +66,7 @@ export default function Details(props) {
       },
     });
     const returnSubmitData = await restaurant.json();
-    // console.log(returnSubmitData);
+    console.log(returnSubmitData);
   };
 
   const formatTimeString = (str) => {
@@ -108,7 +123,12 @@ export default function Details(props) {
         <title>FoodBuddy | {business.name}</title>
       </Head>
       <div className="relative h-[300px] sm:h-[200px] lg:h-[300px] xl:h-[400px] 2xl:h-[700px]">
-        <Image src={business.image_url} layout="fill" objectFit="cover" />
+        <Image
+          src={business.image_url}
+          layout="fill"
+          objectFit="cover"
+          priority="true"
+        />
       </div>
       <main className=" ">
         <section className="w-11/12 max-w-4xl mx-auto px-4 sm:px-16 pb-4 bg-gray-100 pt-4 flex flex-col md:flex-row gap-2 md:gap-32  lg:gap-24 ">
@@ -187,17 +207,27 @@ export default function Details(props) {
 
         <section className="w-11/12 max-w-4xl mx-auto px-4 sm:px-16 pb-16 bg-gray-100 pt-2 mt-4">
           <h2 className="font-semibold text-xl md:text-l pb-4 ">
-            7 People Already Review Their Meal
+            {restaurantReview.length} People Already Review Their Meal
           </h2>
-          {/* <p>Share your review of your meal</p> */}
+          {restaurantReview.map((review) => {
+            return (
+              <div
+                key={review.id}
+                className="border-gray-200 border-b-2 pb-4 mb-4"
+              >
+                <div className="flex items-center pb-2">
+                  <UserCircleIcon className="h-5 cursor-pointer pr-2" />
+                  <span className="text-sm">{review.user_name}</span>
+                </div>
+                <div className="">
+                  <h3 className="font-semibold">{review.title} </h3>
+                  <p>{review.description}</p>
+                </div>
+              </div>
+            );
+          })}
 
-          {/* <button
-            className="text-lg rounded-2xl py-2"
-            onClick={submitMealReview}
-          >
-            Submit
-          </button> */}
-          <div className="border-gray-200 border-b-2 pb-4 mb-4">
+          {/* <div className="border-gray-200 border-b-2 pb-4 mb-4">
             <div className="flex items-center pb-2">
               <UserCircleIcon className="h-5 cursor-pointer pr-2" />
               <span className="text-sm">Kevin Johnson</span>
@@ -211,22 +241,7 @@ export default function Details(props) {
                 quia maiores odit.
               </p>
             </div>
-          </div>
-          <div className="border-gray-200 border-b-2 pb-4 mb-4">
-            <div className="flex items-center pb-2">
-              <UserCircleIcon className="h-5 cursor-pointer pr-2" />
-              <span className="text-sm">Kevin Johnson</span>
-            </div>
-            <div className="">
-              <h3 className="font-semibold">Spick Chicken Soup </h3>
-              <p>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                Dolores magnam minus animi debitis provident unde dolorem magni
-                eos hic aperiam, distinctio modi iste officia numquam sunt earum
-                quia maiores odit.
-              </p>
-            </div>
-          </div>
+          </div> */}
         </section>
       </main>
     </div>

@@ -14,10 +14,6 @@ export default function RestaurantSearch() {
       <Banner />
 
       <main className="max-w-7xl mx-auto sm:px-16">
-        {/* <section className="pt-6">
-          <h2 className="text-4xl font-semibold pb-5 px-4">Suggestions</h2>
-          <Suggestions />
-        </section> */}
         <section className="pt-6">
           <h2 className="text-xl sm:text-4xl font-semibold pb-5 px-4">
             Restaurant Explore
@@ -31,8 +27,6 @@ export default function RestaurantSearch() {
 
 export async function getServerSideProps(ctx) {
   const session = await getSession(ctx);
-
-  console.log("session", session);
 
   if (!session) {
     return {

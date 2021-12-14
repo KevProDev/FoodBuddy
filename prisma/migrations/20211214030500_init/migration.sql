@@ -61,6 +61,7 @@ CREATE TABLE `Meal` (
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updated_at` DATETIME(3) NOT NULL,
     `user_id` VARCHAR(191) NOT NULL,
+    `user_name` VARCHAR(191) NOT NULL,
     `rest_id` VARCHAR(200) NOT NULL,
 
     PRIMARY KEY (`id`)
