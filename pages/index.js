@@ -8,6 +8,7 @@ import prisma from "../lib/prisma";
 export default function Home({ data }) {
   return (
     <div>
+      {console.log("Index HTML BEGIN")}
       <Banner />
       <main className="max-w-7xl mx-auto sm:px-16">
         <section className="pt-6">

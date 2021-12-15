@@ -34,20 +34,33 @@ export const getStaticProps = async ({ params }) => {
 };
 
 export default function Details(props) {
-  // console.log("Details Function Begin");
+  console.log("Details Function Begin");
 
   const business = props.business.dataYelp;
-  const restaurantReview = props.business.getRestaurantReview;
+  const restaurantReview = props.business.restaurantReviews;
   // console.log("Id Details Page", business);
   // console.log("Id Details Page", restaurantReview);
+  console.log("Details Function Phase");
 
+  const [reviews, setReviews] = useState([]);
   const [mealTitle, setMealTitle] = useState("");
   const [mealDescription, setMealDescription] = useState("");
   const mealTitleRef = useRef();
   const mealDescriptionRef = useRef();
+  // useSession causes a rerender
   const { data: session } = useSession();
   const router = useRouter();
   const { id } = router.query;
+
+  useEffect(() => {
+    console.log("Details useEffect Begin", props.business.restaurantReviews);
+    setReviews(() => {
+      return props.business.restaurantReviews;
+    });
+  }, []);
+
+  // console.log("**Details Fuction After useefect***", review);
+  // console.log("useState review", review);
 
   const newSubmitData = {
     ...business,
@@ -65,8 +78,23 @@ export default function Details(props) {
         "Content-Type": "application/json",
       },
     });
-    const returnSubmitData = await restaurant.json();
-    console.log(returnSubmitData);
+    await restaurant.json().then(() => {
+      /// got to the database and return restaurant reviews
+      /// got to the database and return restaurant reviews
+      const getRestaurantReviews = async () => {
+        const restaurantReviews = await fetch(`/api/businesses/${id}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const reviews = await restaurantReviews.json();
+        console.log("Inside my call", reviews);
+        setReviews(reviews.restaurantReviews);
+      };
+      getRestaurantReviews();
+    });
+    // console.log(returnSubmitData);
   };
 
   const formatTimeString = (str) => {
@@ -116,9 +144,11 @@ export default function Details(props) {
     );
   };
 
+  console.log("Details Function Finish");
+
   return (
     <div>
-      {console.log("Banner HTML BEGIN")}
+      {console.log("Detail HTML BEGIN")}
       <Head>
         <title>FoodBuddy | {business.name}</title>
       </Head>
@@ -206,10 +236,20 @@ export default function Details(props) {
         </section>
 
         <section className="w-11/12 max-w-4xl mx-auto px-4 sm:px-16 pb-16 bg-gray-100 pt-2 mt-4">
-          <h2 className="font-semibold text-xl md:text-l pb-4 ">
-            {restaurantReview.length} People Already Review Their Meal
-          </h2>
-          {restaurantReview.map((review) => {
+          {/* {!reviews && (
+            <h2 className="font-semibold text-xl md:text-l pb-4 ">
+              People Already Review Their Meal
+            </h2>
+          )} */}
+          {reviews && (
+            <h2 className="font-semibold text-xl md:text-l pb-4 ">
+              {reviews.length} People Already Review Their Meal
+            </h2>
+          )}
+          {/* <h2 className="font-semibold text-xl md:text-l pb-4 ">
+            {reviews.length} People Already Review Their Meal
+          </h2> */}
+          {reviews.map((review) => {
             return (
               <div
                 key={review.id}

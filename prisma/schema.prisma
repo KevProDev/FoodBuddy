@@ -40,6 +40,8 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }
 
 model User {
@@ -50,7 +52,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  users_meals   Meal[]
+  users_meals_review   Meal[]
 }
 
 model VerificationToken {
@@ -75,16 +77,18 @@ model Meal {
   rest_id       String      @db.VarChar(200)
   rest          Restaurant  @relation(fields: [rest_id], references:[id])
 
+  @@index([rest_id,user_id,user_name])
+
 }
 
 model Restaurant {
   id            String    @db.VarChar(200) @unique @id
-  name          String    @db.VarChar(255)
-  address       String    @db.VarChar(200)
-  city          String    @db.VarChar(45)
+  name          String?    @db.VarChar(255)
+  address       String?    @db.VarChar(200)
+  city          String?    @db.VarChar(45)
   created_at    DateTime  @default(now())
   updated_at    DateTime  @updatedAt
-  users_meals   Meal[]
+  users_meals_review   Meal[]
 }
 
 model Profile {

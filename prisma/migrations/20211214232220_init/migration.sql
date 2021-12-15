@@ -27,6 +27,7 @@ CREATE TABLE `Session` (
     `expires` DATETIME(3) NOT NULL,
 
     UNIQUE INDEX `Session_sessionToken_key`(`sessionToken`),
+    INDEX `Session_userId_idx`(`userId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -64,15 +65,16 @@ CREATE TABLE `Meal` (
     `user_name` VARCHAR(191) NOT NULL,
     `rest_id` VARCHAR(200) NOT NULL,
 
+    INDEX `Meal_rest_id_user_id_user_name_idx`(`rest_id`, `user_id`, `user_name`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `Restaurant` (
     `id` VARCHAR(200) NOT NULL,
-    `name` VARCHAR(255) NOT NULL,
-    `address` VARCHAR(200) NOT NULL,
-    `city` VARCHAR(45) NOT NULL,
+    `name` VARCHAR(255) NULL,
+    `address` VARCHAR(200) NULL,
+    `city` VARCHAR(45) NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updated_at` DATETIME(3) NOT NULL,
 

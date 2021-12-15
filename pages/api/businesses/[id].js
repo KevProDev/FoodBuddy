@@ -15,27 +15,41 @@ export default async function handler(req, res) {
       },
     });
     let dataYelp = await query.json();
+
+    const restaurant_id = req.query.id;
+
     if (req.method === "GET") {
-      const restaurant_id = req.query.id;
-      const getRestaurantReview = await prisma.restaurant.findUnique({
+      // const getRestaurantReview = await prisma.restaurant.findUnique({
+      //   where: {
+      //     id: restaurant_id,
+      //   },
+      //   select: {
+      //     users_meals_review: true,
+      //   },
+      // });
+      const getRestaurantReview = await prisma.meal.findMany({
         where: {
-          id: restaurant_id,
+          rest_id: restaurant_id,
         },
-        select: {
-          users_meals: true,
+        orderBy: {
+          created_at: "desc",
         },
       });
       if (!getRestaurantReview) {
         const data = {
           dataYelp,
-          getRestaurantReview: [],
+          restaurantReviews: [],
         };
         return res.status(200).json(data);
       }
 
+      // const data = {
+      //   dataYelp,
+      //   restaurantReviews: getRestaurantReview.users_meals_review,
+      // };
       const data = {
         dataYelp,
-        getRestaurantReview: getRestaurantReview.users_meals,
+        restaurantReviews: getRestaurantReview,
       };
       return res.status(200).json(data);
     }
@@ -78,7 +92,7 @@ export default async function handler(req, res) {
           data: { id: restaurant_id, name, address, city },
         });
 
-        const getRestaurantId = await prisma.restaurant.findUnique({
+        const getRestaurantFromDb = await prisma.restaurant.findUnique({
           where: {
             id: restaurant_id,
           },
@@ -92,7 +106,7 @@ export default async function handler(req, res) {
             title: title,
             description: description,
             user_id: userFromDb.id.toString(),
-            rest_id: getRestaurantId.id.toString(),
+            rest_id: getRestaurantFromDb.id.toString(),
             user_name: userFromDb.name.toString(),
           },
         });
@@ -107,7 +121,7 @@ export default async function handler(req, res) {
           title: title,
           description: description,
           user_id: userFromDb.id.toString(),
-          rest_id: getRestaurantId.id.toString(),
+          rest_id: restaurant_id.toString(),
           user_name: userFromDb.name.toString(),
         },
       });
