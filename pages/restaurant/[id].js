@@ -6,7 +6,7 @@ import { HeartIcon, UserCircleIcon } from "@heroicons/react/outline";
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { signIn, signOut, useSession, getSession } from "next-auth/react";
-import { useRouter } from "next/router";
+import { Router, useRouter } from "next/router";
 
 export const getStaticPaths = async (context) => {
   return {
@@ -25,7 +25,7 @@ export const getStaticProps = async ({ params }) => {
   const business = await res.json();
 
   return {
-    revalidate: 86400, // rebuild this static page after every x seconds (when page is visited)
+    revalidate: 1, // rebuild this static page after every x seconds (when page is visited)
     props: {
       business: business,
       // restaurantReviews,
@@ -38,8 +38,7 @@ export default function Details(props) {
 
   const business = props.business.dataYelp;
   const restaurantReview = props.business.restaurantReviews;
-  // console.log("Id Details Page", business);
-  // console.log("Id Details Page", restaurantReview);
+
   console.log("Details Function Phase");
 
   const [reviews, setReviews] = useState([]);
@@ -55,12 +54,9 @@ export default function Details(props) {
   useEffect(() => {
     console.log("Details useEffect Begin", props.business.restaurantReviews);
     setReviews(() => {
-      return props.business.restaurantReviews;
+      return restaurantReview;
     });
   }, []);
-
-  // console.log("**Details Fuction After useefect***", review);
-  // console.log("useState review", review);
 
   const newSubmitData = {
     ...business,
@@ -69,32 +65,41 @@ export default function Details(props) {
   };
 
   const submitMealReview = async (e) => {
-    // console.log(newSubmitData);
     e.preventDefault();
-    const restaurant = await fetch(`/api/businesses/${id}`, {
+    const restaurant = await fetch(`/api/${id}`, {
       method: "POST",
       body: JSON.stringify(newSubmitData),
       headers: {
         "Content-Type": "application/json",
       },
     });
-    await restaurant.json().then(() => {
-      /// got to the database and return restaurant reviews
-      /// got to the database and return restaurant reviews
-      const getRestaurantReviews = async () => {
-        const restaurantReviews = await fetch(`/api/businesses/${id}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        const reviews = await restaurantReviews.json();
-        console.log("Inside my call", reviews);
-        setReviews(reviews.restaurantReviews);
-      };
-      getRestaurantReviews();
+    await restaurant.json().then((value) => {
+      setReviews(value);
     });
-    // console.log(returnSubmitData);
+  };
+
+  // const likeRestaurant = async (e) => {
+  //   e.preventDefault();
+  //   console.log("works");
+  //   const likeRestuarantToDb = await fetch(`/api/businesses/like/${id}`, {
+  //     method: "PUT",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   });
+  //   const likeResponse = await likeRestuarantToDb.json();
+  //   console.log(likeResponse);
+  // };
+
+  const deleteReview = async (e, mealId) => {
+    e.preventDefault();
+    const deletedReview = await fetch(`/api/${id}`, {
+      method: "DELETE",
+      body: mealId,
+    });
+    await deletedReview.json().then((value) => {
+      setReviews(value);
+    });
   };
 
   const formatTimeString = (str) => {
@@ -233,6 +238,7 @@ export default function Details(props) {
               </button>
             </form>
           )}
+          {/* <button onClick={likeRestaurant}> Like </button> */}
         </section>
 
         <section className="w-11/12 max-w-4xl mx-auto px-4 sm:px-16 pb-16 bg-gray-100 pt-2 mt-4">
@@ -258,6 +264,16 @@ export default function Details(props) {
                 <div className="flex items-center pb-2">
                   <UserCircleIcon className="h-5 cursor-pointer pr-2" />
                   <span className="text-sm">{review.user_name}</span>
+                  {!session && <div></div>}
+                  {session?.id === review.user_id && (
+                    <button
+                      onClick={(e) => {
+                        deleteReview(e, review.id);
+                      }}
+                    >
+                      Delete
+                    </button>
+                  )}
                 </div>
                 <div className="">
                   <h3 className="font-semibold">{review.title} </h3>

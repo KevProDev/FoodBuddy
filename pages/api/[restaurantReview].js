@@ -1,173 +1,120 @@
 import { getSession } from "next-auth/react";
-import { PrismaClient } from "@prisma/client";
 import prisma from "../../lib/prisma";
-import nc from "next-connect";
 
 // const prisma = new PrismaClient();
 
 export default async function (req, res) {
   try {
-    // const session = await getSession({ req });
+    const restaurant_id = req.query.restaurantReview;
 
-    // if (!session) {
-    //   return res.status(401);
-    // }
+    const session = await getSession({ req });
+    // res.status(200).json({ memo: "test" });
+
+    if (!session) {
+      return res.status(404);
+    }
+
+    const userFromDb = await prisma.user.findUnique({
+      where: { email: session.user.email },
+    });
 
     if (req.method === "POST") {
-      const userFromDb = await prisma.user.findUnique({
-        where: { email: session.user.email },
-        select: {
-          id: true,
-        },
-      });
-
       const {
-        id: restaurant_id,
-        name,
-        location: { address1: address },
-        location: { city },
+        id: rest_id,
+        // name,
+        // location: { address1: address },
+        // location: { city },
         mealTitle: title,
         mealDescription: description,
       } = req.body;
 
-      // console.log(title);
-      // const {
-      //   id: restaurant_id,
-      //   name,
-      //   location: { address1: address },
-      //   location: { city },
-      // } = req.body;
-
-      const getRestaurantId = await prisma.restaurant.findUnique({
-        where: {
-          id: restaurant_id,
-        },
-        select: {
-          id: true,
-        },
-      });
-
-      // Create a restaurant if one doesnt exsist
-      if (!getRestaurantId) {
-        const restaurant = await prisma.restaurant.create({
-          data: { id: restaurant_id, name, address, city },
-        });
-        return res.status(200).json(restaurant);
-      }
-
       // Allow us to post the review on the meal
 
-      const sendMealReview = await prisma.meal.create({
+      await prisma.meal.create({
         data: {
           title: title,
           description: description,
           user_id: userFromDb.id.toString(),
-          rest_id: getRestaurantId.id.toString(),
+          rest_id: rest_id.toString(),
+          user_name: userFromDb.name.toString(),
         },
       });
-      return res.status(200).json(sendMealReview);
+
+      // findUnique is slow than findMany
+      // const getRestaurantReview = await prisma.restaurant.findUnique({
+      //   where: {
+      //     id: rest_id,
+      //   },
+      //   include: {
+      //     users_meals_review: {
+      //       orderBy: {
+      //         created_at: "desc",
+      //       },
+      //     },
+      //   },
+      // });
+      const getRestaurantReview = await prisma.meal.findMany({
+        where: {
+          rest_id: rest_id,
+        },
+        orderBy: {
+          created_at: "desc",
+        },
+      });
+      return res.status(200).json(getRestaurantReview);
     }
 
     if (req.method === "GET") {
-      // console.log(req.query.restaurantReview);
-      // return res.status(200).json({ name: "KEvin" });
-      const restaurant_id = req.query.restaurantReview;
-      // console.log(restaurant_id);
       const getRestaurantReview = await prisma.restaurant.findUnique({
         where: {
           id: restaurant_id,
         },
-        select: {
-          users_meals: true,
+        include: {
+          users_meals_review: {
+            orderBy: {
+              created_at: "desc",
+            },
+          },
         },
       });
-      // console.log(getRestaurantReview);
-      return res.status(200).json(getRestaurantReview.users_meals);
+      // const getRestaurantReview = await prisma.meal.findMany({
+      //   where: {
+      //     rest_id: restaurant_id,
+      //   },
+      //   orderBy: {
+      //     created_at: "desc",
+      //   },
+      // });
+      return res.status(200).json(getRestaurantReview.users_meals_review);
     }
-    return res.status(200).json({ name: "bottom res" });
+
+    if (req.method === "DELETE") {
+      const mealId = req.body;
+
+      // async function deleteupdate()
+
+      const meal = await prisma.meal.delete({
+        where: {
+          id: mealId,
+        },
+      });
+
+      const getRestaurantReview = await prisma.meal.findMany({
+        where: {
+          rest_id: restaurant_id,
+        },
+        orderBy: {
+          created_at: "desc",
+        },
+      });
+
+      return res.json(getRestaurantReview);
+
+      // return res.json({
+      //   message: meal ,
+      // });
+    }
   } catch (error) {
     return res.status(500).send(error);
   }
 }
-
-///////////////////////////
-// const handler = nc().post(async (req, res) => {
-//   try {
-//     return res.status(200).json({ name: "Made it to the end" });
-//     const session = await getSession({ req });
-
-//     // if (!session) {
-//     //   return res.status(401);
-//     // }
-
-//     const userFromDb = await prisma.user.findUnique({
-//       where: { email: session.user.email },
-//       select: {
-//         id: true,
-//       },
-//     });
-
-//     const {
-//       id: restaurant_id,
-//       name,
-//       location: { address1: address },
-//       location: { city },
-//       mealTitle: title,
-//       mealDescription: description,
-//     } = req.body;
-
-//     console.log("rest_id", req);
-//     // const {
-//     //   id: restaurant_id,
-//     //   name,
-//     //   location: { address1: address },
-//     //   location: { city },
-//     // } = req.body;
-//     const getRestaurantId = await prisma.restaurant.findUnique({
-//       where: {
-//         id: restaurant_id,
-//       },
-//       select: {
-//         id: true,
-//       },
-//     });
-
-//     // Create a restaurant if one doesnt exsist
-//     if (!getRestaurantId) {
-//       const restaurant = await prisma.restaurant.create({
-//         data: { id: restaurant_id, name, address, city },
-//       });
-//       return res.status(200).json(restaurant);
-//     }
-
-//     // Allow us to post the review on the meal
-//     const sendMealReview = await prisma.meal.create({
-//       data: {
-//         title: title,
-//         description: description,
-//         user_id: userFromDb.id.toString(),
-//         rest_id: getRestaurantId.id.toString(),
-//       },
-//     });
-//     return res.status(200).json(sendMealReview);
-
-//     // if (res.method === "GET") {
-//     //   // return res.status(200).json({ name: "KEvin" });
-//     //   // const restaurant_id = req.query.id;
-//     //   // const getRestaurantReview = await prisma.restaurant.findUnique({
-//     //   //   where: {
-//     //   //     id: restaurant_id,
-//     //   //   },
-//     //   //   select: {
-//     //   //     users_meals: true,
-//     //   //   },
-//     //   // });
-//     //   return res.status(200).json({ name: "Made it to the end" });
-//     // }
-//     return res.status(200).json({ name: "Made it to the end" });
-//   } catch (error) {
-//     return res.status(500).send(error);
-//   }
-// });
-
-// export default handler;
