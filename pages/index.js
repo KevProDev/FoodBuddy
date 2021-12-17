@@ -28,9 +28,7 @@ export async function getServerSideProps(ctx) {
 
   if (!session) {
     return {
-      props: {
-        session: null,
-      },
+      props: {},
     };
   }
   const profile = await prisma.user.findUnique({
@@ -39,7 +37,6 @@ export async function getServerSideProps(ctx) {
   return {
     props: {
       session,
-      data: session,
       profile,
     },
   };
