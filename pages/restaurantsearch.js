@@ -30,9 +30,7 @@ export async function getServerSideProps(ctx) {
 
   if (!session) {
     return {
-      props: {
-        session: null,
-      },
+      props: {},
     };
   }
 
