@@ -40,14 +40,14 @@ export default NextAuth({
       // first time jwt callback is run, user object is available
       if (user) {
         token.accessToken = account.access_token;
-        token.id = user.id;
+        // token.id = user.id;
       }
       return token;
     },
     async session({ session, user, token }) {
       if (token) {
         session.accessToken = token.accessToken;
-        session.id = token.id;
+        // session.id = token.id;
       }
       return session;
     },
