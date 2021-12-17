@@ -4,7 +4,7 @@ import BusinessList from "../components/Restaurantsearch/BusinessList";
 import { signIn, signOut, useSession, getSession } from "next-auth/react";
 import prisma from "../lib/prisma";
 
-export default function Home({ data }) {
+export default function Home() {
   return (
     <div>
       {console.log("Index HTML BEGIN")}
@@ -23,7 +23,7 @@ export default function Home({ data }) {
 
 export async function getServerSideProps(ctx) {
   // const prisma = new PrismaClient();
-  const session = await getSession(ctx);
+  // const session = await getSession(ctx);
   // console.log(session);
 
   if (!session) {
@@ -31,13 +31,13 @@ export async function getServerSideProps(ctx) {
       props: {},
     };
   }
-  const profile = await prisma.user.findUnique({
-    where: { email: session.user.email },
-  });
+  // const profile = await prisma.user.findUnique({
+  //   where: { email: session.user.email },
+  // });
   return {
     props: {
       session,
-      profile,
+      // profile,
     },
   };
 }
