@@ -27,7 +27,7 @@ export default NextAuth({
   session: {
     // Use JSON Web Tokens for session instead of database sessions.
     jwt: true,
-    strategy: "jwt",
+    strategy: "database",
 
     // Seconds - How long until an idle session expires and is no longer valid.
     maxAge: 30 * 24 * 60 * 60, // 30 days
