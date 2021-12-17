@@ -4,12 +4,9 @@ import { AppState } from "../context/store";
 import { SessionProvider } from "next-auth/react";
 import Header from "./header";
 
-export default function MyApp({
-  Component,
-  pageProps: { session, ...pageProps },
-}) {
+export default function MyApp({ Component, pageProps }) {
   return (
-    <SessionProvider session={session}>
+    <SessionProvider session={pageProps.session}>
       <AppState>
         <Header />
         <Component {...pageProps} />
