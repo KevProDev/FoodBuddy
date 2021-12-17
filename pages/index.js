@@ -20,19 +20,19 @@ export default function Home() {
   );
 }
 
-export async function getServerSideProps(ctx) {
-  // const prisma = new PrismaClient();
-  const session = await getSession(ctx);
-  // console.log(session);
+// export async function getServerSideProps(ctx) {
+//   // const prisma = new PrismaClient();
+//   const session = await getSession(ctx);
+//   // console.log(session);
 
-  if (!session) {
-    return {
-      props: {},
-    };
-  }
-  return {
-    props: {
-      session,
-    },
-  };
-}
+//   if (!session) {
+//     return {
+//       props: {},
+//     };
+//   }
+//   return {
+//     props: {
+//       session,
+//     },
+//   };
+// }
