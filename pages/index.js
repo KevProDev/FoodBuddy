@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import Banner from "../components/Restaurantsearch/Banner";
 import BusinessList from "../components/Restaurantsearch/BusinessList";
 import { signIn, signOut, useSession, getSession } from "next-auth/react";
-import { PrismaClient } from "@prisma/client";
 import prisma from "../lib/prisma";
 
 export default function Home({ data }) {
