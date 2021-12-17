@@ -39,8 +39,8 @@ export default NextAuth({
     async jwt({ token, user, account, profile, isNewUser }) {
       // first time jwt callback is run, user object is available
       if (user) {
-        token.id = user.id;
         token.accessToken = account.access_token;
+        token.id = user.id;
       }
       return token;
     },
