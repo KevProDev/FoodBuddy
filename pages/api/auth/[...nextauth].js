@@ -11,18 +11,18 @@ export default NextAuth({
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      authorization: {
-        params: {
-          prompt: "consent",
-          access_type: "offline",
-          response_type: "code",
-        },
-      },
+      // authorization: {
+      //   params: {
+      //     prompt: "consent",
+      //     access_type: "offline",
+      //     response_type: "code",
+      //   },
+      // },
     }),
   ],
   adapter: PrismaAdapter(prisma),
   secret: process.env.SECRET,
-  // database: process.env.DATABASE_URL,
+  database: process.env.DATABASE_URL,
   // cookie: {
   //   secure: process.env.NODE_ENV && process.env.NODE_ENV === "production",
   // },
@@ -39,24 +39,24 @@ export default NextAuth({
   //   maxAge: 30 * 24 * 60 * 60, // 30 days
   // },
   callbacks: {
-    // async jwt({ token, user, account, profile, isNewUser }) {
-    //   // first time jwt callback is run, user object is available
-    //   if (account) {
-    //     token.accessToken = account.access_token;
-    //     token.id = user.id;
-    //   }
-    //   return token;
-    // },
-    // async session({ session, user, token }) {
-    //   session.accessToken = token.accessToken;
-    //   session.id = token.id;
-    //   console.log(session);
-    //   return session;
-    // },
-    session: async (session, user) => {
-      session.id = user.id;
-      return Promise.resolve(session);
+    async jwt({ token, user, account, profile, isNewUser }) {
+      // first time jwt callback is run, user object is available
+      if (account) {
+        token.accessToken = account.access_token;
+        token.id = user.id;
+      }
+      return token;
     },
+    async session({ session, user, token }) {
+      session.accessToken = token.accessToken;
+      session.id = token.id;
+      console.log(session);
+      return session;
+    },
+    // session: async (session, user) => {
+    //   session.id = user.id;
+    //   return Promise.resolve(session);
+    // },
   },
 
   //////////
