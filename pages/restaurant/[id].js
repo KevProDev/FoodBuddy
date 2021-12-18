@@ -16,6 +16,7 @@ export const getStaticPaths = async (context) => {
 };
 
 export const getStaticProps = async ({ params }) => {
+  console.log(server);
   const res = await fetch(`${server}/api/businesses/${params.id}`, {
     method: "GET",
     headers: {
