@@ -21,9 +21,9 @@ export default NextAuth({
       },
     }),
   ],
-  // adapter: PrismaAdapter(prisma),
+  adapter: PrismaAdapter(prisma),
   secret: process.env.SECRET,
-  // database: process.env.DATABASE_URL,
+  database: process.env.DATABASE_URL,
   jwt: {
     // encryption: true,
     secret: process.env.SECRET,
@@ -31,26 +31,26 @@ export default NextAuth({
   // cookie: {
   //   secure: process.env.NODE_ENV && process.env.NODE_ENV === "production",
   // },
-  // session: {
-  //   // Use JSON Web Tokens for session instead of database sessions.
-  //   // jwt: true,
-  //   strategy: "database",
+  session: {
+    // Use JSON Web Tokens for session instead of database sessions.
+    // jwt: true,
+    strategy: "database",
 
-  //   // Seconds - How long until an idle session expires and is no longer valid.
-  //   maxAge: 30 * 24 * 60 * 60, // 30 days
-  // },
+    // Seconds - How long until an idle session expires and is no longer valid.
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+  },
   callbacks: {
-    async jwt(token, account) {
-      if (account?.accessToken) {
-        token.accessToken = account.accessToken;
-      }
-      return token;
-    },
-    redirect: async (url, _baseUrl) => {
-      if (url === "/") {
-        return Promise.resolve("/");
-      }
-    },
+    // async jwt(token, account) {
+    //   if (account?.accessToken) {
+    //     token.accessToken = account.accessToken;
+    //   }
+    //   return token;
+    // },
+    // redirect: async (url, _baseUrl) => {
+    //   if (url === "/") {
+    //     return Promise.resolve("/");
+    //   }
+    // },
     // async jwt({ token, user, account, profile, isNewUser }) {
     //   // first time jwt callback is run, user object is available
     //   if (account) {
@@ -59,12 +59,12 @@ export default NextAuth({
     //   }
     //   return token;
     // },
-    // async session({ session, user, token }) {
-    //   session.accessToken = token.accessToken;
-    //   session.id = token.id;
-    //   console.log(session);
-    //   return session;
-    // },
+    async session({ session, user, token }) {
+      // session.accessToken = token.accessToken;
+      // session.id = token.id;
+      console.log("session", session);
+      return session;
+    },
     // session: async (session, user) => {
     //   session.id = user.id;
     //   return Promise.resolve(session);
