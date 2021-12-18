@@ -2,6 +2,7 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import prisma from "../../../lib/prisma";
+import { redirect } from "next/dist/server/api-utils";
 
 // const prisma = new PrismaClient();
 
@@ -11,13 +12,20 @@ export default NextAuth({
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      authorization: {
+        params: {
+          prompt: "consent",
+          access_type: "offline",
+          response_type: "code",
+        },
+      },
     }),
   ],
   // adapter: PrismaAdapter(prisma),
   secret: process.env.SECRET,
   // database: process.env.DATABASE_URL,
   jwt: {
-    encryption: true,
+    // encryption: true,
     secret: process.env.SECRET,
   },
   // cookie: {
@@ -32,20 +40,31 @@ export default NextAuth({
   //   maxAge: 30 * 24 * 60 * 60, // 30 days
   // },
   callbacks: {
-    async jwt({ token, user, account, profile, isNewUser }) {
-      // first time jwt callback is run, user object is available
-      if (account) {
-        token.accessToken = account.access_token;
-        token.id = user.id;
+    async jwt(token, account) {
+      if (account?.accessToken) {
+        token.accessToken = account.accessToken;
       }
       return token;
     },
-    async session({ session, user, token }) {
-      session.accessToken = token.accessToken;
-      session.id = token.id;
-      console.log(session);
-      return session;
+    redirect: async (url, _baseUrl) => {
+      if (url === "/") {
+        return Promise.resolve("/");
+      }
     },
+    // async jwt({ token, user, account, profile, isNewUser }) {
+    //   // first time jwt callback is run, user object is available
+    //   if (account) {
+    //     token.accessToken = account.access_token;
+    //     token.id = user.id;
+    //   }
+    //   return token;
+    // },
+    // async session({ session, user, token }) {
+    //   session.accessToken = token.accessToken;
+    //   session.id = token.id;
+    //   console.log(session);
+    //   return session;
+    // },
     // session: async (session, user) => {
     //   session.id = user.id;
     //   return Promise.resolve(session);
