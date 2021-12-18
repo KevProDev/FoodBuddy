@@ -11,5 +11,5 @@ module.exports = {
       "images.squarespace-cdn.com",
     ],
   },
-  // outputFileTracing: false,
+  outputFileTracing: false,
 };

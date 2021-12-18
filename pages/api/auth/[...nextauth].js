@@ -23,7 +23,7 @@ export default NextAuth({
   ],
   adapter: PrismaAdapter(prisma),
   secret: process.env.SECRET,
-  database: process.env.DATABASE_URL,
+  // database: process.env.DATABASE_URL,
   // cookie: {
   //   secure: process.env.NODE_ENV && process.env.NODE_ENV === "production",
   // },
