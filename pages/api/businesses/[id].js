@@ -49,7 +49,7 @@ export default async function handler(req, res) {
           Where: "the resturant is not stored but store id",
         };
 
-        res.setHeader("Cache-Control", "s-maxage=86400");
+        // res.setHeader("Cache-Control", "s-maxage=86400");
         return res.status(200).json(data);
       }
       const data = {
@@ -57,7 +57,7 @@ export default async function handler(req, res) {
         restaurantReviews: getRestaurant.users_meals_review,
         Where: "the resturant is stored",
       };
-      res.setHeader("Cache-Control", "s-maxage=86400");
+      // res.setHeader("Cache-Control", "s-maxage=86400");
       return res.status(200).json(data);
     }
 
