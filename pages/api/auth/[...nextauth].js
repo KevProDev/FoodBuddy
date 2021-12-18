@@ -30,14 +30,14 @@ export default NextAuth({
   // cookie: {
   //   secure: process.env.NODE_ENV && process.env.NODE_ENV === "production",
   // },
-  // session: {
-  //   // Use JSON Web Tokens for session instead of database sessions.
-  //   jwt: true,
-  //   strategy: "jwt",
+  session: {
+    // Use JSON Web Tokens for session instead of database sessions.
+    jwt: true,
+    strategy: "jwt",
 
-  //   // Seconds - How long until an idle session expires and is no longer valid.
-  //   maxAge: 30 * 24 * 60 * 60, // 30 days
-  // },
+    // Seconds - How long until an idle session expires and is no longer valid.
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+  },
   // callbacks: {
   //   // async jwt({ token, user, account, profile, isNewUser }) {
   //   //   // first time jwt callback is run, user object is available
