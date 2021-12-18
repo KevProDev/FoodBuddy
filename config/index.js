@@ -4,4 +4,4 @@ console.log(dev);
 
 export const server = dev
   ? "http://localhost:3000"
-  : "https://www.meallocker.com";
+  : "https://food-buddy.vercel.app/";
