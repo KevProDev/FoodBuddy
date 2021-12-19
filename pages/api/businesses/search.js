@@ -25,6 +25,6 @@ export default async function handler({ query }, res) {
 
     res.status(200).json(data);
   } catch (error) {
-    res.status(500).json({ message: `Server errror - ${error}` });
+    res.status(500).json({ message: `Server errror search - ${error}` });
   }
 }

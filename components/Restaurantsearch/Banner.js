@@ -2,8 +2,11 @@ import { useState, useEffect } from "react";
 import { useAppContext } from "../../context/store";
 import Image from "next/image";
 import { SearchIcon } from "@heroicons/react/solid";
+import { useRef } from "react/cjs/react.development";
 function Banner() {
   console.log("Banner Function Begin Home");
+  // const inputTermRef = useRef();
+  // const inputLocationRef = useRef();
   const loginWIthGoogle = () => {
     login();
   };
@@ -13,14 +16,8 @@ function Banner() {
   };
 
   const appState = useAppContext();
-  const {
-    term,
-    location,
-    sortBy,
-    searchBusinesses,
-    clearBusinesses,
-    setSearchParams,
-  } = appState;
+  const { term, location, searchBusinesses, clearBusinesses, setSearchParams } =
+    appState;
 
   useEffect(() => {
     console.log("Banner useEffect for TERM");
@@ -30,7 +27,6 @@ function Banner() {
   const [state, setState] = useState({
     term: term,
     location: location,
-    sortBy: sortBy,
   });
 
   //enter on search trigger
@@ -52,9 +48,9 @@ function Banner() {
     Distance: "distance",
   };
 
-  const handleSortByChange = (sortByOption) => {
-    setState({ ...state, sortBy: sortByOption });
-  };
+  // const handleSortByChange = (sortByOption) => {
+  //   setState({ ...state, sortBy: sortByOption });
+  // };
 
   const handleInputChange = (e) =>
     setState({
@@ -69,9 +65,8 @@ function Banner() {
     setSearchParams({
       term: state.term,
       location: state.location,
-      sortBy: state.sortBy,
     });
-    searchBusinesses(state.term, state.location, state.sortBy, 0);
+    searchBusinesses(state.term, state.location, 0);
     e.preventDefault();
   };
 
@@ -126,6 +121,7 @@ function Banner() {
             value={state.location}
             placeholder="City"
           />
+
           <button
             id="searchbutton"
             className="flex w-full sm:w-auto justify-center items-center py-5 ml-auto h-8 text-white text-l rounded-full bg-green-500 p-2 cursor-pointer"

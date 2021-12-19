@@ -7,7 +7,6 @@ import {
 } from "react";
 import appReducer from "./reducer";
 import { server } from "../config/index";
-import nookies from "nookies";
 
 const AppContext = createContext();
 
@@ -19,30 +18,25 @@ export function AppState({ children }) {
     total: 0,
     limit: 20,
     offset: 0,
-    term: "",
-    location: "",
+    term: "restaurant",
+    location: "chicago",
     sortBy: "best_match",
     mapCenterCoords: {
       lat: 0,
       lng: 0,
     },
     loading: false,
-    currentUser: "",
-    // isAuth: false,
-    // username: "",
-    // token: "",
   };
 
   // using useReducer help us not have to use callbacks, this allows us to use dispatch with types of action we want to perform and payload as parameters.
   const [state, dispatch] = useReducer(appReducer, appState);
-  const [currentUser, setCurrentUser] = useState(null);
 
-  const searchBusinesses = async (term, location, sortBy, offset) => {
+  const searchBusinesses = async (term, location, offset) => {
     try {
       setLoading();
 
       const res = await fetch(
-        `${server}/api/businesses/search?limit=${appState.limit}&offset=${offset}&term=${term}&location=${location}&sort_by=${sortBy}`
+        `${server}/api/businesses/search?limit=${appState.limit}&offset=${offset}&term=${term}&location=${location}&sort_by=best_match`
       );
 
       const data = await res.json();
@@ -89,7 +83,6 @@ export function AppState({ children }) {
         clearBusinesses,
         searchBusinesses,
         setSearchParams,
-        currentUser: currentUser,
       }}
     >
       {children}
