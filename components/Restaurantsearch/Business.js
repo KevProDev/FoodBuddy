@@ -7,7 +7,7 @@ export default function Business(props) {
   // console.log(business);
 
   return (
-    <Link href={"/restaurant/" + business.id}>
+    <Link prefetch={false} href={"/restaurant/" + business.id}>
       <a>
         <div className=" grid grid-cols-4 cursor-pointer hover:bg-gray-100 hover:scale-105 transition transform duration-200 ease-out bg-white border-2 border-gray-200">
           {/* Left Side */}

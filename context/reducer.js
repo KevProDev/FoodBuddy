@@ -6,10 +6,6 @@ export default function appReducer(state, action) {
         total: action.payload.total,
         offset: state.offset + state.limit,
         businesses: [...state.businesses, ...action.payload.businesses],
-        mapCenterCoords: {
-          lat: action.payload.region.center.latitude,
-          lng: action.payload.region.center.longitude,
-        },
         loading: false,
       };
     case "SET_SEARCH_PARAMS":
@@ -17,8 +13,6 @@ export default function appReducer(state, action) {
         ...state,
         term: action.payload.term,
         location: action.payload.location,
-        sortBy: action.payload.sortBy,
-        loading: false,
       };
     case "CLEAR_BUSINESSES":
       return {

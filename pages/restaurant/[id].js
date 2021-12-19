@@ -152,5 +152,155 @@ export default function Details(props) {
 
   console.log("Details Function Finish");
 
-  return <div>Kevin</div>;
+  return (
+    <div>
+      {console.log("Detail HTML BEGIN")}
+      <Head>
+        <title>FoodBuddy | {business.name}</title>
+      </Head>
+      <div className="relative h-[300px] sm:h-[200px] lg:h-[300px] xl:h-[400px] 2xl:h-[700px]">
+        <Image
+          src={business.image_url}
+          layout="fill"
+          objectFit="cover"
+          priority="true"
+        />
+      </div>
+      <main className=" ">
+        <section className="w-11/12 max-w-4xl mx-auto px-4 sm:px-16 pb-4 bg-gray-100 pt-4 flex flex-col md:flex-row gap-2 md:gap-32  lg:gap-24 ">
+          <div>
+            <div className="flex flex-col justify-between">
+              <h1 className="text-xl font-bold md:text-l">{business.name}</h1>
+              <p>{business.categories[0].title}</p>
+              {/* <div className="flex items-center justify-end">
+                <HeartIcon className="h-5 cursor-pointer" />
+              </div> */}
+            </div>
+            <p>
+              {business.location.address1}, {business.location.city}{" "}
+              {business.location.state}
+            </p>
+            <p className="text-gray-500">{business.display_phone}</p>
+            <p className="text-gray-500 border-gray-200 pb-2">
+              Price {business.price}
+            </p>
+
+            <div className="" />
+          </div>
+          <div className="">
+            {business.hours && business.hours[0].open
+              ? renderHours(business.hours[0])
+              : null}
+          </div>
+        </section>
+
+        <section className="w-11/12 max-w-4xl mx-auto px-4 sm:px-16 pb-4 bg-gray-100 pt-2 mt-4">
+          <h2 className="font-semibold text-xl md:text-l ">
+            Tell People About This Meal
+          </h2>
+          {!session && (
+            <a
+              className="block w-60 text-lg rounded-md py-2 px-4 bg-yellow-300 text-black mb-4"
+              href="/api/auth/signin/google"
+              onClick={(e) => {
+                e.preventDefault();
+                signIn("google");
+              }}
+            >
+              Sign in to post a review
+            </a>
+          )}
+          {session?.user && (
+            <form className="relative" onSubmit={submitMealReview}>
+              <input
+                ref={mealTitleRef}
+                value={mealTitle}
+                onChange={(e) => setMealTitle(e.target.value)}
+                aria-label="Name of your Meal"
+                placeholder="Name of your Meal..."
+                required
+                className="px-4 py-2 mt-1 focus:ring-blue-500 focus:border-blue-500 block w-4/5 md:w-1/2 border-gray-300 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+              />
+              <textarea
+                ref={mealDescriptionRef}
+                value={mealDescription}
+                onChange={(e) => setMealDescription(e.target.value)}
+                aria-label="What was so great about it"
+                placeholder="What was so great about it..."
+                rows="4"
+                required
+                className="px-4 py-2 mt-1 mb-4 focus:ring-blue-500 focus:border-blue-500 block w-4/5 md:w-1/2 border-gray-300 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+              />
+              <button
+                className="flex items-center justify-center  right-1 top-1 px-4 font-medium h-8 bg-red-600 text-white rounded w-38"
+                type="submit"
+              >
+                Post Review
+              </button>
+            </form>
+          )}
+          {/* <button onClick={likeRestaurant}> Like </button> */}
+        </section>
+
+        <section className="w-11/12 max-w-4xl mx-auto px-4 sm:px-16 pb-16 bg-gray-100 pt-2 mt-4">
+          {/* {!reviews && (
+            <h2 className="font-semibold text-xl md:text-l pb-4 ">
+              People Already Review Their Meal
+            </h2>
+          )} */}
+          {reviews && (
+            <h2 className="font-semibold text-xl md:text-l pb-4 ">
+              {reviews.length} People Already Review Their Meal
+            </h2>
+          )}
+          {/* <h2 className="font-semibold text-xl md:text-l pb-4 ">
+            {reviews.length} People Already Review Their Meal
+          </h2> */}
+          {reviews.map((review) => {
+            return (
+              <div
+                key={review.id}
+                className="border-gray-200 border-b-2 pb-4 mb-4"
+              >
+                <div className="flex items-center pb-2">
+                  <UserCircleIcon className="h-5 cursor-pointer pr-2" />
+                  <span className="text-sm">{review.user_name}</span>
+                  {!session && <div></div>}
+                  {session?.id === review.user_id && (
+                    <button
+                      onClick={(e) => {
+                        deleteReview(e, review.id);
+                      }}
+                    >
+                      Delete
+                    </button>
+                  )}
+                </div>
+                <div className="">
+                  <h3 className="font-semibold">{review.title} </h3>
+                  <p>{review.description}</p>
+                </div>
+              </div>
+            );
+          })}
+
+          {/* <div className="border-gray-200 border-b-2 pb-4 mb-4">
+            <div className="flex items-center pb-2">
+              <UserCircleIcon className="h-5 cursor-pointer pr-2" />
+              <span className="text-sm">Kevin Johnson</span>
+            </div>
+            <div className="">
+              <h3 className="font-semibold">Spick Chicken Soup </h3>
+              <p>
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                Dolores magnam minus animi debitis provident unde dolorem magni
+                eos hic aperiam, distinctio modi iste officia numquam sunt earum
+                quia maiores odit.
+              </p>
+            </div>
+          </div> */}
+        </section>
+      </main>
+    </div>
+  );
 }
