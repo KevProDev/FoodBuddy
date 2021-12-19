@@ -33,7 +33,7 @@ export default NextAuth({
   // },
   session: {
     // Use JSON Web Tokens for session instead of database sessions.
-    // jwt: true,
+    jwt: true,
     strategy: "database",
 
     // Seconds - How long until an idle session expires and is no longer valid.
@@ -62,7 +62,7 @@ export default NextAuth({
     async session({ session, user, token }) {
       session.accessToken = token.accessToken;
       session.id = token.id;
-      // console.log("session", session);
+      console.log("session", session);
       return session;
     },
     // session: async (session, user) => {
