@@ -35,6 +35,7 @@ export const getStaticProps = async ({ params }) => {
 };
 
 export default function Details(props) {
+  // console.log(props);
   console.log("Details Function Begin");
 
   const business = props.business.dataYelp;
