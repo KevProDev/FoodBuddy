@@ -51,18 +51,18 @@ export default NextAuth({
     //     return Promise.resolve("/");
     //   }
     // },
-    // async jwt({ token, user, account, profile, isNewUser }) {
-    //   // first time jwt callback is run, user object is available
-    //   if (account) {
-    //     token.accessToken = account.access_token;
-    //     token.id = user.id;
-    //   }
-    //   return token;
-    // },
+    async jwt({ token, user, account, profile, isNewUser }) {
+      // first time jwt callback is run, user object is available
+      if (account) {
+        token.accessToken = account.access_token;
+        token.id = user.id;
+      }
+      return token;
+    },
     async session({ session, user, token }) {
-      // session.accessToken = token.accessToken;
-      // session.id = token.id;
-      console.log("session", session);
+      session.accessToken = token.accessToken;
+      session.id = token.id;
+      // console.log("session", session);
       return session;
     },
     // session: async (session, user) => {
