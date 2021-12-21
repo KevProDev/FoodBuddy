@@ -13,6 +13,7 @@ export default async function handler(req, res) {
       },
     });
     let dataYelp = await query.json();
+    res.setHeader("Cache-Control", "s-maxage=86400");
     return res.status(200).json(dataYelp);
 
     const restaurant_id = req.query.id;
