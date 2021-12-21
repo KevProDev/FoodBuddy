@@ -16,8 +16,14 @@ function Banner() {
   };
 
   const appState = useAppContext();
-  const { term, location, searchBusinesses, clearBusinesses, setSearchParams } =
-    appState;
+  const {
+    term,
+    location,
+    sortBy,
+    searchBusinesses,
+    clearBusinesses,
+    setSearchParams,
+  } = appState;
 
   useEffect(() => {
     console.log("Banner useEffect for TERM");
@@ -27,6 +33,7 @@ function Banner() {
   const [state, setState] = useState({
     term: term,
     location: location,
+    sortBy: sortBy,
   });
 
   //enter on search trigger
@@ -48,9 +55,9 @@ function Banner() {
     Distance: "distance",
   };
 
-  // const handleSortByChange = (sortByOption) => {
-  //   setState({ ...state, sortBy: sortByOption });
-  // };
+  const handleSortByChange = (sortByOption) => {
+    setState({ ...state, sortBy: sortByOption });
+  };
 
   const handleInputChange = (e) =>
     setState({
@@ -65,8 +72,9 @@ function Banner() {
     setSearchParams({
       term: state.term,
       location: state.location,
+      sortBy: state.sortBy,
     });
-    searchBusinesses(state.term, state.location, 0);
+    searchBusinesses(state.term, state.location, state.sortBy, 0);
     e.preventDefault();
   };
 

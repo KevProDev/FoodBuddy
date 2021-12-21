@@ -16,19 +16,37 @@ export const getStaticPaths = async (context) => {
 };
 
 export const getStaticProps = async ({ params }) => {
-  console.log(server);
-  const res = await fetch(`${server}/api/businesses/${params.id}`, {
-    method: "GET",
+  // const res = await fetch(`${server}/api/businesses/${params.id}`, {
+  //   method: "GET",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  // });
+  // const business = await res.json();
+
+  // this get write errors sometime
+  const getYelpData = await fetch(`${server}/api/businesses/${params.id}`, {
     headers: {
       "Content-Type": "application/json",
     },
   });
-  const business = await res.json();
+  const yelpData = await getYelpData.json().then((yelpData) => {
+    return fetch(`${server}/api/businesses/review/${params.id}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(yelpData),
+    });
+  });
+
+  const restData = await yelpData.json();
+  // console.log(restData);
 
   return {
     revalidate: 1, // rebuild this static page after every x seconds (when page is visited)
     props: {
-      business: business,
+      business: restData,
       // restaurantReviews,
     },
   };

@@ -1,6 +1,3 @@
-import { getSession } from "next-auth/react";
-import prisma from "../../../lib/prisma";
-
 export default async function handler(req, res) {
   const apiKey = process.env.YELP_API_KEY;
   const baseUrl = "https://api.yelp.com/v3/businesses/";
@@ -16,6 +13,7 @@ export default async function handler(req, res) {
       },
     });
     let dataYelp = await query.json();
+    return res.status(200).json(dataYelp);
 
     const restaurant_id = req.query.id;
 

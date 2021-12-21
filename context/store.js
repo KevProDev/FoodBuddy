@@ -31,12 +31,12 @@ export function AppState({ children }) {
   // using useReducer help us not have to use callbacks, this allows us to use dispatch with types of action we want to perform and payload as parameters.
   const [state, dispatch] = useReducer(appReducer, appState);
 
-  const searchBusinesses = async (term, location, offset) => {
+  const searchBusinesses = async (term, location, sortBy, offset) => {
     try {
       setLoading();
 
       const res = await fetch(
-        `${server}/api/businesses/search?limit=${appState.limit}&offset=${offset}&term=${term}&location=${location}&sort_by=best_match`
+        `${server}/api/businesses/search?limit=${appState.limit}&offset=${offset}&term=${term}&location=${location}&sort_by=${sortBy}`
       );
 
       const data = await res.json();

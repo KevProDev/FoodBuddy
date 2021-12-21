@@ -19,7 +19,7 @@ export default function BusinessList() {
     console.log(businesses);
   }, [businesses]);
 
-  const loadMore = () => searchBusinesses(term, location, offset);
+  const loadMore = () => searchBusinesses(term, location, sortBy, offset);
 
   return (
     <div>
