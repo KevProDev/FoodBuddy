@@ -6,8 +6,12 @@ import { HeartIcon, UserCircleIcon } from "@heroicons/react/outline";
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { signIn, signOut, useSession, getSession } from "next-auth/react";
-import { Router, useRouter } from "next/router";
+import { useRouter } from "next/router";
+import { useQuery } from "react-query";
 
+/////////////////////////
+
+/////////////////
 export const getStaticPaths = async (context) => {
   return {
     paths: [],
@@ -16,37 +20,39 @@ export const getStaticPaths = async (context) => {
 };
 
 export const getStaticProps = async ({ params }) => {
-  // const res = await fetch(`${server}/api/businesses/${params.id}`, {
-  //   method: "GET",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  // });
-  // const business = await res.json();
-
-  // this get write errors sometime
-  const getYelpData = await fetch(`${server}/api/businesses/${params.id}`, {
+  const res = await fetch(`${server}/api/businesses/${params.id}`, {
+    method: "GET",
     headers: {
       "Content-Type": "application/json",
     },
   });
-  const yelpData = await getYelpData.json().then((yelpData) => {
-    return fetch(`${server}/api/businesses/review/${params.id}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(yelpData),
-    });
-  });
+  const business = await res.json();
 
-  const restData = await yelpData.json();
+  console.log("How many times");
+
+  // this get write errors sometime
+  // const getYelpData = await fetch(`${server}/api/businesses/${params.id}`, {
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  // });
+  // const yelpData = await getYelpData.json().then((yelpData) => {
+  //   return fetch(`${server}/api/businesses/review/${params.id}`, {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify(yelpData),
+  //   });
+  // });
+
+  // const restData = await yelpData.json();
   // console.log(restData);
 
   return {
-    revalidate: 1, // rebuild this static page after every x seconds (when page is visited)
+    revalidate: 846000, // rebuild this static page after every x seconds (when page is visited)
     props: {
-      business: restData,
+      business: business,
       // restaurantReviews,
     },
   };
@@ -56,12 +62,13 @@ export default function Details(props) {
   // console.log(props);
   console.log("Details Function Begin");
 
-  const business = props.business.dataYelp;
-  const restaurantReview = props.business.restaurantReviews;
+  const business = props.business;
+  // console.log("PROPS", business);
+  // const restaurantReview = props.business.restaurantReviews;
 
   console.log("Details Function Phase");
 
-  const [reviews, setReviews] = useState([]);
+  // const [reviews, setReviews] = useState([]);
   const [mealTitle, setMealTitle] = useState("");
   const [mealDescription, setMealDescription] = useState("");
   const mealTitleRef = useRef();
@@ -69,24 +76,52 @@ export default function Details(props) {
   // useSession causes a rerender
   const { data: session } = useSession();
   const router = useRouter();
-  const { id } = router.query;
+  // const id = 1;
+  const id = router.query.id ? router.query.id : null;
 
-  useEffect(() => {
-    console.log("Details useEffect Begin", props.business.restaurantReviews);
-    setReviews(() => {
-      return restaurantReview;
+  // useEffect(() => {
+  //   console.log("where am it", id);
+  // }, []);
+
+  const fetcher = async (id) => {
+    const getRestarantReviews = await fetch(
+      `${server}/api/businesses/review/${id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const reviews = await getRestarantReviews.json();
+    return reviews;
+  };
+  const { isSuccess, isLoading, data, isFetching, isError, error, refetch } =
+    useQuery(["reviews", id ? id : null], () => fetcher(id), {
+      cacheTime: 100000,
+      enabled: !!id,
     });
-  }, []);
+
+  console.log("SWR", { isLoading, isSuccess, isFetching, data });
+
+  // useEffect(() => {
+  //   console.log("Details useEffect Begin", props.business.restaurantReviews);
+  //   setReviews(() => {
+  //     return restaurantReview;
+  //   });
+  // }, []);
 
   const newSubmitData = {
     ...business,
     mealTitle,
     mealDescription,
+    session,
   };
 
   const submitMealReview = async (e) => {
     e.preventDefault();
-    const restaurant = await fetch(`/api/${id}`, {
+    const restaurant = await fetch(`/api/businesses/review/${id}`, {
       method: "POST",
       body: JSON.stringify(newSubmitData),
       headers: {
@@ -94,7 +129,8 @@ export default function Details(props) {
       },
     });
     await restaurant.json().then((value) => {
-      setReviews(value);
+      // refetch();
+      console.log(value);
     });
   };
 
@@ -267,41 +303,48 @@ export default function Details(props) {
               People Already Review Their Meal
             </h2>
           )} */}
-          {reviews && (
+          {/* {reviews && (
             <h2 className="font-semibold text-xl md:text-l pb-4 ">
-              {reviews.length} People Already Review Their Meal
+              {reviews.restaurantReviews.length} People Already Review Their
+              Meal
             </h2>
-          )}
+          )} */}
+          {/* {reviews && <div>{console.log(reviews)}</div>} */}
           {/* <h2 className="font-semibold text-xl md:text-l pb-4 ">
             {reviews.length} People Already Review Their Meal
           </h2> */}
-          {reviews.map((review) => {
-            return (
-              <div
-                key={review.id}
-                className="border-gray-200 border-b-2 pb-4 mb-4"
-              >
-                <div className="flex items-center pb-2">
-                  <UserCircleIcon className="h-5 cursor-pointer pr-2" />
-                  <span className="text-sm">{review.user_name}</span>
-                  {!session && <div></div>}
-                  {session?.id === review.user_id && (
-                    <button
-                      onClick={(e) => {
-                        deleteReview(e, review.id);
-                      }}
-                    >
-                      Delete
-                    </button>
-                  )}
-                </div>
-                <div className="">
-                  <h3 className="font-semibold">{review.title} </h3>
-                  <p>{review.description}</p>
-                </div>
-              </div>
-            );
-          })}
+
+          {isSuccess && (
+            <>
+              {data?.restaurantReviews.map((review) => {
+                return (
+                  <div
+                    key={review.id}
+                    className="border-gray-200 border-b-2 pb-4 mb-4"
+                  >
+                    <div className="flex items-center pb-2">
+                      <UserCircleIcon className="h-5 cursor-pointer pr-2" />
+                      <span className="text-sm">{review.user_name}</span>
+                      {!session && <div></div>}
+                      {session?.id === review.user_id && (
+                        <button
+                          onClick={(e) => {
+                            deleteReview(e, review.id);
+                          }}
+                        >
+                          Delete
+                        </button>
+                      )}
+                    </div>
+                    <div className="">
+                      <h3 className="font-semibold">{review.title} </h3>
+                      <p>{review.description}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </>
+          )}
 
           {/* <div className="border-gray-200 border-b-2 pb-4 mb-4">
             <div className="flex items-center pb-2">
