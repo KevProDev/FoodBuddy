@@ -107,7 +107,7 @@ export default function Details(props) {
       // refetchOnMount: true,
       // refetchOnWindowFocus: false,
       // cacheTime: 100000,
-      // enabled: !!id,
+      enabled: !!id,
     });
 
   //update
@@ -138,7 +138,7 @@ export default function Details(props) {
       },
     });
     await restaurant.json().then((value) => {
-      console.log(value);
+      // console.log(value);
       refetch();
     });
   };

@@ -72,12 +72,12 @@ model Meal {
   updated_at    DateTime    @updatedAt
   user_id       String
   user_name     String
-  user_image    String
-  user          User        @relation(fields: [user_id,user_name], references:[id,name])
+  user_image    String      
+  user          User        @relation(fields: [user_id], references:[id])
   rest_id       String      @db.VarChar(200)
   rest          Restaurant  @relation(fields: [rest_id], references:[id])
 
-  @@index([rest_id,user_id,user_name])
+  @@index([rest_id,user_id])
 
 }
 

@@ -66,7 +66,7 @@ CREATE TABLE `Meal` (
     `user_image` VARCHAR(191) NOT NULL,
     `rest_id` VARCHAR(200) NOT NULL,
 
-    INDEX `Meal_rest_id_user_id_user_name_idx`(`rest_id`, `user_id`, `user_name`),
+    INDEX `Meal_rest_id_user_id_idx`(`rest_id`, `user_id`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
