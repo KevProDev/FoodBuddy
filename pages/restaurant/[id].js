@@ -169,6 +169,7 @@ export default function Details(props) {
       }),
     });
     await deletedReview.json().then((value) => {
+      console.log(value);
       refetch();
     });
   };
