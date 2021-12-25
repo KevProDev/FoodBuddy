@@ -138,7 +138,7 @@ export default function Details(props) {
       },
     });
     await restaurant.json().then((value) => {
-      // console.log(value);
+      console.log("Value", value);
       refetch();
     });
   };

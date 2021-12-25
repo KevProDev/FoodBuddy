@@ -85,7 +85,7 @@ export default async function handler(req, res) {
         },
       });
 
-      return res.status(200).json({ name: getRestaurantReview });
+      return res.status(200).json(getRestaurantReview);
     }
     if (req.method === "DELETE") {
       const mealId = req.body.mealId;
