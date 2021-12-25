@@ -102,17 +102,25 @@ export default function Details(props) {
     const reviews = await getRestarantReviews.json();
     return reviews;
   };
-  const { isSuccess, isLoading, data, isFetching, isError, error, refetch } =
-    useQuery(["reviews", id ? id : null], () => fetcher(id), {
-      // refetchOnMount: true,
-      refetchOnWindowFocus: false,
-      // cacheTime: 100000,
-      enabled: !!id,
-    });
+  const {
+    isSuccess,
+    isLoading,
+    data,
+    isFetching,
+    isError,
+    error,
+    refetch,
+    isRefetching,
+  } = useQuery(["reviews", id ? id : null], () => fetcher(id), {
+    refetchOnMount: true,
+    refetchOnWindowFocus: false,
+    // cacheTime: 100000,
+    enabled: !!id,
+  });
 
   //update
 
-  console.log("SWR", { isLoading, isSuccess, isFetching, data });
+  console.log("SWR", { isLoading, isSuccess, isFetching, data, isRefetching });
 
   // useEffect(() => {
   //   console.log("Details useEffect Begin", props.business.restaurantReviews);
