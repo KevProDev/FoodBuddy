@@ -281,7 +281,7 @@ export default function Details(props) {
             </a>
           )}
           {session?.user && (
-            <form className="relative" onSubmit={submitMealReview}>
+            <form className="relative" method="POST">
               <input
                 ref={mealTitleRef}
                 value={mealTitle}
@@ -304,6 +304,7 @@ export default function Details(props) {
               <button
                 className="flex items-center justify-center  right-1 top-1 px-4 font-medium h-8 bg-blue-500 text-white rounded w-38"
                 type="submit"
+                onSubmit={submitMealReview}
               >
                 Post Review
               </button>
