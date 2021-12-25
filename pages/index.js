@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { useState, useEffect } from "react";
 import Banner from "../components/Restaurantsearch/Banner";
 import BusinessList from "../components/Restaurantsearch/BusinessList";
@@ -6,6 +7,12 @@ import { signIn, signOut, useSession, getSession } from "next-auth/react";
 export default function Home() {
   return (
     <div>
+      <Head>
+        <meta
+          name="viewport"
+          content="width=device, initial-scale=1.0, maximun-scale=1"
+        />
+      </Head>
       {console.log("Index HTML BEGIN")}
       <Banner />
       <main className="max-w-7xl mx-auto sm:px-16">

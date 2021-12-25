@@ -1,12 +1,10 @@
 import { useState, useEffect } from "react";
 import { useAppContext } from "../../context/store";
 import Image from "next/image";
-import { SearchIcon } from "@heroicons/react/solid";
+import { SearchIcon, LockClosedIcon } from "@heroicons/react/solid";
 import { useRef } from "react/cjs/react.development";
 function Banner() {
   console.log("Banner Function Begin Home");
-  // const inputTermRef = useRef();
-  // const inputLocationRef = useRef();
   const loginWIthGoogle = () => {
     login();
   };
@@ -36,7 +34,7 @@ function Banner() {
     sortBy: sortBy,
   });
 
-  //enter on search trigger
+  // enter on search trigger
   useEffect(() => {
     const locationInput = document.getElementById("locationInput");
 
@@ -78,27 +76,27 @@ function Banner() {
     e.preventDefault();
   };
 
-  const renderSortByOptions = () => {
-    // object keys return sortByOptions key properties
-    // map through that array based on the keys
-    // create sortByOptionValue the key value based off the key array
-    return Object.keys(sortByOptions).map((sortByOption) => {
-      let sortByOptionValue = sortByOptions[sortByOption];
-      return (
-        <li
-          key={sortByOptionValue}
-          className={
-            sortByOptionValue === state.sortBy
-              ? `${styles.sort_option} ${styles.active}`
-              : styles.sort_option
-          }
-          onClick={handleSortByChange.bind(this, sortByOptionValue)}
-        >
-          {sortByOption}
-        </li>
-      );
-    });
-  };
+  // const renderSortByOptions = () => {
+  //   // object keys return sortByOptions key properties
+  //   // map through that array based on the keys
+  //   // create sortByOptionValue the key value based off the key array
+  //   return Object.keys(sortByOptions).map((sortByOption) => {
+  //     let sortByOptionValue = sortByOptions[sortByOption];
+  //     return (
+  //       <li
+  //         key={sortByOptionValue}
+  //         className={
+  //           sortByOptionValue === state.sortBy
+  //             ? `${styles.sort_option} ${styles.active}`
+  //             : styles.sort_option
+  //         }
+  //         onClick={handleSortByChange.bind(this, sortByOptionValue)}
+  //       >
+  //         {sortByOption}
+  //       </li>
+  //     );
+  //   });
+  // };
 
   return (
     <div className="relative w-full h-[400px] sm:h-[400px] lg:h-[500px] xl:h-[600px] 2xl:h-[700px]">
@@ -109,34 +107,59 @@ function Banner() {
         objectFit="cover"
         priority="true"
       />
-      <div className="absolute top-1/3 text-white w-full text-center">
-        <div className="sm:flex-row gap-3 flex flex-col justify-center bg-indigo-50 w-11/12 md:w-2/3 lg:w-1/2 mx-auto px-4 mb-5 text-xl md:border-2 rounded-md sm:rounded-full py-2 pt-4 sm:pt-2 md:shadow-sm ">
-          <input
-            className="text-sm sm:text-xl md:text-xl pl-5 bg-transparent outline-none text-gray-600 placeholder-gray-400"
-            placeholder="Start your search"
-            name="term"
-            onChange={handleInputChange}
-            value={state.term}
-            placeholder="Search Restaurant"
-          />
-          {/* <div className="border-b-2 border-gray-300" /> -*/}
-          <input
-            id="locationInput"
-            className="text-sm sm:text-xl md:text-xl pl-5 bg-transparent outline-none text-gray-600 placeholder-gray-400"
-            placeholder="Start your search"
-            name="location"
-            onChange={handleInputChange}
-            value={state.location}
-            placeholder="City"
-          />
 
-          <button
-            id="searchbutton"
-            className="flex w-full sm:w-auto justify-center items-center py-5 ml-auto h-8 text-white text-l rounded-full bg-green-500 p-2 cursor-pointer"
-            onClick={handleSearch}
-          >
-            <SearchIcon className="text-white h-5 pr-1" />
-          </button>
+      <div className=" min-h-full flex items-center justify-center py-4 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-md w-full space-y-8">
+          <form className="mt-8 space-y-6 bg-white" action="#" method="POST">
+            {/* <input type="hidden" name="remember" defaultValue="true" /> */}
+            <div className="rounded-md shadow-sm -space-y-px">
+              <div>
+                <label htmlFor="email-address" className="sr-only">
+                  Search A Restaurant
+                </label>
+                <input
+                  id="email-address"
+                  name="term"
+                  onChange={handleInputChange}
+                  value={state.term}
+                  required
+                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                  placeholder="Search A Restaurant"
+                />
+              </div>
+              <div>
+                <label htmlFor="password" className="sr-only">
+                  Password
+                </label>
+                <input
+                  id="locationInput"
+                  name="location"
+                  onChange={handleInputChange}
+                  value={state.location}
+                  required
+                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                  placeholder="City"
+                />
+              </div>
+            </div>
+
+            <div>
+              <button
+                id="searchbutton"
+                type="submit"
+                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-700 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                onClick={handleSearch}
+              >
+                <span className="absolute left-0 inset-y-0 flex items-center pl-3">
+                  <SearchIcon
+                    className="h-5 w-5 text-blue-500 group-hover:text-indigo-400"
+                    aria-hidden="true"
+                  />
+                </span>
+                Search
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>

@@ -199,3 +199,38 @@ model Profile {
 
 
 options={{ staleTime: 0, refetchInterval: 1 }}
+
+
+
+
+
+<div className="absolute top-1/4 text-white w-full text-center">
+        <div className="sm:flex-row gap-3 flex flex-col justify-center bg-indigo-50 w-11/12 md:w-2/3 lg:w-1/2 mx-auto p-4 mb-5 text-xl md:border-2 rounded-md sm:rounded-full sm:pt-2 md:shadow-sm border-4 border-yellow-400">
+          <input
+            className="text-2xl sm:text-xl md:text-xl bg-transparent outline-none text-black placeholder-black border-b-2 border-black mb-2"
+            placeholder="Start your search"
+            name="term"
+            onChange={handleInputChange}
+            value={state.term}
+            placeholder="Search Restaurant"
+          />
+          {/* <div className="border-b-2 border-gray-300" /> -*/}
+          <input
+            id="locationInput"
+            className="text-2xl sm:text-xl md:text-xl bg-transparent outline-none text-black placeholder-black border-b-2 border-black mb-4"
+            placeholder="Start your search"
+            name="location"
+            onChange={handleInputChange}
+            value={state.location}
+            placeholder="City"
+          />
+
+          <button
+            id="searchbutton"
+            className="flex w-full sm:w-auto justify-center items-center py-5 ml-auto h-8 text-white text-l rounded-full bg-blue-600 p-2 cursor-pointer"
+            onClick={handleSearch}
+          >
+            <SearchIcon className="text-white h-5 pr-1" />
+          </button>
+        </div>
+      </div>

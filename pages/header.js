@@ -8,7 +8,6 @@ import {
   UsersIcon,
   SearchIcon,
 } from "@heroicons/react/solid";
-import { Link as ScrollLink } from "react-scroll";
 import { Transition } from "@headlessui/react";
 import { signIn, signOut, useSession, getSession } from "next-auth/react";
 import Link from "next/link";

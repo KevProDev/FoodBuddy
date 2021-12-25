@@ -12,12 +12,7 @@ export default function Business(props) {
         <div className=" grid grid-cols-4 cursor-pointer hover:bg-gray-100 hover:scale-105 transition transform duration-200 ease-out bg-white border-2 border-gray-200">
           {/* Left Side */}
           <div className="relative w-full col-span-1 mx-auto">
-            <Image
-              src={business.imageSrc}
-              layout="fill"
-              objectFit="cover"
-              className=""
-            />
+            <Image src={business.imageSrc} layout="fill" objectFit="cover" />
           </div>
 
           {/* Right Side */}

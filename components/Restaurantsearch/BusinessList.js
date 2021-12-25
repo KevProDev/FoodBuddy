@@ -27,7 +27,9 @@ export default function BusinessList() {
         {businesses.map((business) => {
           business = {
             id: business.id,
-            imageSrc: business.image_url,
+            imageSrc: business.image_url
+              ? business.image_url
+              : `https://s3-media0.fl.yelpcdn.com/assets/public/large_empty_biz_skyline.yji-a5d24f480b0062becebc68611740ee5d.svg"`,
             name: business.name,
             address: business.location.address1,
             city: business.location.city,

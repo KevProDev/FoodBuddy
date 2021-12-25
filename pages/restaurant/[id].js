@@ -2,7 +2,12 @@ import React from "react";
 import { server } from "../../config";
 import Head from "next/head";
 import { useAppContext } from "../../context/store";
-import { HeartIcon, UserCircleIcon } from "@heroicons/react/outline";
+import {
+  HeartIcon,
+  UserCircleIcon,
+  ThumbUpIcon as ThumbUpIconOutline,
+} from "@heroicons/react/outline";
+import { XCircleIcon, ThumbUpIcon } from "@heroicons/react/solid";
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { signIn, signOut, useSession, getSession } from "next-auth/react";
@@ -99,9 +104,13 @@ export default function Details(props) {
   };
   const { isSuccess, isLoading, data, isFetching, isError, error, refetch } =
     useQuery(["reviews", id ? id : null], () => fetcher(id), {
-      cacheTime: 100000,
+      refetchOnMount: true,
+      refetchOnWindowFocus: false,
+      // cacheTime: 100000,
       enabled: !!id,
     });
+
+  //update
 
   console.log("SWR", { isLoading, isSuccess, isFetching, data });
 
@@ -129,8 +138,8 @@ export default function Details(props) {
       },
     });
     await restaurant.json().then((value) => {
-      // refetch();
       console.log(value);
+      refetch();
     });
   };
 
@@ -149,12 +158,18 @@ export default function Details(props) {
 
   const deleteReview = async (e, mealId) => {
     e.preventDefault();
-    const deletedReview = await fetch(`/api/${id}`, {
+    console.log(mealId);
+    const deletedReview = await fetch(`/api/businesses/review/${id}`, {
       method: "DELETE",
-      body: mealId,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        mealId: mealId,
+      }),
     });
     await deletedReview.json().then((value) => {
-      setReviews(value);
+      refetch();
     });
   };
 
@@ -287,7 +302,7 @@ export default function Details(props) {
                 className="px-4 py-2 mt-1 mb-4 focus:ring-blue-500 focus:border-blue-500 block w-4/5 md:w-1/2 border-gray-300 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
               />
               <button
-                className="flex items-center justify-center  right-1 top-1 px-4 font-medium h-8 bg-red-600 text-white rounded w-38"
+                className="flex items-center justify-center  right-1 top-1 px-4 font-medium h-8 bg-blue-500 text-white rounded w-38"
                 type="submit"
               >
                 Post Review
@@ -302,17 +317,28 @@ export default function Details(props) {
             <h2 className="font-semibold text-xl md:text-l pb-4 ">
               People Already Review Their Meal
             </h2>
-          )} */}
-          {/* {reviews && (
+          )} 
+           {reviews && (
             <h2 className="font-semibold text-xl md:text-l pb-4 ">
               {reviews.restaurantReviews.length} People Already Review Their
               Meal
             </h2>
-          )} */}
+          )}  */}
           {/* {reviews && <div>{console.log(reviews)}</div>} */}
           {/* <h2 className="font-semibold text-xl md:text-l pb-4 ">
             {reviews.length} People Already Review Their Meal
-          </h2> */}
+           </h2>*/}
+
+          {isSuccess && (
+            <>
+              {data && (
+                <h2 className="font-semibold text-xl md:text-l pb-4 ">
+                  {data?.restaurantReviews.length} People Already Review Their
+                  Meal
+                </h2>
+              )}
+            </>
+          )}
 
           {isSuccess && (
             <>
@@ -322,23 +348,32 @@ export default function Details(props) {
                     key={review.id}
                     className="border-gray-200 border-b-2 pb-4 mb-4"
                   >
-                    <div className="flex items-center pb-2">
-                      <UserCircleIcon className="h-5 cursor-pointer pr-2" />
-                      <span className="text-sm">{review.user_name}</span>
+                    <div className="flex items-center pb-2 justify-between">
+                      <div className="flex">
+                        {/* <UserCircleIcon className="h-5 cursor-pointer pr-2" /> */}
+                        <img
+                          src={review.user_image}
+                          alt="profile of user"
+                          className=" w-12 h-12 rounded-full"
+                        />
+                        <span className="text-sm pl-4">{review.user_name}</span>
+                      </div>
                       {!session && <div></div>}
                       {session?.id === review.user_id && (
-                        <button
+                        <XCircleIcon
+                          className="h-6 cursor-pointer pr-2 text-blue-500"
                           onClick={(e) => {
                             deleteReview(e, review.id);
                           }}
                         >
                           Delete
-                        </button>
+                        </XCircleIcon>
                       )}
                     </div>
                     <div className="">
                       <h3 className="font-semibold">{review.title} </h3>
                       <p>{review.description}</p>
+                      <ThumbUpIconOutline className="h-5 cursor-pointer pr-2 text-blue-500" />
                     </div>
                   </div>
                 );
