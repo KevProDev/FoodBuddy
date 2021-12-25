@@ -105,9 +105,9 @@ export default function Details(props) {
   const { isSuccess, isLoading, data, isFetching, isError, error, refetch } =
     useQuery(["reviews", id ? id : null], () => fetcher(id), {
       // refetchOnMount: true,
-      // refetchOnWindowFocus: false,
+      refetchOnWindowFocus: false,
       // cacheTime: 100000,
-      // enabled: !!id,
+      enabled: !!id,
     });
 
   //update

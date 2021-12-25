@@ -234,3 +234,14 @@ options={{ staleTime: 0, refetchInterval: 1 }}
           </button>
         </div>
       </div>
+
+
+
+      NEXT_PUBLIC_VERCEL_URL https://www.meallocker.com/
+      VERCEL_URL  https://www.meallocker.com/
+      NEXTAUTH_URL https://www.meallocker.com/
+
+      DATABASE_URL mysql://em5dxqfw614p:pscale_pw_U994biWbwsDdt7v-4NjaSLmN88awK7z--6IskagTEjA@ash8c0mg3uz0.us-east-1.psdb.cloud/meallocker?sslaccept=strict
+
+      SHADOW_DATABASE_URL
+
