@@ -107,7 +107,7 @@ export default function Details(props) {
       // refetchOnMount: true,
       // refetchOnWindowFocus: false,
       // cacheTime: 100000,
-      enabled: !!id,
+      // enabled: !!id,
     });
 
   //update
