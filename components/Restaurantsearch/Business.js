@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function Business(props) {
   const { business } = props;
-  // console.log(business);
+  console.log("problem", business);
 
   return (
     <Link href={"/restaurant/" + business.id} prefetch={false}>

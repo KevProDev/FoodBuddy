@@ -42,6 +42,7 @@ export default async function handler(req, res) {
         Where: "the resturant is stored",
       };
       // res.setHeader("Cache-Control", "s-maxage=86400");
+      // return res.status(200).json({ data: getRestaurant });
       return res.status(200).json(data);
     }
     if (req.method === "POST") {
