@@ -19,6 +19,8 @@ export default async function handler(req, res) {
         },
       });
 
+      console.log("RIGHT", getRestaurant);
+
       if (!getRestaurant) {
         await prisma.restaurant.create({
           data: {
@@ -82,10 +84,7 @@ export default async function handler(req, res) {
           created_at: "desc",
         },
       });
-
-      return res.status(200).json({
-        verdict: "this works",
-      });
+      return res.status(200).json(getRestaurantReview);
     }
     if (req.method === "DELETE") {
       const mealId = req.body.mealId;
