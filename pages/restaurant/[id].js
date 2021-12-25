@@ -55,7 +55,7 @@ export const getStaticProps = async ({ params }) => {
   // console.log(restData);
 
   return {
-    revalidate: 846000, // rebuild this static page after every x seconds (when page is visited)
+    revalidate: 1, // rebuild this static page after every x seconds (when page is visited)
     props: {
       business: business,
       // restaurantReviews,
