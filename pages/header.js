@@ -28,7 +28,7 @@ export default function Header() {
       {/* Left */}
       <div className="relative flex items-center h-10 cursor-pointer my-auto col-span-1">
         <Link href="/">
-          <a href="">FoodBuddy</a>
+          <a href="">MealLocker</a>
         </Link>
       </div>
 
