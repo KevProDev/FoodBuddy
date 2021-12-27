@@ -33,7 +33,7 @@ export const getStaticProps = async ({ params }) => {
   });
   const business = await res.json();
 
-  console.log("How many times");
+  // console.log("How many times");
 
   // this get write errors sometime
   // const getYelpData = await fetch(`${server}/api/businesses/${params.id}`, {
@@ -65,13 +65,13 @@ export const getStaticProps = async ({ params }) => {
 
 export default function Details(props) {
   // console.log(props);
-  console.log("Details Function Begin");
+  // console.log("Details Function Begin");
 
   const business = props.business;
   // console.log("PROPS", business);
   // const restaurantReview = props.business.restaurantReviews;
 
-  console.log("Details Function Phase");
+  // console.log("Details Function Phase");
 
   // const [reviews, setReviews] = useState([]);
   const [mealTitle, setMealTitle] = useState("");
@@ -83,10 +83,6 @@ export default function Details(props) {
   const router = useRouter();
   // const id = 1;
   const id = router.query.id ? router.query.id : null;
-
-  // useEffect(() => {
-  //   console.log("where am it", id);
-  // }, []);
 
   const fetcher = async (id) => {
     const getRestarantReviews = await fetch(
@@ -118,16 +114,7 @@ export default function Details(props) {
     enabled: !!id,
   });
 
-  //update
-
-  console.log("SWR", { isLoading, isSuccess, isFetching, data, isRefetching });
-
-  // useEffect(() => {
-  //   console.log("Details useEffect Begin", props.business.restaurantReviews);
-  //   setReviews(() => {
-  //     return restaurantReview;
-  //   });
-  // }, []);
+  // console.log("SWR", { isLoading, isSuccess, isFetching, data, isRefetching });
 
   const newSubmitData = {
     ...business,
@@ -209,10 +196,8 @@ export default function Details(props) {
 
     return (
       <div>
-        <h3>Opening Hours</h3>
-        {business.hours && business.hours[0].is_open_now && (
-          <p>&nbsp;Open Now</p>
-        )}
+        <h3 className=" font-bold pb-2 ">Opening Hours</h3>
+        {business.hours && business.hours[0].is_open_now && <p>Open Now</p>}
         <table>
           <tbody>
             {arr.open.map((d) => (
@@ -229,11 +214,11 @@ export default function Details(props) {
     );
   };
 
-  console.log("Details Function Finish");
+  // console.log("Details Function Finish");
 
   return (
     <div>
-      {console.log("Detail HTML BEGIN")}
+      {/* {console.log("Detail HTML BEGIN")} */}
       <Head>
         <title>FoodBuddy | {business.name}</title>
       </Head>
@@ -275,18 +260,18 @@ export default function Details(props) {
 
         <section className="w-11/12 max-w-4xl mx-auto px-4 sm:px-16 pb-4 bg-gray-100 pt-2 mt-4">
           <h2 className="font-semibold text-xl md:text-l ">
-            Tell People About This Meal
+            Tell People About Your Meal You Reconmmend
           </h2>
           {!session && (
             <a
-              className="block w-60 text-lg rounded-md py-2 px-4 bg-yellow-300 text-black mb-4"
+              className=" inline-block  text-lg rounded-md py-2 px-4 mt-4 bg-yellow-300 text-black mb-4"
               href="/api/auth/signin/google"
               onClick={(e) => {
                 e.preventDefault();
                 signIn("google");
               }}
             >
-              Sign in to post a review
+              Sign in
             </a>
           )}
           {session?.user && (
@@ -322,22 +307,6 @@ export default function Details(props) {
         </section>
 
         <section className="w-11/12 max-w-4xl mx-auto px-4 sm:px-16 pb-16 bg-gray-100 pt-2 mt-4">
-          {/* {!reviews && (
-            <h2 className="font-semibold text-xl md:text-l pb-4 ">
-              People Already Review Their Meal
-            </h2>
-          )} 
-           {reviews && (
-            <h2 className="font-semibold text-xl md:text-l pb-4 ">
-              {reviews.restaurantReviews.length} People Already Review Their
-              Meal
-            </h2>
-          )}  */}
-          {/* {reviews && <div>{console.log(reviews)}</div>} */}
-          {/* <h2 className="font-semibold text-xl md:text-l pb-4 ">
-            {reviews.length} People Already Review Their Meal
-           </h2>*/}
-
           {isSuccess && (
             <>
               {data && (

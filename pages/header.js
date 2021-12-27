@@ -40,9 +40,9 @@ export default function Header() {
         {/* <Link href="/foodbuddy">
           <a href="">FoodBuddies</a>
         </Link> */}
-        <Link href="/saves">
+        {/* <Link href="/saves">
           <a href="">Saves</a>
-        </Link>
+        </Link> */}
       </div>
       {/* Right */}
       <div className="flex grid-cols-2 items-center space-x-4 justify-end text-gray-600 col-span-1 sm:col-span-1">
@@ -130,7 +130,7 @@ export default function Header() {
                   FoodBuddies
                 </a>
               </Link> */}
-              <Link href="/saves">
+              {/* <Link href="/saves">
                 <a
                   onClick={() => setIsOpen(!isOpen)}
                   href=""
@@ -138,7 +138,7 @@ export default function Header() {
                 >
                   Your Favorites
                 </a>
-              </Link>
+              </Link> */}
               {!session && (
                 <div className="flex flex-col items-start">
                   <p

@@ -19,7 +19,7 @@ export default async function handler(req, res) {
         },
       });
 
-      console.log("RIGHT", getRestaurant);
+      // console.log("RIGHT", getRestaurant);
 
       if (!getRestaurant) {
         await prisma.restaurant.create({
