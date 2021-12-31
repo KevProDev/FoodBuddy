@@ -76,28 +76,6 @@ function Banner() {
     e.preventDefault();
   };
 
-  // const renderSortByOptions = () => {
-  //   // object keys return sortByOptions key properties
-  //   // map through that array based on the keys
-  //   // create sortByOptionValue the key value based off the key array
-  //   return Object.keys(sortByOptions).map((sortByOption) => {
-  //     let sortByOptionValue = sortByOptions[sortByOption];
-  //     return (
-  //       <li
-  //         key={sortByOptionValue}
-  //         className={
-  //           sortByOptionValue === state.sortBy
-  //             ? `${styles.sort_option} ${styles.active}`
-  //             : styles.sort_option
-  //         }
-  //         onClick={handleSortByChange.bind(this, sortByOptionValue)}
-  //       >
-  //         {sortByOption}
-  //       </li>
-  //     );
-  //   });
-  // };
-
   return (
     <div className="relative w-full h-[400px] sm:h-[400px] lg:h-[500px] xl:h-[600px] 2xl:h-[700px]">
       {console.log("Banner HTML BEGIN")}
