@@ -1,13 +1,5 @@
-import { useState, useEffect } from "react";
-import { useAppContext } from "../context/store";
-import Image from "next/image";
-import {
-  GlobeAltIcon,
-  MenuIcon,
-  UserCircleIcon,
-  UsersIcon,
-  SearchIcon,
-} from "@heroicons/react/solid";
+import { useState } from "react";
+import { MenuIcon, UserCircleIcon } from "@heroicons/react/solid";
 import { Transition } from "@headlessui/react";
 import { signIn, signOut, useSession, getSession } from "next-auth/react";
 import Link from "next/link";
@@ -37,12 +29,6 @@ export default function Header() {
         <Link href="/restaurantsearch">
           <a href="">Restaurant Search</a>
         </Link>
-        {/* <Link href="/foodbuddy">
-          <a href="">FoodBuddies</a>
-        </Link> */}
-        {/* <Link href="/saves">
-          <a href="">Saves</a>
-        </Link> */}
       </div>
       {/* Right */}
       <div className="flex grid-cols-2 items-center space-x-4 justify-end text-gray-600 col-span-1 sm:col-span-1">
@@ -121,24 +107,7 @@ export default function Header() {
                   Resturants Search
                 </a>
               </Link>
-              {/* <Link href="/foodbuddy">
-                <a
-                  onClick={() => setIsOpen(!isOpen)}
-                  href=""
-                  className="cursor-pointer hover:bg-green-500 text-black hover:text-white block py-2 rounded-md text-base font-medium"
-                >
-                  FoodBuddies
-                </a>
-              </Link> */}
-              {/* <Link href="/saves">
-                <a
-                  onClick={() => setIsOpen(!isOpen)}
-                  href=""
-                  className="cursor-pointer hover:bg-green-500 text-black hover:text-white block py-2 rounded-md text-base font-medium"
-                >
-                  Your Favorites
-                </a>
-              </Link> */}
+
               {!session && (
                 <div className="flex flex-col items-start">
                   <p

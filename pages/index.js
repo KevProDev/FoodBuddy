@@ -1,8 +1,7 @@
 import Head from "next/head";
-import { useState, useEffect } from "react";
 import Banner from "../components/Restaurantsearch/Banner";
 import BusinessList from "../components/Restaurantsearch/BusinessList";
-import { signIn, signOut, useSession, getSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
 
 export default function Home() {
   return (
@@ -13,7 +12,7 @@ export default function Home() {
           content="width=device, initial-scale=1.0, maximun-scale=1"
         />
       </Head>
-      {console.log("Index HTML BEGIN")}
+
       <Banner />
       <main className="max-w-7xl mx-auto px-8">
         <section className="pt-6">
@@ -28,9 +27,7 @@ export default function Home() {
 }
 
 export async function getServerSideProps(ctx) {
-  // const prisma = new PrismaClient();
   const session = await getSession(ctx);
-  // console.log(session);
 
   if (!session) {
     return {

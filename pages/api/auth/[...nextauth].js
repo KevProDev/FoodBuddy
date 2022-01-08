@@ -56,6 +56,7 @@ export default NextAuth({
       if (account) {
         token.accessToken = account.access_token;
         token.id = user.id;
+        console.log("jwt", token);
       }
       return token;
     },

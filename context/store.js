@@ -1,17 +1,10 @@
-import {
-  createContext,
-  useContext,
-  useReducer,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, useContext, useReducer } from "react";
 import appReducer from "./reducer";
 import { server } from "../config/index";
 
 const AppContext = createContext();
 
 export function AppState({ children }) {
-  console.log("AppState Function Begin");
   // The State of the App initialized
   let appState = {
     businesses: [],
