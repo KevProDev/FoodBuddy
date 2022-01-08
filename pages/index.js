@@ -7,10 +7,7 @@ export default function Home() {
   return (
     <div>
       <Head>
-        <meta
-          name="viewport"
-          content="width=device, initial-scale=1.0, maximun-scale=1"
-        />
+        <title>Meallocker | Meals Are Important</title>
       </Head>
 
       <Banner />

@@ -79,7 +79,7 @@ function Banner() {
                   onChange={handleInputChange}
                   value={state.term}
                   required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                  className="appearance-none rounded-none relative block w-full px-3 py-2 border-2 border-gray-200 placeholder-gray-500 text-gray-900 rounded-t-md focus:bg-white focus:outline-none focus:border-blue-500 focus:z-10 text-xl"
                   placeholder="Search A Restaurant"
                 />
               </div>
@@ -93,7 +93,7 @@ function Banner() {
                   onChange={handleInputChange}
                   value={state.location}
                   required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                  className="appearance-none rounded-none relative block w-full px-3 py-2 border-2 border-gray-200 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:border-blue-500 focus:z-10 text-xl"
                   placeholder="City"
                 />
               </div>
@@ -108,7 +108,7 @@ function Banner() {
               >
                 <span className="absolute left-0 inset-y-0 flex items-center pl-3">
                   <SearchIcon
-                    className="h-5 w-5 text-blue-500 group-hover:text-indigo-400"
+                    className="h-5 w-5 text-blue-300 group-hover:text-indigo-400"
                     aria-hidden="true"
                   />
                 </span>
