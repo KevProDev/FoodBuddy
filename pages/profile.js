@@ -66,3 +66,18 @@ export default function Profile() {
     </div>
   );
 }
+
+export async function getServerSideProps(ctx) {
+  const session = await getSession(ctx);
+
+  if (!session) {
+    return {
+      props: {},
+    };
+  }
+  return {
+    props: {
+      session,
+    },
+  };
+}

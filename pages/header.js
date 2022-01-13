@@ -73,9 +73,11 @@ export default function Header() {
             >
               Sign Out
             </p>
-            <p className="hidden lg:inline-flex col-span-1 cursor-pointer text-md py-2">
-              Profile
-            </p>
+            <Link href="/profile">
+              <a href="" className=" font-bold hidden lg:inline-block">
+                Profile
+              </a>
+            </Link>
           </div>
         )}
         <button
