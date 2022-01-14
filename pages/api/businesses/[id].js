@@ -35,10 +35,10 @@ export default async function handler(req, res) {
           city: dataYelp.location.city,
         },
       });
-
+      res.setHeader("Cache-Control", "s-maxage=86400");
       return res.status(200).json(dataYelp);
     }
-    // res.setHeader("Cache-Control", "s-maxage=86400");
+    res.setHeader("Cache-Control", "s-maxage=86400");
     return res.status(200).json(dataYelp);
   } catch (error) {
     res.status(500).json({ message: `Server error - ${error}` });

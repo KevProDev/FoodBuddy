@@ -225,7 +225,8 @@ export default function Details(props) {
       <Head>
         <title>FoodBuddy | {business.name}</title>
       </Head>
-      <div className="relative h-[300px] sm:h-[200px] lg:h-[300px] xl:h-[400px] 2xl:h-[700px]">
+
+      <div className="relative h-[200px] sm:h-[200px] lg:h-[300px] xl:h-[400px] 2xl:h-[700px]">
         <Image
           src={business.image_url}
           layout="fill"
@@ -240,8 +241,8 @@ export default function Details(props) {
               <h1 className="text-xl font-bold md:text-l">{business.name}</h1>
               <p>{business.categories[0].title}</p>
               {/* <div className="flex items-center justify-end">
-                <HeartIcon className="h-5 cursor-pointer" />
-              </div> */}
+                  <HeartIcon className="h-5 cursor-pointer" />
+                </div> */}
             </div>
             <p>
               {business.location.address1}, {business.location.city}{" "}
@@ -254,62 +255,17 @@ export default function Details(props) {
 
             <div className="" />
           </div>
-          <div className="">
+          {/* <div className="">
             {business.hours && business.hours[0].open
               ? renderHours(business.hours[0])
               : null}
-          </div>
+          </div> */}
         </section>
 
         <section className="w-11/12 max-w-4xl mx-auto px-4 sm:px-16 pb-4 bg-gray-100 pt-2 mt-4">
           <h2 className="font-semibold text-xl md:text-l ">
-            Leave Behind The Meal You Reconmmend
+            Leave Behind The Meal You Recommend
           </h2>
-          {/* {session ? (
-            <form className="relative" onSubmit={submitMealReview}>
-              <input
-                ref={mealTitleRef}
-                value={mealTitle}
-                onChange={(e) => setMealTitle(e.target.value)}
-                aria-label="Name of your Meal"
-                placeholder="Name of your Meal..."
-                required
-                className="px-4 py-2 mt-1 focus:ring-blue-500 focus:border-blue-500 block w-4/5 md:w-1/2 border-gray-300 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
-              />
-              <textarea
-                ref={mealDescriptionRef}
-                value={mealDescription}
-                onChange={(e) => setMealDescription(e.target.value)}
-                aria-label="What was so great about it"
-                placeholder="What was so great about it..."
-                rows="4"
-                required
-                className="px-4 py-2 mt-1 mb-4 focus:ring-blue-500 focus:border-blue-500 block w-4/5 md:w-1/2 border-gray-300 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
-              />
-              <button
-                className="flex items-center justify-center  right-1 top-1 px-4 font-medium h-8 bg-blue-700 hover:bg-blue-800 text-white rounded w-38"
-                type="submit"
-              >
-                Post Review
-              </button>
-            </form>
-          ) : (
-            <div className="border border-blue-300 shadow rounded-md p-4 max-w-sm w-full mx-auto">
-              <div className="animate-pulse flex space-x-4">
-                <div className="rounded-full bg-gray-700 h-10 w-10"></div>
-                <div className="flex-1 space-y-6 py-1">
-                  <div className="h-2 bg-gray-700 rounded"></div>
-                  <div className="space-y-3">
-                    <div className="grid grid-cols-3 gap-4">
-                      <div className="h-2 bg-gray-700 rounded col-span-2"></div>
-                      <div className="h-2 bg-gray-700 rounded col-span-1"></div>
-                    </div>
-                    <div className="h-2 bg-gray-700 rounded"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )} */}
           {!session && (
             <a
               className=" inline-block  text-lg rounded-md py-2 px-4 mt-4 bg-yellow-300 text-black mb-4"
