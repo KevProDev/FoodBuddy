@@ -9,39 +9,61 @@ export default function Business(props) {
   return (
     <Link href={"/restaurant/" + business.id} prefetch={false}>
       <a>
-        <div className=" cursor-pointer bg-white border-2 border-gray-200 pb-3">
-          {/* Left Side */}
-          <div className="relative w-full mx-auto h-64">
-            <Image src={business.imageSrc} layout="fill" objectFit="cover" />
-          </div>
-
-          {/* Right Side */}
-          <div className="flex flex-col px-2 pr-5 pt-2">
-            <div className="flex items-end justify-between">
-              <h2 className="text-md md:text-sm font-bold">{business.name}</h2>
+        <div className=" w-full h-full py-5 flex justify-center items-center">
+          <div className="relative pl-1 flex justify-center rounded-xl hover:scale-105 duration-500 transform transition cursor-pointer">
+            {/* <!-- Tag Discount --> */}
+            <div className="top-0 left-0 mt-3 px-2 rounded-lg absolute z-30 bg-green-500 text-gray-100 text-xs md:text-sm font-medium md:block">
+              Price: {business.price}
             </div>
-            <p className="text-gray-500 text-sm md:text-md">
-              {business.address} {business.city}
-            </p>
-            <h3 className="text-gray-500">{business.rating} out of 5 Review</h3>
-            <p className="text-gray-500">{business.category}</p>
-            <h3 className="text-gray-500">{business.price}</h3>
+            <div className="top-0 left-0 h-2 md:h-3 mt-5 px-2 absolute z-20 bg-green-500"></div>
+            <div className="top-0 left-0 h-2 md:h-3 mt-6 pl-5 rounded-3xl absolute z-0 bg-green-600"></div>
+            <div className="pb-2 w-[340px] bg-white border-grey-800 border-b border-l border-r rounded-xl shadow-xl z-10">
+              <div className="relative">
+                {/* <!-- :src="image.largeImageURL"     --> */}
+                <img
+                  src={business.imageSrc}
+                  className=" h-52 w-full object-cover rounded-t-xl"
+                  alt=""
+                />
+                {/* <!-- Tag rekomendasi --> */}
+                <div className="bottom-0 right-0 mb-2 mr-2 px-2 rounded-lg absolute bg-yellow-500 text-gray-100 text-xs font-medium">
+                  {business.category}
+                </div>
+              </div>
+              <div className="px-2 py-1">
+                {/* <!-- Product Title --> */}
+                <div className="text-sm md:text-base font-bold pr-2">
+                  {business.name}
+                </div>
+                <p className="pb-1 md:pb-2 text-xs md:text-lg text-gray-500">
+                  {business.address} {business.city}
+                </p>
+                <div className="flex pb-2">
+                  {/* <!-- Distance --> */}
+                  {/* <div className="bg-gray-200 p-1 mr-2 rounded-full text-xs font-medium text-gray-900">
+                    0.5 Km
+                  </div> */}
+                  <div className="flex justify-between item-center">
+                    <div className="flex flex-col">
+                      {/* <!-- Rating total --> */}
 
-            {/* <p className="">
-              <span className=" px-2 py-1 bg-green-500 text-white">7</span>
-              <span className="pl-1">reviews of meals</span>
-            </p> */}
+                      <p className="text-gray-600 font-normal text-lg md:text-lg mr-8">
+                        (7 meal reviews)
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                {/* <!-- Alamat --> */}
 
-            {/* <div className="border-b w-full pt-2" /> */}
-
-            {/* <div className="flex flex-col lg:flex-row gap-5 justify-start">
-              <button className="bg-black text-white py-2 px-2 mt-2">
-                Friends Opinion
-              </button>
-              <button className="bg-black text-white py-2 px-2 mt-2">
-                Give Your Opinon
-              </button>
-            </div> */}
+                {/* <!-- Tombol pesan --> */}
+                <a
+                  className="inset-x-0 bottom-0 flex justify-center bg-blue-500 hover:bg-white text-sm md:text-base border hover:border-2 hover:border-blue-500 rounded-xl w-full p-1 text-gray-100 hover:text-blue-900"
+                  href="#"
+                >
+                  Recommend A Meal
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </a>

@@ -66,7 +66,7 @@ export default function Details(props) {
   // console.log("Details Function Begin");
 
   const business = props.business;
-  console.log("PROPS", business);
+
   // const restaurantReview = props.business.restaurantReviews;
 
   // console.log("Details Function Phase");
@@ -78,9 +78,9 @@ export default function Details(props) {
   const { data: session } = useSession();
   const router = useRouter();
   const id = router.query.id ? router.query.id : null;
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
 
-  console.log("Loading", loading);
+  // console.log("Loading", loading);
 
   // useEffect(() => {
   //   setLoading(false);

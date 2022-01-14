@@ -56,14 +56,14 @@ export default NextAuth({
       if (account) {
         token.accessToken = account.access_token;
         token.id = user.id;
-        console.log("jwt", token);
+        // console.log("jwt", token);
       }
       return token;
     },
     async session({ session, user, token }) {
       session.accessToken = token.accessToken;
       session.id = token.id;
-      console.log("session", session);
+      // console.log("session", session);
       return session;
     },
     // session: async (session, user) => {

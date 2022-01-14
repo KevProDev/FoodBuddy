@@ -11,7 +11,7 @@ export default function Home() {
       </Head>
 
       <Banner />
-      <main className="max-w-7xl mx-auto px-8">
+      <main className="max-w-7xl mx-auto px-4">
         <section className="pt-6">
           <h2 className="text-xl sm:text-4xl font-semibold pb-5 px-4">
             Explore Feed
