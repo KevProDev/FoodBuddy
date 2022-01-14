@@ -287,7 +287,7 @@ export default function Details(props) {
                 aria-label="Name of your Meal"
                 placeholder="Name of your Meal..."
                 required
-                className="px-4 py-2 mt-1 focus:ring-blue-500 focus:border-blue-500 block w-4/5 md:w-1/2 border-gray-300 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+                className="px-4 border border-black py-2 mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full md:w-1/2 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
               />
               <textarea
                 ref={mealDescriptionRef}
@@ -297,7 +297,7 @@ export default function Details(props) {
                 placeholder="What was so great about it..."
                 rows="4"
                 required
-                className="px-4 py-2 mt-1 mb-4 focus:ring-blue-500 focus:border-blue-500 block w-4/5 md:w-1/2 border-gray-300 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+                className="px-4 border border-black py-2 mt-1 mb-4 focus:ring-blue-500 focus:border-blue-500 block w-full md:w-1/2 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
               />
               <button
                 className="flex items-center justify-center  right-1 top-1 px-4 font-medium h-8 bg-blue-700 hover:bg-blue-800 text-white rounded w-38"
