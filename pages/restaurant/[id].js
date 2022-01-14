@@ -330,7 +330,7 @@ export default function Details(props) {
                     key={review.id}
                     className="border-gray-200 border-b-2 pb-4 mb-4"
                   >
-                    <div className="flex items-center pb-2 justify-between">
+                    <div className="flex pb-2 justify-between">
                       <div className="flex">
                         {/* <UserCircleIcon className="h-5 cursor-pointer pr-2" /> */}
                         <img
@@ -338,26 +338,30 @@ export default function Details(props) {
                           alt="profile of user"
                           className=" w-12 h-12 rounded-full"
                         />
-                        <span className="text-sm pl-4">{review.user_name}</span>
+                        <span className="text-sm pl-4 font-bold ">
+                          {review.user_name}
+                        </span>
                       </div>
                       {!session && <div></div>}
-                      {session?.id === review.user_id && (
-                        <XCircleIcon
-                          className="h-6 cursor-pointer pr-2 text-blue-500"
-                          onClick={(e) => {
-                            deleteReview(e, review.id);
-                          }}
-                        >
-                          Delete
-                        </XCircleIcon>
-                      )}
                     </div>
                     <div className="">
                       <h3 className="font-semibold">{review.title} </h3>
                       <p className=" font-light text-sm pb-3 ">
                         {review.description}
                       </p>
-                      <ThumbUpIconOutline className="h-5 cursor-pointer pr-2 text-blue-500" />
+                      <div className="flex">
+                        <ThumbUpIconOutline className="h-5 cursor-pointer pr-2 text-blue-500" />
+                        {session?.id === review.user_id && (
+                          <XCircleIcon
+                            className="h-6 cursor-pointer pr-2 text-blue-500"
+                            onClick={(e) => {
+                              deleteReview(e, review.id);
+                            }}
+                          >
+                            Delete
+                          </XCircleIcon>
+                        )}
+                      </div>
                     </div>
                   </div>
                 );
