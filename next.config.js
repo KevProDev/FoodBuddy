@@ -11,6 +11,7 @@ module.exports = {
       "s3-media3.fl.yelpcdn.com",
       "s3-media4.fl.yelpcdn.com",
       "images.squarespace-cdn.com",
+      "lh3.googleusercontent.com",
     ],
   },
   // outputFileTracing: false,
