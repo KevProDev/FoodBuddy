@@ -8,7 +8,7 @@ export default async function handler(req, res) {
     if (req.method === "GET") {
       const getRestaurant = await prisma.restaurant.findUnique({
         where: {
-          id: restaurant_id,
+          rest_id: restaurant_id,
         },
         include: {
           users_meals_review: {
@@ -24,7 +24,7 @@ export default async function handler(req, res) {
       if (!getRestaurant) {
         await prisma.restaurant.create({
           data: {
-            id: restaurant_id,
+            rest_id: restaurant_id,
             // name: dataYelp.name,
             // address: dataYelp.location.address1,
             // city: dataYelp.location.city,
@@ -48,12 +48,10 @@ export default async function handler(req, res) {
       return res.status(200).json(data);
     }
     if (req.method === "POST") {
-      const {
-        id: restaurant_id,
-        session,
-        mealTitle: title,
-        mealDescription: description,
-      } = req.body;
+      const session = await getSession({ req });
+      const { mealTitle: title, mealDescription: description } = req.body;
+
+      console.log("ID", req.body.id);
 
       // console.log(req.body);
 
@@ -65,47 +63,41 @@ export default async function handler(req, res) {
 
       // Allow us to post the review on the meal
 
-      await prisma.meal.create({
+      const mealCreated = await prisma.meal.create({
         data: {
           title: title,
           description: description,
-          user_id: userFromDb.id.toString(),
+          user_id: userFromDb.id,
           rest_id: restaurant_id.toString(),
           user_name: userFromDb.name.toString(),
           user_image: userFromDb.image.toString(),
         },
       });
 
-      const getRestaurantReview = await prisma.meal.findMany({
-        where: {
-          rest_id: restaurant_id,
-        },
-        orderBy: {
-          created_at: "desc",
-        },
-      });
-
-      return res.status(200).json(getRestaurantReview);
+      return res.status(200).json({ status: "Success" });
+      // return res.status(200).json(getRestaurantReview);
     }
     if (req.method === "DELETE") {
       const mealId = req.body.mealId;
 
-      const meal = await prisma.meal.delete({
+      const deletedMeal = await prisma.meal.delete({
         where: {
-          id: mealId.toString(),
+          id: mealId,
         },
       });
 
-      const getRestaurantReview = await prisma.meal.findMany({
-        where: {
-          rest_id: restaurant_id,
-        },
-        orderBy: {
-          created_at: "desc",
-        },
-      });
+      // const getRestaurantReview = await prisma.meal.findMany({
+      //   where: {
+      //     rest_id: restaurant_id,
+      //   },
+      //   orderBy: {
+      //     created_at: "desc",
+      //   },
+      // });
 
-      return res.json(getRestaurantReview);
+      // return res.status(200).json(getRestaurantReview);
+      return res.status(200).json({ status: "Success" });
     }
+    // return res.status(200).json({ status: "Success" });
   } catch {}
 }

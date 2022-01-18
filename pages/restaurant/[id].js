@@ -4,7 +4,7 @@ import Head from "next/head";
 import { useAppContext } from "../../context/store";
 import {
   HeartIcon,
-  UserCircleIcon,
+  BookmarkIcon,
   ThumbUpIcon as ThumbUpIconOutline,
 } from "@heroicons/react/outline";
 import { XCircleIcon, ThumbUpIcon } from "@heroicons/react/solid";
@@ -32,25 +32,7 @@ export const getStaticProps = async ({ params }) => {
     },
   });
   const business = await res.json();
-
-  // this get write errors sometime
-  // const getYelpData = await fetch(`${server}/api/businesses/${params.id}`, {
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  // });
-  // const yelpData = await getYelpData.json().then((yelpData) => {
-  //   return fetch(`${server}/api/businesses/review/${params.id}`, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(yelpData),
-  //   });
-  // });
-
-  // const restData = await yelpData.json();
-  // console.log(restData);
+  // console.log(business);
 
   return {
     revalidate: 1, // rebuild this static page after every x seconds (when page is visited)
@@ -78,14 +60,6 @@ export default function Details(props) {
   const { data: session } = useSession();
   const router = useRouter();
   const id = router.query.id ? router.query.id : null;
-  // const [loading, setLoading] = useState(true);
-
-  // console.log("Loading", loading);
-
-  // useEffect(() => {
-  //   setLoading(false);
-  //   console.log("loading useeffect", loading);
-  // }, []);
 
   const fetcher = async (id) => {
     const getRestarantReviews = await fetch(
@@ -141,22 +115,45 @@ export default function Details(props) {
     });
   };
 
-  // const likeRestaurant = async (e) => {
-  //   e.preventDefault();
-  //   console.log("works");
-  //   const likeRestuarantToDb = await fetch(`/api/businesses/like/${id}`, {
-  //     method: "PUT",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //   });
-  //   const likeResponse = await likeRestuarantToDb.json();
-  //   console.log(likeResponse);
-  // };
+  const saveMeal = async (e, mealId) => {
+    e.preventDefault();
+    console.log("works");
+    console.log(mealId);
+    const saveMealToDb = await fetch(`/api/businesses/save`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        meal_id: mealId,
+        session: session,
+      }),
+    });
+    const saveResponse = await saveMealToDb.json();
+    // console.log(saveResponse);
+  };
+
+  const likeMeal = async (e, mealId) => {
+    e.preventDefault();
+    console.log("works");
+    console.log(mealId);
+    const likeMealToDb = await fetch(`/api/businesses/like`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        meal_id: mealId,
+        session: session,
+      }),
+    });
+    const likeResponse = await likeMealToDb.json();
+    // console.log(likeResponse);
+  };
 
   const deleteReview = async (e, mealId) => {
     e.preventDefault();
-    console.log(mealId);
+    console.log("BEGIN DELTE IN BROWSER", mealId);
     const deletedReview = await fetch(`/api/businesses/review/${id}`, {
       method: "DELETE",
       headers: {
@@ -167,7 +164,7 @@ export default function Details(props) {
       }),
     });
     await deletedReview.json().then((value) => {
-      console.log(value);
+      console.log("VALUE", value);
       refetch();
     });
   };
@@ -332,7 +329,6 @@ export default function Details(props) {
                   >
                     <div className="flex pb-2 justify-between">
                       <div className="flex">
-                        {/* <UserCircleIcon className="h-5 cursor-pointer pr-2" /> */}
                         <img
                           src={review.user_image}
                           alt="profile of user"
@@ -349,19 +345,29 @@ export default function Details(props) {
                       <p className=" font-light text-sm pb-3 ">
                         {review.description}
                       </p>
-                      <div className="flex">
-                        <ThumbUpIconOutline className="h-5 cursor-pointer pr-2 text-blue-500" />
-                        {session?.id === review.user_id && (
-                          <XCircleIcon
-                            className="h-6 cursor-pointer pr-2 text-blue-500"
-                            onClick={(e) => {
-                              deleteReview(e, review.id);
-                            }}
-                          >
-                            Delete
-                          </XCircleIcon>
-                        )}
-                      </div>
+                      {session && (
+                        <div className="flex">
+                          <ThumbUpIconOutline
+                            className="h-5 cursor-pointer pr-2 text-blue-500"
+                            onClick={(e) => likeMeal(e, review.id)}
+                          />
+                          <BookmarkIcon
+                            className="h-5 cursor-pointer pr-2 text-blue-500"
+                            onClick={(e) => saveMeal(e, review.id)}
+                          />
+
+                          {session?.id === review.user_id && (
+                            <XCircleIcon
+                              className="h-6 cursor-pointer pr-2 text-blue-500"
+                              onClick={(e) => {
+                                deleteReview(e, review.id);
+                              }}
+                            >
+                              Delete
+                            </XCircleIcon>
+                          )}
+                        </div>
+                      )}
                     </div>
                   </div>
                 );

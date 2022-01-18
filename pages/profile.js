@@ -66,7 +66,11 @@ export default function Profile(props) {
                   priority="true"
                 />
               </div>
-              <form action="">
+              <p className=" text-2xl font-bold ">User</p>
+              <p className="text-2xl pb-4 ">{data.user.name}</p>
+              <p className=" text-2xl font-bold ">Email Address:</p>
+              <p className="text-2xl pb-4 ">{data.user.email}</p>
+              {/* <form action="">
                 <div className="py-4">
                   <label
                     className=" text-2xl block mb-1 font-bold "
@@ -87,7 +91,7 @@ export default function Profile(props) {
                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                   Update
                 </button>
-              </form>
+              </form> */}
             </div>
           )}
         </section>

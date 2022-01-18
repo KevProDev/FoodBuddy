@@ -15,7 +15,7 @@ datasource db {
 
 model Account {
   id                 String  @id @default(cuid())
-  userId             String
+  userId             Int
   type               String
   provider           String
   providerAccountId  String?
@@ -37,7 +37,7 @@ model Account {
 model Session {
   id           String   @id @default(cuid())
   sessionToken String   @unique
-  userId       String
+  userId       Int
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -45,7 +45,7 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            Int    @id @default(autoincrement())
   name          String?
   email         String?   @unique
   emailVerified DateTime?
@@ -53,6 +53,8 @@ model User {
   accounts      Account[]
   sessions      Session[]
   users_meals_review   Meal[]
+  fav_meal        Favorite_Meal[]
+
 }
 
 model VerificationToken {
@@ -64,35 +66,75 @@ model VerificationToken {
 }
 
 model Meal {
-  id            String      @id @default(cuid())
+  id            Int    @id @default(autoincrement())
   title         String      @db.VarChar(200)
   description   String      @db.VarChar(500)
-  like_count    Int?     
+  like_count    Int?        @default(0)
   created_at    DateTime    @default(now())
   updated_at    DateTime    @updatedAt
-  user_id       String
   user_name     String
   user_image    String      
+  user_id       Int
   user          User        @relation(fields: [user_id], references:[id])
-  rest_id       String      @db.VarChar(200)
-  rest          Restaurant  @relation(fields: [rest_id], references:[id])
+  rest_id       String      
+  rest          Restaurant  @relation(fields: [rest_id], references:[rest_id])
+  // fav_meal      Favorite_Meal[]
 
   @@index([rest_id,user_id])
 
 }
 
 model Restaurant {
-  id            String    @db.VarChar(200) @unique @id
+  id            Int        @id @default(autoincrement())
+  rest_id       String     @unique
   name          String?    @db.VarChar(255)
   address       String?    @db.VarChar(200)
   city          String?    @db.VarChar(45)
   created_at    DateTime  @default(now())
   updated_at    DateTime  @updatedAt
   users_meals_review   Meal[]
+
+  @@index([rest_id])
 }
 
 model Profile {
-  id            String    @id @default(cuid())
-  name          String    
-  email         String    @unique
+  id            Int    @id @default(autoincrement())
+  user_id       Int
+  // favoriteMeals Favorite_Meal[]
+  follower      Follower[]
+  following     Following[]
+  
+  @@index([user_id])
+
 }
+
+model Favorite_Meal {
+  id                  Int        @id @default(autoincrement())
+  meal_id             Int   
+  user_id          Int
+  profile             User @relation(fields: [user_id], references: [id])
+  created_at          DateTime  @default(now())
+  updated_at          DateTime  @updatedAt
+  @@index([user_id])
+}
+
+model Follower {
+  id           Int        @id @default(autoincrement())
+  follower_by_id        Int
+  follower              Profile @relation(fields: [follower_by_id],references: [id])    
+   
+  created_at          DateTime  @default(now())
+  updated_at          DateTime  @updatedAt
+
+}
+
+model Following {
+  id                  Int        @id @default(autoincrement())  
+  follow_to_id        Int
+  follow_to           Profile @relation(fields: [follow_to_id],references: [id]) 
+   
+  created_at          DateTime  @default(now())
+  updated_at          DateTime  @updatedAt
+
+}
+

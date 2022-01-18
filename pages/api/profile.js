@@ -9,8 +9,6 @@ export default async function handler(req, res) {
       where: { email: session.user.email },
     });
 
-    console.log("Database", userFromDb);
-
     return res.json(session);
   } catch {
     return res.json({ result: "fail" });

@@ -1,3 +1,5 @@
+import prisma from "../../../lib/prisma";
+
 export default async function handler(req, res) {
   const apiKey = process.env.YELP_API_KEY;
   const baseUrl = "https://api.yelp.com/v3/businesses/";
@@ -19,7 +21,7 @@ export default async function handler(req, res) {
     // check to see if REST is on the DATABASE
     const getRestaurant = await prisma.restaurant.findUnique({
       where: {
-        id: restaurant_id,
+        rest_id: restaurant_id,
       },
     });
 
@@ -29,16 +31,16 @@ export default async function handler(req, res) {
 
       await prisma.restaurant.create({
         data: {
-          id: restaurant_id,
+          rest_id: restaurant_id,
           name: dataYelp.name,
           address: dataYelp.location.address1,
           city: dataYelp.location.city,
         },
       });
-      res.setHeader("Cache-Control", "s-maxage=86400");
+      // res.setHeader("Cache-Control", "s-maxage=86400");
       return res.status(200).json(dataYelp);
     }
-    res.setHeader("Cache-Control", "s-maxage=86400");
+    // res.setHeader("Cache-Control", "s-maxage=86400");
     return res.status(200).json(dataYelp);
   } catch (error) {
     res.status(500).json({ message: `Server error - ${error}` });

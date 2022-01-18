@@ -3,6 +3,7 @@ import { MenuIcon, UserCircleIcon } from "@heroicons/react/solid";
 import { Transition } from "@headlessui/react";
 import { signIn, signOut, useSession, getSession } from "next-auth/react";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,7 +21,9 @@ export default function Header() {
       {/* Left */}
       <div className="relative flex items-center h-10 cursor-pointer my-auto col-span-1">
         <Link href="/">
-          <a href="">MealLocker</a>
+          <a href="">
+            <img src="/BLACK.png" alt="company logo" />
+          </a>
         </Link>
       </div>
 
@@ -34,47 +37,50 @@ export default function Header() {
       <div className="flex grid-cols-2 items-center space-x-4 justify-end text-gray-600 col-span-1 lg:col-span-4">
         {!session && (
           <div className="flex items-center space-x-4">
-            <Link href="/restaurantsearch">
+            {/* <Link href="/restaurantsearch">
               <a href="" className="font-bold hidden lg:inline-block">
                 Restaurant Search
               </a>
-            </Link>
+            </Link> */}
             <p
-              className="hidden lg:inline-flex col-span-1 cursor-pointer text-md rounded-2xl py-2"
+              className="hidden lg:inline-flex col-span-1 cursor-pointer text-md rounded-2xl py-2 px-2 "
               onClick={loginWithGoogle}
             >
-              Sign In
+              Sign in
               {session && `as ${session.user.name}`}
             </p>
-            <p
+            {/* <p
               className="hidden lg:inline-flex col-span-1 cursor-pointer text-md rounded-2xl py-2"
               onClick={logoutWithGoogle}
             >
               Sign Out
-            </p>
+            </p> */}
           </div>
         )}
         {session && (
           <div className="space-x-4">
-            <Link href="/restaurantsearch">
+            {/* <Link href="/restaurantsearch">
               <a href="" className=" font-bold hidden lg:inline-block">
                 Restaurant Search
               </a>
-            </Link>
-            <p
+            </Link> */}
+            {/* <p
               className="hidden lg:inline-flex col-span-1 cursor-pointer text-md rounded-2xl py-2"
               onClick={loginWithGoogle}
             >
               {session.user.name}
-            </p>
+            </p> */}
             <p
-              className="hidden lg:inline-flex col-span-1 cursor-pointer text-md rounded-2xl py-2"
+              className="hidden lg:inline-flex col-span-1 cursor-pointer text-md rounded-2xl py-2 px-2"
               onClick={logoutWithGoogle}
             >
               Sign Out
             </p>
             <Link href="/profile">
-              <a href="" className=" font-bold hidden lg:inline-block">
+              <a
+                href=""
+                className=" font-bold hidden lg:inline-block py-2 px-2"
+              >
                 Profile
               </a>
             </Link>
@@ -104,7 +110,7 @@ export default function Header() {
         {() => (
           <div className="lg:hidden id:mobile-menu">
             <div className="flex flex-col px-2 pt-2 pb-3 space-y-1">
-              <Link href="/">
+              {/* <Link href="/">
                 <a
                   onClick={() => setIsOpen(!isOpen)}
                   href=""
@@ -112,8 +118,8 @@ export default function Header() {
                 >
                   Home
                 </a>
-              </Link>
-              <Link href="/restaurantsearch">
+              </Link> */}
+              {/* <Link href="/restaurantsearch">
                 <a
                   onClick={() => setIsOpen(!isOpen)}
                   href=""
@@ -121,7 +127,7 @@ export default function Header() {
                 >
                   Resturants Search
                 </a>
-              </Link>
+              </Link> */}
 
               {!session && (
                 <div className="flex flex-col items-start">
@@ -132,12 +138,12 @@ export default function Header() {
                     Sign In
                     {session && `as ${session.user.name}`}
                   </p>
-                  <p
+                  {/* <p
                     className=" text-xl font-bold  cursor-pointer  rounded-2xl py-2"
                     onClick={logoutWithGoogle}
                   >
                     Sign Out
-                  </p>
+                  </p> */}
                 </div>
               )}
               {session && (
@@ -154,12 +160,11 @@ export default function Header() {
                   >
                     Sign Out
                   </p>
-                  <p
-                    className="font-bold cursor-pointer text-xl rounded-2xl py-2"
-                    onClick={logoutWithGoogle}
-                  >
-                    Profile
-                  </p>
+                  <Link href="/profile">
+                    <a href="" className=" font-bold hidden lg:inline-block">
+                      Profile
+                    </a>
+                  </Link>
                 </div>
               )}
             </div>
