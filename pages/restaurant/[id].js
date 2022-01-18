@@ -252,11 +252,6 @@ export default function Details(props) {
 
             <div className="" />
           </div>
-          {/* <div className="">
-            {business.hours && business.hours[0].open
-              ? renderHours(business.hours[0])
-              : null}
-          </div> */}
         </section>
 
         <section className="w-11/12 max-w-4xl mx-auto px-4 sm:px-16 pb-4 bg-gray-100 pt-2 mt-4">
