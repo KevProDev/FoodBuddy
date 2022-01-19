@@ -56,18 +56,18 @@ function Banner() {
     e.preventDefault();
   };
 
-  useEffect(() => {
-    clearBusinesses();
-    // if (state.location === "" || (state.term === "" && state.location === ""))
-    //   return;
-    setSearchParams({
-      term: "restaurant",
-      location: "chicago",
-      sortBy: state.sortBy,
-    });
-    searchBusinesses("restaurant", "chicago", state.sortBy, 0);
-    // e.preventDefault();
-  }, []);
+  // useEffect(() => {
+  //   clearBusinesses();
+  //   // if (state.location === "" || (state.term === "" && state.location === ""))
+  //   //   return;
+  //   setSearchParams({
+  //     term: "restaurant",
+  //     location: "chicago",
+  //     sortBy: state.sortBy,
+  //   });
+  //   searchBusinesses("restaurant", "chicago", state.sortBy, 0);
+  //   // e.preventDefault();
+  // }, []);
 
   return (
     <div className="relative w-full h-[400px] sm:h-[400px] lg:h-[500px] xl:h-[600px] 2xl:h-[700px]">
@@ -80,30 +80,24 @@ function Banner() {
       />
 
       <div className=" min-h-full flex flex-col items-center justify-center py-4 px-4 sm:px-6 lg:px-8 relative z-20">
-        <h1 className=" text-3xl md:text-5xl lg:text-7xl font-bold text-white ">
-          Not sure where to eat? Perfect.
+        <h1 className=" text-3xl md:text-4xl lg:text-6xl font-bold text-white ">
+          What's your favorite restaurant meal?
         </h1>
         <div className="max-w-md w-full space-y-8">
           <form className="mt-8 space-y-6 " action="#" method="POST">
             <div className="rounded-md shadow-sm -space-y-px">
               <div>
-                <label htmlFor="email-address" className="sr-only">
-                  Search A Restaurant
-                </label>
                 <input
-                  id="email-address"
                   name="term"
                   onChange={handleInputChange}
                   value={state.term}
                   required
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border-2 border-gray-200 placeholder-gray-500 text-gray-900 rounded-t-md focus:bg-white focus:outline-none focus:border-blue-500 focus:z-10 text-xl"
-                  placeholder="Search A Restaurant"
+                  placeholder="Restaurant Name or type Restaurant
+                  "
                 />
               </div>
               <div>
-                <label htmlFor="password" className="sr-only">
-                  Password
-                </label>
                 <input
                   id="locationInput"
                   name="location"

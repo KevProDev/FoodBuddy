@@ -87,7 +87,7 @@ export default function Header() {
               </Link> */}
             </div>
           )}
-          {/* <button
+          <button
             className="flex lg:hidden items-center space-x-2 rounded-full p-2 text-black"
             onClick={() => setIsOpen(!isOpen)}
             type="button"
@@ -95,8 +95,8 @@ export default function Header() {
             aria-expanded="true"
           >
             <MenuIcon className="h-6" />
-            <UserCircleIcon className="h-8" />
-          </button> */}
+            {/* <UserCircleIcon className="h-8" /> */}
+          </button>
         </div>
         <Transition
           className="flex col-span-3"
