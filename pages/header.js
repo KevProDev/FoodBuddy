@@ -43,13 +43,13 @@ export default function Header() {
                 Restaurant Search
               </a>
             </Link> */}
-              <p
-                className="hidden lg:inline-flex col-span-1 cursor-pointer text-md rounded-2xl py-2 px-2 "
+              <button
+                className="hidden lg:inline-flex col-span-1 cursor-pointer text-md rounded-md py-2 px-3 text-white border-blue-500 border hover:text-blue-500 bg-blue-500 hover:bg-white hover:border hover:border-blue-500 "
                 onClick={loginWithGoogle}
               >
                 Sign in
                 {session && `as ${session.user.name}`}
-              </p>
+              </button>
               {/* <p
               className="hidden lg:inline-flex col-span-1 cursor-pointer text-md rounded-2xl py-2"
               onClick={logoutWithGoogle}
@@ -71,24 +71,24 @@ export default function Header() {
             >
               {session.user.name}
             </p> */}
-              <p
-                className="hidden lg:inline-flex col-span-1 cursor-pointer text-md rounded-2xl py-2 px-2"
+              <button
+                className="hidden lg:inline-flex col-span-1 cursor-pointer text-md rounded-md py-2 px-3 text-white border-blue-500 border hover:text-blue-500 bg-blue-500 hover:bg-white hover:border hover:border-blue-500"
                 onClick={logoutWithGoogle}
               >
                 Sign Out
-              </p>
-              <Link href="/profile">
+              </button>
+              {/* <Link href="/profile">
                 <a
                   href=""
                   className=" font-bold hidden lg:inline-block py-2 px-2"
                 >
                   Profile
                 </a>
-              </Link>
+              </Link> */}
             </div>
           )}
-          <button
-            className="flex lg:hidden items-center space-x-2 border-2 rounded-full p-2"
+          {/* <button
+            className="flex lg:hidden items-center space-x-2 rounded-full p-2 text-black"
             onClick={() => setIsOpen(!isOpen)}
             type="button"
             aria-controls="mobile-menu"
@@ -96,7 +96,7 @@ export default function Header() {
           >
             <MenuIcon className="h-6" />
             <UserCircleIcon className="h-8" />
-          </button>
+          </button> */}
         </div>
         <Transition
           className="flex col-span-3"
@@ -132,13 +132,13 @@ export default function Header() {
 
                 {!session && (
                   <div className="flex flex-col items-start">
-                    <p
+                    <button
                       className=" font-bold cursor-pointer text-xl rounded-2xl py-2"
                       onClick={loginWithGoogle}
                     >
                       Sign In
                       {session && `as ${session.user.name}`}
-                    </p>
+                    </button>
                     {/* <p
                     className=" text-xl font-bold  cursor-pointer  rounded-2xl py-2"
                     onClick={logoutWithGoogle}
@@ -149,18 +149,18 @@ export default function Header() {
                 )}
                 {session && (
                   <div className="flex flex-col items-start">
-                    <p
+                    <button
                       className="font-bold cursor-pointer text-xl rounded-2xl py-2"
                       onClick={loginWithGoogle}
                     >
                       {session.user.name}
-                    </p>
-                    <p
+                    </button>
+                    <button
                       className="font-bold cursor-pointer text-xl rounded-2xl py-2"
                       onClick={logoutWithGoogle}
                     >
                       Sign Out
-                    </p>
+                    </button>
                     <Link href="/profile">
                       <a href="" className=" font-bold hidden lg:inline-block">
                         Profile
