@@ -1,4 +1,3 @@
-import Head from "next/head";
 import Banner from "../components/Restaurantsearch/Banner";
 import BusinessList from "../components/Restaurantsearch/BusinessList";
 import { getSession } from "next-auth/react";
@@ -6,10 +5,6 @@ import { getSession } from "next-auth/react";
 export default function Home() {
   return (
     <div>
-      <Head>
-        <title>Meallocker | Meals Are Important</title>
-      </Head>
-
       <Banner />
       <main className="max-w-7xl mx-auto px-4">
         <section className="pt-6">
