@@ -16,7 +16,7 @@ export default function MyApp({ Component, pageProps }) {
         <title>Meallocker | Meals Are Important</title>
         <meta property="og:title" content="Not sure where to eat? Perfect." />
         <meta property="og:description" content="Meallocker.com" />
-        <meta property="og:image" content="/Meallocker Home.jpg" />
+        <meta property="og:image" content="/Home social.jpeg" />
       </Head>
       <SessionProvider session={pageProps.session}>
         <AppState>
