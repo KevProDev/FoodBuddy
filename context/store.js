@@ -13,7 +13,7 @@ export function AppState({ children }) {
     offset: 0,
     term: "",
     location: "",
-    sortBy: "best_match",
+    sortBy: "rating",
     mapCenterCoords: {
       lat: 0,
       lng: 0,
