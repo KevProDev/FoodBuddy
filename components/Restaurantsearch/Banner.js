@@ -56,6 +56,19 @@ function Banner() {
     e.preventDefault();
   };
 
+  useEffect(() => {
+    clearBusinesses();
+    // if (state.location === "" || (state.term === "" && state.location === ""))
+    //   return;
+    setSearchParams({
+      term: "restaurant",
+      location: "chicago",
+      sortBy: state.sortBy,
+    });
+    searchBusinesses("restaurant", "chicago", state.sortBy, 0);
+    // e.preventDefault();
+  }, []);
+
   return (
     <div className="relative w-full h-[400px] sm:h-[400px] lg:h-[500px] xl:h-[600px] 2xl:h-[700px]">
       <div className=" bg-black absolute w-full h-full z-10 opacity-40 "></div>
