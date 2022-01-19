@@ -8,9 +8,9 @@ export default function Home() {
       <Banner />
       <main className="max-w-7xl mx-auto px-4">
         <section className="pt-6">
-          <h2 className="text-xl sm:text-4xl font-semibold pb-5 px-4">
+          {/* <h2 className="text-xl sm:text-4xl font-semibold pb-5 px-4">
             Explore Feed
-          </h2>
+          </h2> */}
           <BusinessList />
         </section>
       </main>

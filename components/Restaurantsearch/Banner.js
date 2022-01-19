@@ -93,7 +93,7 @@ function Banner() {
                   value={state.term}
                   required
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border-2 border-gray-200 placeholder-gray-500 text-gray-900 rounded-t-md focus:bg-white focus:outline-none focus:border-blue-500 focus:z-10 text-xl"
-                  placeholder="Restaurant Name or type Restaurant
+                  placeholder="Restaurant name
                   "
                 />
               </div>
