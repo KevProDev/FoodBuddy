@@ -90,6 +90,7 @@ CREATE TABLE `Profile` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `user_id` INTEGER NOT NULL,
 
+    UNIQUE INDEX `Profile_user_id_key`(`user_id`),
     INDEX `Profile_user_id_idx`(`user_id`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -119,7 +120,7 @@ CREATE TABLE `Follower` (
 -- CreateTable
 CREATE TABLE `Following` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `follow_to_id` INTEGER NOT NULL,
+    `following_to_id` INTEGER NOT NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updated_at` DATETIME(3) NOT NULL,
 

@@ -54,6 +54,8 @@ model User {
   sessions      Session[]
   users_meals_review   Meal[]
   fav_meal        Favorite_Meal[]
+  followers     Follower[]
+  following     Following[]
 
 }
 
@@ -99,10 +101,8 @@ model Restaurant {
 
 model Profile {
   id            Int    @id @default(autoincrement())
-  user_id       Int
-  // favoriteMeals Favorite_Meal[]
-  follower      Follower[]
-  following     Following[]
+  user_id       Int    @unique
+
   
   @@index([user_id])
 
@@ -120,8 +120,11 @@ model Favorite_Meal {
 
 model Follower {
   id           Int        @id @default(autoincrement())
-  follower_by_id        Int
-  follower              Profile @relation(fields: [follower_by_id],references: [id])    
+  follower_by_id      Int
+  follower            User @relation(fields: [follower_by_id],references: [id])
+  user_id             Int
+
+
    
   created_at          DateTime  @default(now())
   updated_at          DateTime  @updatedAt
@@ -130,8 +133,10 @@ model Follower {
 
 model Following {
   id                  Int        @id @default(autoincrement())  
-  follow_to_id        Int
-  follow_to           Profile @relation(fields: [follow_to_id],references: [id]) 
+  following_to_id     Int
+  following           User @relation(fields: [following_to_id],references: [id])
+  user_id             Int
+
    
   created_at          DateTime  @default(now())
   updated_at          DateTime  @updatedAt

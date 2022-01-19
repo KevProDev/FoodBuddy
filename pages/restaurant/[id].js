@@ -151,6 +151,22 @@ export default function Details(props) {
     // console.log(likeResponse);
   };
 
+  const followUser = async (e) => {
+    e.preventDefault();
+    const followUser = await fetch(`/api/follow_user`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        session: session,
+      }),
+    });
+
+    const followUserResponse = await followUser.json();
+    console.log("Response back DB", followUserResponse);
+  };
+
   const deleteReview = async (e, mealId) => {
     e.preventDefault();
     console.log("BEGIN DELTE IN BROWSER", mealId);
@@ -253,6 +269,13 @@ export default function Details(props) {
             <div className="" />
           </div>
         </section>
+
+        <button
+          className="flex items-center justify-center  right-1 top-1 px-4 font-medium h-8 bg-blue-700 hover:bg-blue-800 text-white rounded w-38"
+          onClick={(e) => followUser(e)}
+        >
+          Post Review
+        </button>
 
         <section className="w-11/12 max-w-4xl mx-auto px-4 sm:px-16 pb-4 bg-gray-100 pt-2 mt-4">
           <h2 className="font-semibold text-xl md:text-l ">
