@@ -4,6 +4,7 @@ import { Transition } from "@headlessui/react";
 import { signIn, signOut, useSession, getSession } from "next-auth/react";
 import Link from "next/link";
 import Image from "next/image";
+import { getCsrfToken } from "next-auth/react";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,6 +15,13 @@ export default function Header() {
   };
   const logoutWithGoogle = () => {
     signOut("google");
+  };
+
+  const loginDemo = () => {
+    signIn("domain-login", {
+      username: "Demo",
+      password: "Demo",
+    });
   };
 
   return (
@@ -50,6 +58,21 @@ export default function Header() {
                 Sign in
                 {session && `as ${session.user.name}`}
               </button>
+              <button
+                className="hidden lg:inline-flex col-span-1 cursor-pointer text-md rounded-md py-2 px-3 text-white border-blue-500 border hover:text-blue-500 bg-blue-500 hover:bg-white hover:border hover:border-blue-500 "
+                onClick={loginDemo}
+              >
+                Demo Login
+                {session && `as ${session.user.name}`}
+              </button>
+              {/* <Link href="/api/auth/credentials-signin">
+                <a href="">
+                  <button className="hidden lg:inline-flex col-span-1 cursor-pointer text-md rounded-md py-2 px-3 text-white border-blue-500 border hover:text-blue-500 bg-blue-500 hover:bg-white hover:border hover:border-blue-500 ">
+                    Demo Login
+                    {session && `as ${session.user.name}`}
+                  </button>
+                </a>
+              </Link> */}
               {/* <p
               className="hidden lg:inline-flex col-span-1 cursor-pointer text-md rounded-2xl py-2"
               onClick={logoutWithGoogle}
@@ -139,12 +162,13 @@ export default function Header() {
                       Sign In
                       {session && `as ${session.user.name}`}
                     </button>
-                    {/* <p
-                    className=" text-xl font-bold  cursor-pointer  rounded-2xl py-2"
-                    onClick={logoutWithGoogle}
-                  >
-                    Sign Out
-                  </p> */}
+                    <button
+                      className="font-bold cursor-pointer text-xl rounded-2xl py-2"
+                      onClick={loginDemo}
+                    >
+                      Demo Login
+                      {session && `as ${session.user.name}`}
+                    </button>
                   </div>
                 )}
                 {session && (

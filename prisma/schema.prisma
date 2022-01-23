@@ -46,10 +46,11 @@ model Session {
 
 model User {
   id            Int    @id @default(autoincrement())
-  name          String?
+  name          String?   @unique
   email         String?   @unique
   emailVerified DateTime?
   image         String?
+  password      String?
   accounts      Account[]
   sessions      Session[]
   users_meals_review   Meal[]
@@ -75,7 +76,7 @@ model Meal {
   created_at    DateTime    @default(now())
   updated_at    DateTime    @updatedAt
   user_name     String
-  user_image    String      
+  user_image    String?      
   user_id       Int
   user          User        @relation(fields: [user_id], references:[id])
   rest_id       String      

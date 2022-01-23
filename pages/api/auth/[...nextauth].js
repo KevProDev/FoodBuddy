@@ -1,8 +1,10 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import EmailProvider from "next-auth/providers/email";
+import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import prisma from "../../../lib/prisma";
-import { redirect } from "next/dist/server/api-utils";
+import { server } from "../../../config";
 
 // const prisma = new PrismaClient();
 
@@ -20,6 +22,44 @@ export default NextAuth({
         },
       },
     }),
+    EmailProvider({
+      server: {
+        host: process.env.EMAIL_SERVER_HOST,
+        port: process.env.EMAIL_SERVER_PORT,
+        auth: {
+          user: process.env.EMAIL_SERVER_USER,
+          pass: process.env.EMAIL_SERVER_PASSWORD,
+        },
+      },
+    }),
+    CredentialsProvider({
+      id: "domain-login",
+      name: "Meallocker Account",
+      async authorize(credentials, req) {
+        const res = await fetch(`${server}/api/account/signIn`, {
+          method: "POST",
+          body: JSON.stringify(credentials),
+          headers: { "Content-Type": "application/json" },
+        });
+        const user = await res.json();
+
+        // If no error and we have user data, return it
+        if (res.ok && user) {
+          return user;
+        }
+        // Return null if user data could not be retrieved
+        return null;
+      },
+      credentials: {
+        username: {
+          label: "Username",
+          type: "text ",
+          placeholder: "jsmith",
+          value: "Demo",
+        },
+        password: { label: "Password", type: "password", value: "Demo" },
+      },
+    }),
   ],
   adapter: PrismaAdapter(prisma),
   secret: process.env.SECRET,
@@ -28,9 +68,6 @@ export default NextAuth({
     // encryption: true,
     secret: process.env.SECRET,
   },
-  // cookie: {
-  //   secure: process.env.NODE_ENV && process.env.NODE_ENV === "production",
-  // },
   session: {
     // Use JSON Web Tokens for session instead of database sessions.
     jwt: true,
@@ -40,35 +77,24 @@ export default NextAuth({
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   callbacks: {
-    // async jwt(token, account) {
-    //   if (account?.accessToken) {
-    //     token.accessToken = account.accessToken;
-    //   }
-    //   return token;
-    // },
-    // redirect: async (url, _baseUrl) => {
-    //   if (url === "/") {
-    //     return Promise.resolve("/");
-    //   }
-    // },
     async jwt({ token, user, account, profile, isNewUser }) {
       // first time jwt callback is run, user object is available
       if (account) {
         token.accessToken = account.access_token;
         token.id = user.id;
-        // console.log("jwt", token);
+      }
+
+      if (user) {
+        token.id = user.id;
       }
       return token;
     },
     async session({ session, user, token }) {
-      session.accessToken = token.accessToken;
-      session.id = token.id;
-      // console.log("session", session);
-      return session;
+      if (token) {
+        // session.accessToken = token.accessToken;
+        session.id = token.id;
+        return session;
+      }
     },
-    // session: async (session, user) => {
-    //   session.id = user.id;
-    //   return Promise.resolve(session);
-    // },
   },
 });

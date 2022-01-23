@@ -3,20 +3,20 @@ import prisma from "../../lib/prisma";
 export default async function followUserHandle(req, res) {
   try {
     if (req.method === "POST") {
-      const userFromSession = req.body.session;
+      const userFromBrowers = req.body.session;
 
-      console.log("DB User", userFromSession);
+      console.log("DB User", userFromBrowers);
 
-      const userFromDb = await prisma.user.findUnique({
-        where: { id: userFromSession.id },
-      });
+      // const userFromDb = await prisma.user.findUnique({
+      //   where: { id: userFromBrowers.id },
+      // });
 
-      console.log(userFromDb);
+      // console.log(userFromDb);
 
       const followUser = await prisma.following.create({
         data: {
-          following_to_id: "following user",
-          user_id: userFromSession.id,
+          user_id: userFromBrowers.id,
+          following_to_id: userFromBrowers.otherUser.id,
         },
       });
 

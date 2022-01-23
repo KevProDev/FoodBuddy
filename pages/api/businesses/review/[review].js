@@ -56,10 +56,8 @@ export default async function handler(req, res) {
       // console.log(req.body);
 
       const userFromDb = await prisma.user.findUnique({
-        where: { email: session.user.email },
+        where: { id: session.id },
       });
-
-      // console.log(userFromDb);
 
       // Allow us to post the review on the meal
 
@@ -70,7 +68,6 @@ export default async function handler(req, res) {
           user_id: userFromDb.id,
           rest_id: restaurant_id.toString(),
           user_name: userFromDb.name.toString(),
-          user_image: userFromDb.image.toString(),
         },
       });
 

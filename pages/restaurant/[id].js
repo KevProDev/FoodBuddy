@@ -13,6 +13,7 @@ import Image from "next/image";
 import { signIn, signOut, useSession, getSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
+import Link from "next/link";
 
 /////////////////////////
 
@@ -91,7 +92,13 @@ export default function Details(props) {
     enabled: !!id,
   });
 
-  // console.log("SWR", { isLoading, isSuccess, isFetching, data, isRefetching });
+  console.log("useQuery", {
+    isLoading,
+    isSuccess,
+    isFetching,
+    data,
+    isRefetching,
+  });
 
   const newSubmitData = {
     ...business,
@@ -151,21 +158,21 @@ export default function Details(props) {
     // console.log(likeResponse);
   };
 
-  const followUser = async (e) => {
-    e.preventDefault();
-    const followUser = await fetch(`/api/follow_user`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        session: session,
-      }),
-    });
+  // const followUser = async (e, review) => {
+  //   e.preventDefault();
+  //   const followUser = await fetch(`/api/follow_user`, {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({
+  //       session: session,
+  //     }),
+  //   });
 
-    const followUserResponse = await followUser.json();
-    console.log("Response back DB", followUserResponse);
-  };
+  //   const followUserResponse = await followUser.json();
+  //   console.log("Response back DB", followUserResponse);
+  // };
 
   const deleteReview = async (e, mealId) => {
     e.preventDefault();
@@ -230,8 +237,6 @@ export default function Details(props) {
     );
   };
 
-  // console.log("Details Function Finish");
-
   return (
     <div>
       {/* {console.log("Detail HTML BEGIN")} */}
@@ -247,7 +252,7 @@ export default function Details(props) {
           priority="true"
         />
       </div>
-      <main className=" ">
+      <main className="">
         <section className="w-11/12 max-w-4xl mx-auto px-4 sm:px-16 pb-4 bg-gray-100 pt-4 flex flex-col md:flex-row gap-2 md:gap-32  lg:gap-24 ">
           <div>
             <div className="flex flex-col justify-between">
@@ -272,9 +277,9 @@ export default function Details(props) {
 
         <button
           className="flex items-center justify-center  right-1 top-1 px-4 font-medium h-8 bg-blue-700 hover:bg-blue-800 text-white rounded w-38"
-          onClick={(e) => followUser(e)}
+          onClick={(e) => followUser(e, review)}
         >
-          Post Review
+          Post Review Test
         </button>
 
         <section className="w-11/12 max-w-4xl mx-auto px-4 sm:px-16 pb-4 bg-gray-100 pt-2 mt-4">
@@ -348,13 +353,21 @@ export default function Details(props) {
                     <div className="flex pb-2 justify-between">
                       <div className="flex">
                         <img
-                          src={review.user_image}
+                          src={
+                            review.user_image
+                              ? review.user_image
+                              : "/favicon.ico"
+                          }
                           alt="profile of user"
                           className=" w-12 h-12 rounded-full"
                         />
-                        <span className="text-sm pl-4 font-bold ">
-                          {review.user_name}
-                        </span>
+                        <Link href={`/profile/${review.user_name}`}>
+                          <a href="">
+                            <span className="text-sm pl-4 font-bold ">
+                              {review.user_name}
+                            </span>
+                          </a>
+                        </Link>
                       </div>
                       {!session && <div></div>}
                     </div>
