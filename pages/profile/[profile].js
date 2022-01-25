@@ -13,6 +13,18 @@ export default function Profile(props) {
 
   console.log("Profile", props);
 
+  const followUser = async (e, userToFollow) => {
+    console.log("userToFollow client", userToFollow);
+    e.preventDefault();
+    await fetch(`/api/account/followUser`, {
+      method: "POST",
+      body: JSON.stringify(userToFollow),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  };
+
   const fetcher = async (userName) => {
     const profileData = await fetch(`${server}/api/account/${userName}`, {
       method: "GET",
@@ -56,40 +68,44 @@ export default function Profile(props) {
       </Head>
       <div className="h-20 w-full bg-blue-500 mb-4"></div>
 
-      <main className=" max-w-7xl mx-auto px-8">
-        <div className="w-full md:w-1/3 md:mx-2">
-          <div className="grid grid-cols-4 pb-4 ">
-            <h1 className=" col-span-3 text-gray-900 font-bold text-3xl leading-8 my-auto">
-              {isSuccess && data && data.name}
-            </h1>
-            <button className=" col-span-1  py-2 rounded-full bg-blue-500 text-white">
-              Follow
-            </button>
-          </div>
-          <div className="bg-white p-3 border-t-4 border-blue-500">
-            <div className="image overflow-hidden grid grid-cols-4">
-              <img
-                className="h-auto w-full mx-auto col-span-1 pr-8 md:pr-8"
-                src="/vercel.svg"
-                alt=""
-              />
-              <div className="flex col-span-3 justify-between">
-                <div className="flex flex-col">
-                  <span className="font-bold">7</span>
-                  <span>Meals</span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="font-bold">16</span>
-                  <span>Followers</span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="font-bold">2</span>
-                  <span>Following</span>
+      {isSuccess && data && (
+        <main className=" max-w-7xl mx-auto px-8">
+          <div className="w-full md:w-1/3 md:mx-2">
+            <div className="grid grid-cols-4 pb-4 ">
+              <h1 className=" col-span-3 text-gray-900 font-bold text-3xl leading-8 my-auto">
+                {data.name}
+              </h1>
+              <button
+                className=" col-span-1  py-2 rounded-full bg-blue-500 text-white"
+                onClick={(e) => followUser(e, data.id)}
+              >
+                Follow
+              </button>
+            </div>
+            <div className="bg-white p-3 border-t-4 border-blue-500">
+              <div className="image overflow-hidden grid grid-cols-4">
+                <img
+                  className="h-auto w-full mx-auto col-span-1 pr-8 md:pr-8"
+                  src="/vercel.svg"
+                  alt=""
+                />
+                <div className="flex col-span-3 justify-between">
+                  <div className="flex flex-col">
+                    <span className="font-bold">7</span>
+                    <span>Meals</span>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="font-bold">16</span>
+                    <span>Followers</span>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="font-bold">2</span>
+                    <span>Following</span>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {/* <h3 className="text-gray-600 font-lg text-semibold leading-6">
+              {/* <h3 className="text-gray-600 font-lg text-semibold leading-6">
               Owner at Her Company Inc.
             </h3>
             <p className="text-sm text-gray-500 hover:text-gray-600 leading-6">
@@ -111,11 +127,11 @@ export default function Profile(props) {
                 <span className="ml-auto">Nov 07, 2016</span>
               </li>
             </ul> */}
-          </div>
+            </div>
 
-          <div className="my-4"></div>
+            <div className="my-4"></div>
 
-          {/* <div className="bg-white p-3 hover:shadow">
+            {/* <div className="bg-white p-3 hover:shadow">
             <div className="flex items-center space-x-3 font-semibold text-gray-900 text-xl leading-8">
               <span className="text-green-500">
                 <svg
@@ -142,8 +158,9 @@ export default function Profile(props) {
               <div className="text-center my-2"></div>
             </div>
           </div> */}
-        </div>
-      </main>
+          </div>
+        </main>
+      )}
     </div>
   );
 }

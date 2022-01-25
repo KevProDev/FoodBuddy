@@ -1,29 +1,32 @@
 import prisma from "../../../lib/prisma";
+import { getSession } from "next-auth/react";
 
 export default async function followUserHandler(req, res) {
   try {
     if (req.method === "POST") {
-      const userFromBrowers = req.body.session;
+      const session = await getSession({ req });
 
-      console.log("DB User", userFromBrowers);
+      const userFromDb = await prisma.user.findUnique({
+        where: { id: session.id },
+      });
 
-      // const userFromDb = await prisma.user.findUnique({
-      //   where: { id: userFromBrowers.id },
-      // });
+      console.log("userFromDb", userFromDb);
 
-      // console.log(userFromDb);
+      const userFromBrowers = req.body;
 
-      const followUser = await prisma.following.create({
+      console.log("Follow User", userFromBrowers);
+
+      await prisma.following.create({
         data: {
-          user_id: userFromBrowers.id,
-          following_to_id: userFromBrowers.otherUser.id,
+          user_id: userFromDb.id,
+          following_to_id: userFromBrowers,
         },
       });
 
-      // console.log(getFollow);
+      // console.log("getFollow", getFollow);
       return res.status(200).json({ status: "Success" });
     }
-  } catch {
+  } catch (error) {
     res.status(500).json({ message: `Following User error - ${error}` });
   }
 }
