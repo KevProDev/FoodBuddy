@@ -275,12 +275,12 @@ export default function Details(props) {
           </div>
         </section>
 
-        <button
+        {/* <button
           className="flex items-center justify-center  right-1 top-1 px-4 font-medium h-8 bg-blue-700 hover:bg-blue-800 text-white rounded w-38"
           onClick={(e) => followUser(e, review)}
         >
           Post Review Test
-        </button>
+        </button> */}
 
         <section className="w-11/12 max-w-4xl mx-auto px-4 sm:px-16 pb-4 bg-gray-100 pt-2 mt-4">
           <h2 className="font-semibold text-xl md:text-l ">
