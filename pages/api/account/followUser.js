@@ -5,26 +5,66 @@ export default async function followUserHandler(req, res) {
   try {
     if (req.method === "POST") {
       const session = await getSession({ req });
-
-      const userFromDb = await prisma.user.findUnique({
+      const userTryingToFollow = await prisma.user.findUnique({
         where: { id: session.id },
       });
-
-      console.log("userFromDb", userFromDb);
-
       const userFromBrowers = req.body;
 
-      console.log("Follow User", userFromBrowers);
-
-      await prisma.following.create({
-        data: {
-          user_id: userFromDb.id,
-          following_to_id: userFromBrowers,
+      const userToFollow = await prisma.user.findUnique({
+        where: {
+          id: userFromBrowers,
+        },
+        include: {
+          following: true,
         },
       });
 
+      // await prisma.following.create({
+      //   data: {
+      //     user_id: userTryingToFollow.id,
+      //     following_to_id: userFromBrowers,
+      //   },
+      // });
+
+      // const isFollowing = await prisma.user.findUnique({
+      //   where: {
+      //     id: session.id,
+      //   },
+      //   select: {
+      //     following: {
+      //       // where: {
+      //       //   following_to_id: userFromBrowers,
+      //       // },
+      //       select: {
+      //         following_to_id: true,
+      //       },
+      //     },
+      //   },
+      // });
+
+      // const areYouFollowingUser = isFollowing[0].following[0];
+
+      console.log("userTryingToFollow", userTryingToFollow);
+
+      console.log("Follow User", userFromBrowers);
+
+      console.log("userToFollow", userToFollow);
+
+      // if (!areYouFollowingUser) {
+      //   await prisma.following.create({
+      //     data: {
+      //       user_id: userTryingToFollow.id,
+      //       following_to_id: userFromBrowers,
+      //     },
+      //   });
+
+      //   // console.log("getFollow", getFollow);
+      //   return res.status(200).json(isFollowing);
+      // }
+
       // console.log("getFollow", getFollow);
-      return res.status(200).json({ status: "Success" });
+      return res.status(200).json(userToFollow);
+      return res.json({ result: "fail" });
     }
   } catch (error) {
     res.status(500).json({ message: `Following User error - ${error}` });

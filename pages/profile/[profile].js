@@ -16,13 +16,16 @@ export default function Profile(props) {
   const followUser = async (e, userToFollow) => {
     console.log("userToFollow client", userToFollow);
     e.preventDefault();
-    await fetch(`/api/account/followUser`, {
+    const followUser = await fetch(`/api/account/followUser`, {
       method: "POST",
       body: JSON.stringify(userToFollow),
       headers: {
         "Content-Type": "application/json",
       },
     });
+
+    const response = await followUser.json();
+    console.log("response", response);
   };
 
   const fetcher = async (userName) => {

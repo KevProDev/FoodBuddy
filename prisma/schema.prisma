@@ -121,7 +121,7 @@ model Favorite_Meal {
 
 model Follower {
   id           Int        @id @default(autoincrement())
-  follower_by_id      Int
+  follower_by_id      Int       @unique
   follower            User @relation(fields: [follower_by_id],references: [id])
   user_id             Int
 
@@ -134,7 +134,7 @@ model Follower {
 
 model Following {
   id                  Int        @id @default(autoincrement())  
-  following_to_id     Int
+  following_to_id     Int        @unique
   following           User @relation(fields: [following_to_id],references: [id])
   user_id             Int
 
