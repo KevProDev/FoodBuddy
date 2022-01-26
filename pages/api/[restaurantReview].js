@@ -35,6 +35,7 @@ export default async function (req, res) {
           title: title,
           description: description,
           user_id: userFromDb.id.toString(),
+          user_image: userFromDb.image.toString(),
           rest_id: rest_id.toString(),
           user_name: userFromDb.name.toString(),
         },

@@ -89,8 +89,8 @@ export default function Profile(props) {
               <div className="image overflow-hidden grid grid-cols-4">
                 <img
                   className="h-auto w-full mx-auto col-span-1 pr-8 md:pr-8"
-                  src="/vercel.svg"
-                  alt=""
+                  src={data.image ? data.image : "/favicon.ico"}
+                  alt="profile of user"
                 />
                 <div className="flex col-span-3 justify-between">
                   <div className="flex flex-col">

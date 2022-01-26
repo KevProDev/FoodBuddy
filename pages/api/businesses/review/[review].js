@@ -66,6 +66,7 @@ export default async function handler(req, res) {
           title: title,
           description: description,
           user_id: userFromDb.id,
+          user_image: userFromDb.image.toString(),
           rest_id: restaurant_id.toString(),
           user_name: userFromDb.name.toString(),
         },
