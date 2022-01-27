@@ -3,7 +3,7 @@ import { server } from "../../config/index";
 import { getSession } from "next-auth/react";
 import Image from "next/image";
 import { useQuery } from "react-query";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
 export default function Profile(props) {
@@ -11,10 +11,13 @@ export default function Profile(props) {
   const router = useRouter();
   const userName = router.query.profile ? router.query.profile : null;
 
-  console.log("Profile", props);
+  const userSession = props.session;
+  const [follow, setFollow] = useState(false);
+
+  // console.log("Profile", props);
 
   const followUser = async (e, userToFollow) => {
-    console.log("userToFollow client", userToFollow);
+    // console.log("userToFollow client", userToFollow);
     e.preventDefault();
     const followUser = await fetch(`/api/account/followUser`, {
       method: "POST",
@@ -25,7 +28,24 @@ export default function Profile(props) {
     });
 
     const response = await followUser.json();
-    console.log("response", response);
+    setFollow(true);
+    // console.log("response", response);
+  };
+
+  const unfollowUser = async (e, userToUnfollow) => {
+    // console.log("userToUnfollow client", userToUnfollow);
+    e.preventDefault();
+    const followUser = await fetch(`/api/account/unfollowUser`, {
+      method: "POST",
+      body: JSON.stringify(userToUnfollow),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const response = await followUser.json();
+    setFollow(false);
+    // console.log("response", response);
   };
 
   const fetcher = async (userName) => {
@@ -55,14 +75,32 @@ export default function Profile(props) {
     enabled: true,
   });
 
+  const checkFollowStatus = async () => {
+    const followStatus = await data?.following.find(
+      (x) => x.user_id === userSession.id
+    );
+    // console.log("followStatus", followStatus);
+    if (!followStatus) {
+      // console.log("set to false");
+      setFollow(false);
+    } else {
+      // console.log("set to true");
+      setFollow(true);
+    }
+  };
+
+  useEffect(() => {
+    checkFollowStatus();
+  }, [data]);
+
   // console.log("DATA", data);
-  console.log("Query", {
-    isLoading,
-    isSuccess,
-    isFetching,
-    data,
-    isRefetching,
-  });
+  // console.log("Query", {
+  //   isLoading,
+  //   isSuccess,
+  //   isFetching,
+  //   data,
+  //   isRefetching,
+  // });
 
   return (
     <div>
@@ -73,17 +111,36 @@ export default function Profile(props) {
 
       {isSuccess && data && (
         <main className=" max-w-7xl mx-auto px-8">
-          <div className="w-full md:w-1/3 md:mx-2">
+          <div className="w-full md:w-1/2 md:mx-2">
             <div className="grid grid-cols-4 pb-4 ">
-              <h1 className=" col-span-3 text-gray-900 font-bold text-3xl leading-8 my-auto">
+              <h1 className=" col-span-3 text-gray-900 font-bold  text-md sm:text-2xl md:text-lg leading-8 my-auto">
                 {data.name}
               </h1>
-              <button
+              {follow ? (
+                <>
+                  <button
+                    className=" col-span-1  py-2 rounded-full bg-blue-500 text-white"
+                    onClick={(e) => unfollowUser(e, data.id)}
+                  >
+                    Following
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button
+                    className=" col-span-1  py-2 rounded-full bg-blue-500 text-white"
+                    onClick={(e) => followUser(e, data.id)}
+                  >
+                    Follow
+                  </button>
+                </>
+              )}
+              {/* <button
                 className=" col-span-1  py-2 rounded-full bg-blue-500 text-white"
                 onClick={(e) => followUser(e, data.id)}
               >
                 Follow
-              </button>
+              </button> */}
             </div>
             <div className="bg-white p-3 border-t-4 border-blue-500">
               <div className="image overflow-hidden grid grid-cols-4">
