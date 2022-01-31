@@ -29,6 +29,7 @@ export default function Profile(props) {
 
     const response = await followUser.json();
     setFollow(true);
+    refetch();
     // console.log("response", response);
   };
 
@@ -45,6 +46,7 @@ export default function Profile(props) {
 
     const response = await followUser.json();
     setFollow(false);
+    refetch();
     // console.log("response", response);
   };
 
@@ -76,10 +78,10 @@ export default function Profile(props) {
   });
 
   const checkFollowStatus = async () => {
-    const followStatus = await data?.following.find(
+    const followStatus = await data?.followers?.find(
       (x) => x.user_id === userSession.id
     );
-    // console.log("followStatus", followStatus);
+    console.log("followStatus", followStatus);
     if (!followStatus) {
       // console.log("set to false");
       setFollow(false);
@@ -94,13 +96,13 @@ export default function Profile(props) {
   }, [data]);
 
   // console.log("DATA", data);
-  // console.log("Query", {
-  //   isLoading,
-  //   isSuccess,
-  //   isFetching,
-  //   data,
-  //   isRefetching,
-  // });
+  console.log("Query", {
+    isLoading,
+    isSuccess,
+    isFetching,
+    data,
+    isRefetching,
+  });
 
   return (
     <div>
@@ -119,7 +121,7 @@ export default function Profile(props) {
               {follow ? (
                 <>
                   <button
-                    className=" col-span-1  py-2 rounded-full bg-blue-500 text-white"
+                    className=" col-span-1  py-2 rounded-full bg-blue-500 text-white outline-none"
                     onClick={(e) => unfollowUser(e, data.id)}
                   >
                     Following
@@ -128,7 +130,7 @@ export default function Profile(props) {
               ) : (
                 <>
                   <button
-                    className=" col-span-1  py-2 rounded-full bg-blue-500 text-white"
+                    className=" col-span-1  py-2 rounded-full bg-blue-500 text-white outline-none"
                     onClick={(e) => followUser(e, data.id)}
                   >
                     Follow
@@ -151,16 +153,21 @@ export default function Profile(props) {
                 />
                 <div className="flex col-span-3 justify-between">
                   <div className="flex flex-col">
-                    <span className="font-bold">7</span>
+                    <span className="font-bold">3</span>
                     <span>Meals</span>
                   </div>
                   <div className="flex flex-col">
-                    <span className="font-bold">16</span>
-                    <span>Followers</span>
+                    <span className="font-bold">
+                      {data.following ? data.following.length : 0}
+                    </span>
+                    <span>Following</span>
                   </div>
                   <div className="flex flex-col">
-                    <span className="font-bold">2</span>
-                    <span>Following</span>
+                    <span className="font-bold">
+                      {data.followers ? data.followers.length : 0}
+                    </span>
+
+                    <span>Followers</span>
                   </div>
                 </div>
               </div>

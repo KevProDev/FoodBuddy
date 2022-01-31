@@ -6,6 +6,10 @@ export default async function handler(req, res) {
     const session = await getSession({ req });
     const mealReviewUser = req.query.profile;
 
+    // const meal = await prisma.user.deleteMany({});
+    // const meal2 = await prisma.account.deleteMany({});
+    // const meal2 = await prisma.user.deleteMany({});
+
     // const session = await getSession({ req });
 
     // console.log("Sefekwlnfssion", session);
@@ -14,10 +18,11 @@ export default async function handler(req, res) {
       where: { name: mealReviewUser },
       include: {
         following: true,
+        followers: true,
       },
     });
 
-    const isFollowing = await userFromDb.following.find(
+    const isFollowing = await userFromDb.followers.find(
       (x) => x.user_id === session.id
     );
 

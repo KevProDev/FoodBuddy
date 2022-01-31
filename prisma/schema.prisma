@@ -119,24 +119,12 @@ model Favorite_Meal {
   @@index([user_id])
 }
 
-model Follower {
-  id           Int        @id @default(autoincrement())
-  follower_by_id      Int       @unique
-  follower            User @relation(fields: [follower_by_id],references: [id])
-  user_id             Int
-
-
-   
-  created_at          DateTime  @default(now())
-  updated_at          DateTime  @updatedAt
-
-}
-
 model Following {
-  id                  Int        @id @default(autoincrement())  
-  following_to_id     Int        @unique
-  following           User @relation(fields: [following_to_id],references: [id])
+  id           Int        @id @default(autoincrement())
+  following_to_id      Int       @unique
+  following            User @relation(fields: [following_to_id],references: [id])
   user_id             Int
+
 
    
   created_at          DateTime  @default(now())
@@ -144,3 +132,14 @@ model Following {
 
 }
 
+model Follower {
+  id                  Int        @id @default(autoincrement())  
+  follower_to_id     Int        @unique
+  followers           User @relation(fields: [follower_to_id],references: [id])
+  user_id             Int
+
+   
+  created_at          DateTime  @default(now())
+  updated_at          DateTime  @updatedAt
+
+}

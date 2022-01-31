@@ -3,6 +3,9 @@ import { getSession } from "next-auth/react";
 
 export default async function followUserHandler(req, res) {
   try {
+    // const meals = await prisma.user.deleteMany({});
+    // console.log(meals);
+
     if (req.method === "POST") {
       const session = await getSession({ req });
       const sessionUser = await prisma.user.findUnique({
@@ -16,19 +19,28 @@ export default async function followUserHandler(req, res) {
         },
         include: {
           following: true,
+          followers: true,
         },
       });
 
-      const checkIsFollowing = await userToFollow.following.find(
-        (X) => X.following_to_id === profileUser
+      const isFollowing = await userToFollow.followers.find(
+        (X) => X.user_id === sessionUser.id
       );
 
-      if (!checkIsFollowing) {
-        console.log("is not Following so i follow");
-        await prisma.following.create({
+      if (!isFollowing) {
+        console.log("is not Following so i follow", isFollowing);
+
+        await prisma.follower.create({
           data: {
             user_id: sessionUser.id,
-            following_to_id: profileUser,
+            follower_to_id: profileUser,
+          },
+        });
+
+        await prisma.following.create({
+          data: {
+            user_id: profileUser,
+            following_to_id: sessionUser.id,
           },
         });
 
@@ -41,7 +53,7 @@ export default async function followUserHandler(req, res) {
 
       // console.log("userToFollow", userToFollow);
 
-      // console.log("checkIsFollowing", checkIsFollowing);
+      // console.log("isFollowing", isFollowing);
 
       return res.status(200).json(userToFollow);
     }
