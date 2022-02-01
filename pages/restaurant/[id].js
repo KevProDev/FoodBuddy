@@ -4,10 +4,10 @@ import Head from "next/head";
 import { useAppContext } from "../../context/store";
 import {
   HeartIcon,
-  BookmarkIcon,
+  BookmarkIcon as BookmarkIconOutline,
   ThumbUpIcon as ThumbUpIconOutline,
 } from "@heroicons/react/outline";
-import { XCircleIcon, ThumbUpIcon } from "@heroicons/react/solid";
+import { XCircleIcon, ThumbUpIcon, BookmarkIcon } from "@heroicons/react/solid";
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { signIn, signOut, useSession, getSession } from "next-auth/react";
@@ -61,6 +61,11 @@ export default function Details(props) {
   const { data: session } = useSession();
   const router = useRouter();
   const id = router.query.id ? router.query.id : null;
+  const [like, setLike] = useState();
+
+  // const likedMeal = () => {
+  //   if (like && )
+  // }
 
   const fetcher = async (id) => {
     const getRestarantReviews = await fetch(
@@ -124,9 +129,9 @@ export default function Details(props) {
 
   const saveMeal = async (e, mealId) => {
     e.preventDefault();
-    console.log("works");
+    console.log("works from the broswer");
     console.log(mealId);
-    const saveMealToDb = await fetch(`/api/businesses/save`, {
+    const saveMealToDb = await fetch(`/api/account/favMeal`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -136,7 +141,29 @@ export default function Details(props) {
         session: session,
       }),
     });
-    const saveResponse = await saveMealToDb.json();
+    await saveMealToDb.json().then(() => {
+      refetch();
+    });
+    // console.log(saveResponse);
+  };
+
+  const removeSaveMeal = async (e, mealId) => {
+    e.preventDefault();
+    console.log("remove from the database");
+    console.log(mealId);
+    const removeSaveMealToDb = await fetch(`/api/account/favMeal`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        meal_id: mealId,
+        session: session,
+      }),
+    });
+    await removeSaveMealToDb.json().then(() => {
+      refetch();
+    });
     // console.log(saveResponse);
   };
 
@@ -144,6 +171,7 @@ export default function Details(props) {
     e.preventDefault();
     console.log("works");
     console.log(mealId);
+
     const likeMealToDb = await fetch(`/api/businesses/like`, {
       method: "POST",
       headers: {
@@ -154,26 +182,35 @@ export default function Details(props) {
         session: session,
       }),
     });
-    const likeResponse = await likeMealToDb.json();
+
+    await likeMealToDb.json().then(() => {
+      refetch();
+    });
+
     // console.log(likeResponse);
   };
 
-  // const followUser = async (e, review) => {
+  // const unLikeMeal = async (e, mealId) => {
   //   e.preventDefault();
-  //   const followUser = await fetch(`/api/follow_user`, {
-  //     method: "POST",
+  //   console.log("works");
+  //   console.log(mealId);
+  //   const unLikeMealToDb = await fetch(`/api/businesses/like`, {
+  //     method: "DELETE",
   //     headers: {
   //       "Content-Type": "application/json",
   //     },
   //     body: JSON.stringify({
+  //       meal_id: mealId,
   //       session: session,
   //     }),
   //   });
 
-  //   const followUserResponse = await followUser.json();
-  //   console.log("Response back DB", followUserResponse);
-  // };
+  //   await unLikeMealToDb.json().then(() => {
+  //     refetch();
+  //   });
 
+  //   // console.log(likeResponse);
+  // };
   const deleteReview = async (e, mealId) => {
     e.preventDefault();
     console.log("BEGIN DELTE IN BROWSER", mealId);
@@ -258,9 +295,6 @@ export default function Details(props) {
             <div className="flex flex-col justify-between">
               <h1 className="text-xl font-bold md:text-l">{business.name}</h1>
               <p>{business.categories[0].title}</p>
-              {/* <div className="flex items-center justify-end">
-                  <HeartIcon className="h-5 cursor-pointer" />
-                </div> */}
             </div>
             <p>
               {business.location.address1}, {business.location.city}{" "}
@@ -274,13 +308,6 @@ export default function Details(props) {
             <div className="" />
           </div>
         </section>
-
-        {/* <button
-          className="flex items-center justify-center  right-1 top-1 px-4 font-medium h-8 bg-blue-700 hover:bg-blue-800 text-white rounded w-38"
-          onClick={(e) => followUser(e, review)}
-        >
-          Post Review Test
-        </button> */}
 
         <section className="w-11/12 max-w-4xl mx-auto px-4 sm:px-16 pb-4 bg-gray-100 pt-2 mt-4">
           <h2 className="font-semibold text-xl md:text-l ">
@@ -327,7 +354,6 @@ export default function Details(props) {
               </button>
             </form>
           )}
-          {/* <button onClick={likeRestaurant}> Like </button> */}
         </section>
 
         <section className="w-11/12 max-w-4xl mx-auto px-4 sm:px-16 pb-16 bg-gray-100 pt-2 mt-4">
@@ -382,10 +408,23 @@ export default function Details(props) {
                             className="h-5 cursor-pointer pr-2 text-blue-500"
                             onClick={(e) => likeMeal(e, review.id)}
                           />
-                          <BookmarkIcon
+                          {/* <ThumbUpIcon
                             className="h-5 cursor-pointer pr-2 text-blue-500"
-                            onClick={(e) => saveMeal(e, review.id)}
-                          />
+                            onClick={(e) => unLikeMeal(e, review.id)}
+                          /> */}
+                          {data.user.fav_meal.some(
+                            (meal) => meal.meal_id === review.id
+                          ) ? (
+                            <BookmarkIcon
+                              className="h-5 cursor-pointer pr-2 text-blue-500"
+                              onClick={(e) => removeSaveMeal(e, review.id)}
+                            />
+                          ) : (
+                            <BookmarkIconOutline
+                              className="h-5 cursor-pointer pr-2 text-blue-500"
+                              onClick={(e) => saveMeal(e, review.id)}
+                            />
+                          )}
 
                           {session?.id === review.user_id && (
                             <XCircleIcon
@@ -405,22 +444,6 @@ export default function Details(props) {
               })}
             </>
           )}
-
-          {/* <div className="border-gray-200 border-b-2 pb-4 mb-4">
-            <div className="flex items-center pb-2">
-              <UserCircleIcon className="h-5 cursor-pointer pr-2" />
-              <span className="text-sm">Kevin Johnson</span>
-            </div>
-            <div className="">
-              <h3 className="font-semibold">Spick Chicken Soup </h3>
-              <p>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                Dolores magnam minus animi debitis provident unde dolorem magni
-                eos hic aperiam, distinctio modi iste officia numquam sunt earum
-                quia maiores odit.
-              </p>
-            </div>
-          </div> */}
         </section>
       </main>
     </div>

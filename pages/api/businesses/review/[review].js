@@ -3,6 +3,7 @@ import prisma from "../../../../lib/prisma";
 
 export default async function handler(req, res) {
   const restaurant_id = req.query.review;
+  const session = await getSession({ req });
 
   try {
     if (req.method === "GET") {
@@ -16,6 +17,14 @@ export default async function handler(req, res) {
               created_at: "desc",
             },
           },
+        },
+      });
+      const user = await prisma.user.findUnique({
+        where: {
+          id: session.id,
+        },
+        include: {
+          fav_meal: true,
         },
       });
 
@@ -33,6 +42,7 @@ export default async function handler(req, res) {
 
         const data = {
           restaurantReviews: [],
+          user: user,
           Where: "the resturant is not stored but store id",
         };
 
@@ -41,6 +51,7 @@ export default async function handler(req, res) {
       }
       const data = {
         restaurantReviews: getRestaurant.users_meals_review,
+        user: user,
         Where: "the resturant is stored",
       };
       // res.setHeader("Cache-Control", "s-maxage=86400");

@@ -153,7 +153,9 @@ export default function Profile(props) {
                 />
                 <div className="flex col-span-3 justify-between">
                   <div className="flex flex-col">
-                    <span className="font-bold">3</span>
+                    <span className="font-bold">
+                      {data.fav_meal ? data.fav_meal.length : 0}
+                    </span>
                     <span>Meals</span>
                   </div>
                   <div className="flex flex-col">
