@@ -97,13 +97,21 @@ export default function Details(props) {
     enabled: !!id,
   });
 
-  console.log("useQuery", {
-    isLoading,
-    isSuccess,
-    isFetching,
-    data,
-    isRefetching,
-  });
+  // const [restaurantData, setRestaurant] = useState({});
+
+  // useEffect(() => {
+  //   setRestaurant(data);
+  // }, [data]);
+
+  // console.log("restaurantData", restaurantData);
+
+  // console.log("useQuery", {
+  //   isLoading,
+  //   isSuccess,
+  //   isFetching,
+  //   data,
+  //   isRefetching,
+  // });
 
   const newSubmitData = {
     ...business,
@@ -169,7 +177,7 @@ export default function Details(props) {
 
   const likeMeal = async (e, mealId) => {
     e.preventDefault();
-    console.log("works");
+    console.log("likeMeal Start");
     console.log(mealId);
 
     const likeMealToDb = await fetch(`/api/businesses/like`, {
@@ -179,38 +187,34 @@ export default function Details(props) {
       },
       body: JSON.stringify({
         meal_id: mealId,
-        session: session,
       }),
     });
 
     await likeMealToDb.json().then(() => {
       refetch();
     });
+  };
+
+  const unLikeMeal = async (e, mealId) => {
+    e.preventDefault();
+    console.log("works");
+    console.log(mealId);
+    const unLikeMealToDb = await fetch(`/api/businesses/like`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        meal_id: mealId,
+      }),
+    });
+
+    await unLikeMealToDb.json().then(() => {
+      refetch();
+    });
 
     // console.log(likeResponse);
   };
-
-  // const unLikeMeal = async (e, mealId) => {
-  //   e.preventDefault();
-  //   console.log("works");
-  //   console.log(mealId);
-  //   const unLikeMealToDb = await fetch(`/api/businesses/like`, {
-  //     method: "DELETE",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({
-  //       meal_id: mealId,
-  //       session: session,
-  //     }),
-  //   });
-
-  //   await unLikeMealToDb.json().then(() => {
-  //     refetch();
-  //   });
-
-  //   // console.log(likeResponse);
-  // };
   const deleteReview = async (e, mealId) => {
     e.preventDefault();
     console.log("BEGIN DELTE IN BROWSER", mealId);
@@ -404,14 +408,20 @@ export default function Details(props) {
                       </p>
                       {session && (
                         <div className="flex">
-                          <ThumbUpIconOutline
-                            className="h-5 cursor-pointer pr-2 text-blue-500"
-                            onClick={(e) => likeMeal(e, review.id)}
-                          />
-                          {/* <ThumbUpIcon
-                            className="h-5 cursor-pointer pr-2 text-blue-500"
-                            onClick={(e) => unLikeMeal(e, review.id)}
-                          /> */}
+                          {data.user.likes.some(
+                            (like) => like.meal_id === review.id
+                          ) ? (
+                            <ThumbUpIcon
+                              className="h-5 cursor-pointer pr-2 text-blue-500"
+                              onClick={(e) => unLikeMeal(e, review.id)}
+                            />
+                          ) : (
+                            <ThumbUpIconOutline
+                              className="h-5 cursor-pointer pr-2 text-blue-500"
+                              onClick={(e) => likeMeal(e, review.id)}
+                            />
+                          )}
+
                           {data.user.fav_meal.some(
                             (meal) => meal.meal_id === review.id
                           ) ? (

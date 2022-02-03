@@ -25,6 +25,7 @@ export default async function handler(req, res) {
         },
         include: {
           fav_meal: true,
+          likes: true,
         },
       });
 
@@ -34,9 +35,6 @@ export default async function handler(req, res) {
         await prisma.restaurant.create({
           data: {
             rest_id: restaurant_id,
-            // name: dataYelp.name,
-            // address: dataYelp.location.address1,
-            // city: dataYelp.location.city,
           },
         });
 
