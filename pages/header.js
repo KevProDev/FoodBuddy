@@ -94,20 +94,20 @@ export default function Header() {
             >
               {session.user.name}
             </p> */}
-              <button
-                className="hidden lg:inline-flex col-span-1 cursor-pointer text-md rounded-md py-2 px-3 text-white border-blue-500 border hover:text-blue-500 bg-blue-500 hover:bg-white hover:border hover:border-blue-500"
-                onClick={logoutWithGoogle}
-              >
-                Sign Out
-              </button>
-              {/* <Link href="/profile">
+              <Link href={`/profile/${session.user.name}`}>
                 <a
                   href=""
                   className=" font-bold hidden lg:inline-block py-2 px-2"
                 >
                   Profile
                 </a>
-              </Link> */}
+              </Link>
+              <button
+                className="hidden lg:inline-flex col-span-1 cursor-pointer text-md rounded-md py-2 px-3 text-white border-blue-500 border hover:text-blue-500 bg-blue-500 hover:bg-white hover:border hover:border-blue-500"
+                onClick={logoutWithGoogle}
+              >
+                Sign Out
+              </button>
             </div>
           )}
           <button

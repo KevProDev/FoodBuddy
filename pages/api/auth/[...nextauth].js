@@ -22,16 +22,16 @@ export default NextAuth({
         },
       },
     }),
-    EmailProvider({
-      server: {
-        host: process.env.EMAIL_SERVER_HOST,
-        port: process.env.EMAIL_SERVER_PORT,
-        auth: {
-          user: process.env.EMAIL_SERVER_USER,
-          pass: process.env.EMAIL_SERVER_PASSWORD,
-        },
-      },
-    }),
+    // EmailProvider({
+    //   server: {
+    //     host: process.env.EMAIL_SERVER_HOST,
+    //     port: process.env.EMAIL_SERVER_PORT,
+    //     auth: {
+    //       user: process.env.EMAIL_SERVER_USER,
+    //       pass: process.env.EMAIL_SERVER_PASSWORD,
+    //     },
+    //   },
+    // }),
     CredentialsProvider({
       id: "domain-login",
       name: "Meallocker Account",
@@ -51,13 +51,18 @@ export default NextAuth({
         return null;
       },
       credentials: {
+        email: {
+          label: "email",
+          type: "email",
+          placeholder: "jsmith@example.com",
+        },
         username: {
           label: "Username",
           type: "text ",
           placeholder: "jsmith",
-          value: "Demo",
+          // value: "Demo",
         },
-        password: { label: "Password", type: "password", value: "Demo" },
+        password: { label: "Password", type: "password" },
       },
     }),
   ],
@@ -79,9 +84,15 @@ export default NextAuth({
   callbacks: {
     async jwt({ token, user, account, profile, isNewUser }) {
       // first time jwt callback is run, user object is available
-      if (account) {
+      if (account && user) {
         token.accessToken = account.access_token;
         token.id = user.id;
+
+        // return {
+        //   ...token,
+        //   accessToken: user.data.token,
+        //   refreshToken: user.data.refreshToken,
+        // };
       }
 
       if (user) {
@@ -96,5 +107,8 @@ export default NextAuth({
         return session;
       }
     },
+  },
+  pages: {
+    signIn: "/login",
   },
 });

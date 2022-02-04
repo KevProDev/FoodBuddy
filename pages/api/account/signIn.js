@@ -7,9 +7,20 @@ export default async function signInHandler(req, res) {
 
       const user = await prisma.user.findUnique({
         where: {
-          name: credentials.username,
+          email: credentials.email,
         },
       });
+
+      if (!user) {
+        const createUser = await prisma.user.create({
+          data: {
+            email: credentials.email,
+            password: credentials.password,
+          },
+        });
+
+        return res.status(200).json(createUser);
+      }
 
       if (credentials.password === user.password) {
         return res.status(200).json(user);
