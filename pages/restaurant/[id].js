@@ -323,7 +323,7 @@ export default function Details(props) {
               href="/api/auth/signin/google"
               onClick={(e) => {
                 e.preventDefault();
-                signIn();
+                signIn("loginSignIn");
               }}
             >
               Sign in
