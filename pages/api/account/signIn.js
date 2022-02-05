@@ -17,6 +17,11 @@ export default async function signInHandler(req, res) {
             email: credentials.email,
             password: credentials.password,
           },
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
         });
 
         return res.status(200).json(createUser);

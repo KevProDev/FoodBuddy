@@ -65,6 +65,39 @@ export default NextAuth({
         password: { label: "Password", type: "password" },
       },
     }),
+    CredentialsProvider({
+      id: "create-account",
+      name: "Meallocker Account",
+      async authorize(credentials, req) {
+        const res = await fetch(`${server}/api/account/createUser`, {
+          method: "POST",
+          body: JSON.stringify(credentials),
+          headers: { "Content-Type": "application/json" },
+        });
+        const user = await res.json();
+
+        // If no error and we have user data, return it
+        if (res.ok && user) {
+          return user;
+        }
+        // Return null if user data could not be retrieved
+        return null;
+      },
+      credentials: {
+        email: {
+          label: "email",
+          type: "email",
+          placeholder: "jsmith@example.com",
+        },
+        name: {
+          label: "name",
+          type: "text ",
+          placeholder: "jsmith",
+          // value: "Demo",
+        },
+        password: { label: "Password", type: "password" },
+      },
+    }),
   ],
   adapter: PrismaAdapter(prisma),
   secret: process.env.SECRET,
@@ -109,6 +142,6 @@ export default NextAuth({
     },
   },
   pages: {
-    signIn: "/login",
+    signIn: "/loginSignIn",
   },
 });

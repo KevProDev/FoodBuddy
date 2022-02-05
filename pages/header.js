@@ -5,10 +5,12 @@ import { signIn, signOut, useSession, getSession } from "next-auth/react";
 import Link from "next/link";
 import Image from "next/image";
 import { getCsrfToken } from "next-auth/react";
+import { useRouter } from "next/router";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const { data: session } = useSession();
+  const { asPath } = useRouter();
 
   const loginWithGoogle = () => {
     signIn("google");
@@ -24,8 +26,17 @@ export default function Header() {
     });
   };
 
+  const isLoginPage = () => {
+    if (asPath === "/loginSignIn") {
+      return `hidden`;
+    }
+    if (!asPath) {
+      return "";
+    }
+  };
+
   return (
-    <header className="bg-white sticky top-0 z-50">
+    <header className={`bg-white sticky top-0 z-50 ${isLoginPage()}`}>
       <nav className="max-w-7xl mx-auto grid grid-cols-2 py-3 px-5 md:px-10 bg-white lg:grid-cols-5">
         {/* Left */}
         <div className="relative flex items-center h-10 cursor-pointer my-auto col-span-1">

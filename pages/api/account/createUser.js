@@ -7,10 +7,18 @@ export default async function createUserHandler(req, res) {
 
       const createUser = await prisma.user.create({
         data: {
-          name: credentials.username,
+          name: credentials.name,
           password: credentials.password,
+          email: credentials.email,
         },
+        // select: {
+        //   id: true,
+        //   name: true,
+        //   email: true,
+        // },
       });
+
+      console.log("createUser", createUser);
       return res.status(200).json(createUser);
     }
   } catch (error) {
