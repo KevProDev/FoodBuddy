@@ -28,7 +28,7 @@ export function AppState({ children }) {
     try {
       setLoading();
 
-      let locationRef = location.replace(`'`, "");
+      let locationRef = location.replace(/[^a-zA-Z0-9 ]/g, "");
 
       const res = await fetch(
         `${server}/api/businesses/search?limit=${appState.limit}&offset=${offset}&term=${term}&location=${locationRef}&sort_by=${sortBy}`
