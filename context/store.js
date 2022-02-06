@@ -28,10 +28,12 @@ export function AppState({ children }) {
     try {
       setLoading();
 
+      let termRef = term.replace(/[^a-zA-Z0-9 ]/g, "");
+
       let locationRef = location.replace(/[^a-zA-Z0-9 ]/g, "");
 
       const res = await fetch(
-        `${server}/api/businesses/search?limit=${appState.limit}&offset=${offset}&term=${term}&location=${locationRef}&sort_by=${sortBy}`
+        `${server}/api/businesses/search?limit=${appState.limit}&offset=${offset}&term=${termRef}&location=${locationRef}&sort_by=${sortBy}`
       );
 
       const data = await res.json();
