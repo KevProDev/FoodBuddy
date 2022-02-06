@@ -1,23 +1,34 @@
 import Image from "next/image";
 import { LockClosedIcon } from "@heroicons/react/solid";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { signIn, getCsrfToken } from "next-auth/react";
 import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useRouter } from "next/router";
+import { server } from "../config";
 
 export async function getServerSideProps(context) {
+  // const previousUrl = context.req.headers.referer;
+
   return {
     props: {
       crsfToken: await getCsrfToken(context),
+      // previousUrl: previousUrl,
     },
   };
 }
 
-export default function loginSignIn({ csrfToken }) {
+export default function loginSignIn({ csrfToken, previousUrl }) {
   const [error, setError] = useState(null);
   const router = useRouter();
   const [modalOpen, setModalOpen] = useState(false);
+
+  let redirectUrl = server;
+
+  useEffect(() => {
+    const url = new URL(location.href);
+    redirectUrl = url.searchParams.get("callbackUrl");
+  });
 
   const modalState = () => {
     setModalOpen(!modalOpen);
@@ -37,6 +48,12 @@ export default function loginSignIn({ csrfToken }) {
       };
     }
   })();
+
+  // console.log("Server", previousUrl);
+
+  // const redirectAfterLogin = () => {
+  //   router.back
+  // }
 
   return (
     <main>
@@ -85,7 +102,7 @@ export default function loginSignIn({ csrfToken }) {
                     email: values.email,
                     password: values.password,
                     // tenantKey: values.tenantKey,
-                    callbackUrl: `${window.location.origin}`,
+                    callbackUrl: redirectUrl,
                   });
                   if (res?.error) {
                     setError(res.error);

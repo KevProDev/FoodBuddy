@@ -28,8 +28,10 @@ export function AppState({ children }) {
     try {
       setLoading();
 
+      let locationRef = location.replace(`'`, "");
+
       const res = await fetch(
-        `${server}/api/businesses/search?limit=${appState.limit}&offset=${offset}&term=${term}&location=${location}&sort_by=${sortBy}`
+        `${server}/api/businesses/search?limit=${appState.limit}&offset=${offset}&term=${term}&location=${locationRef}&sort_by=${sortBy}`
       );
 
       const data = await res.json();
