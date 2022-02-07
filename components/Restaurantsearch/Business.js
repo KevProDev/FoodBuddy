@@ -43,7 +43,7 @@ export default function Business(props) {
 
               {/* <!-- Tombol pesan --> */}
               <Link href={"/restaurant/" + business.id} prefetch={false}>
-                <a className="inset-x-0 bottom-0 flex justify-center bg-blue-500 hover:bg-white text-sm md:text-base border hover:border-2 hover:border-blue-500 rounded-xl w-full p-1 text-gray-100 hover:text-blue-900">
+                <a className="inset-x-0 bottom-0 flex justify-center bg-blue-500 rounded-xl w-full p-1 text-gray-100 hover:bg-white text-sm md:text-base border hover:border-blue-500 hover:text-blue-900">
                   See or Recommended A Meal
                 </a>
               </Link>
