@@ -25,6 +25,11 @@ export default function loginSignIn({ csrfToken, previousUrl }) {
 
   let redirectUrl = server;
 
+  const login = (e) => {
+    e.preventDefault();
+    signIn("google");
+  };
+
   useEffect(() => {
     const url = new URL(location.href);
     redirectUrl = url.searchParams.get("callbackUrl");
@@ -200,7 +205,7 @@ export default function loginSignIn({ csrfToken, previousUrl }) {
                     <div>
                       <button
                         type="submit"
-                        className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-700"
+                        className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-700 mb-4"
                       >
                         <span className="absolute left-0 inset-y-0 flex items-center pl-3">
                           <LockClosedIcon
@@ -209,6 +214,13 @@ export default function loginSignIn({ csrfToken, previousUrl }) {
                           />
                         </span>
                         {formik.isSubmitting ? "Please wait..." : "Sign In"}
+                      </button>
+                      <button
+                        // type="submit"
+                        onClick={login}
+                        className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-gray-800 bg-white border-gray-800 "
+                      >
+                        Sign In with Google
                       </button>
 
                       <p className="my-2 text-center text-sm text-gray-600">

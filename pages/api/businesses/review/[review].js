@@ -81,6 +81,8 @@ export default async function handler(req, res) {
         },
       });
 
+      // const meals = await prisma.user.deleteMany({});
+
       return res.status(200).json({ status: "Success" });
       // return res.status(200).json(getRestaurantReview);
     }

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MenuIcon, UserCircleIcon } from "@heroicons/react/solid";
 import { Transition } from "@headlessui/react";
 import { signIn, signOut, useSession, getSession } from "next-auth/react";
@@ -6,31 +6,44 @@ import Link from "next/link";
 import Image from "next/image";
 import { getCsrfToken } from "next-auth/react";
 import { useRouter } from "next/router";
+import { server } from "../config";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const { data: session } = useSession();
   const { asPath } = useRouter();
 
-  const loginWithGoogle = () => {
-    signIn("google");
+  let redirectUrl = server;
+
+  useEffect(() => {
+    const url = new URL(location.href);
+    redirectUrl = url.searchParams.get("callbackUrl");
+  });
+
+  const login = (e) => {
+    e.preventDefault();
+    signIn("loginSignIn");
   };
-  const logoutWithGoogle = () => {
-    signOut("google");
+  const logout = (e) => {
+    e.preventDefault();
+    signOut("loginSignIn");
   };
 
-  const loginDemo = () => {
+  const loginDemo = (e) => {
+    e.preventDefault();
     signIn("domain-login", {
+      email: "thisismyemailallday@gmail.com",
       username: "Demo",
       password: "Demo",
+      // callbackUrl: redirectUrl,
     });
   };
 
   const isLoginPage = () => {
-    if (asPath === "/loginSignIn") {
+    if (asPath.includes("loginSignIn")) {
       return `hidden`;
     }
-    if (!asPath) {
+    if (asPath.includes("loginSignIn")) {
       return "";
     }
   };
@@ -64,7 +77,7 @@ export default function Header() {
             </Link> */}
               <button
                 className="hidden lg:inline-flex col-span-1 cursor-pointer text-md rounded-md py-2 px-3 text-white border-blue-500 border hover:text-blue-500 bg-blue-500 hover:bg-white hover:border hover:border-blue-500 "
-                onClick={loginWithGoogle}
+                onClick={login}
               >
                 Sign in
                 {session && `as ${session.user.name}`}
@@ -86,7 +99,7 @@ export default function Header() {
               </Link> */}
               {/* <p
               className="hidden lg:inline-flex col-span-1 cursor-pointer text-md rounded-2xl py-2"
-              onClick={logoutWithGoogle}
+              onClick={logout}
             >
               Sign Out
             </p> */}
@@ -101,7 +114,7 @@ export default function Header() {
             </Link> */}
               {/* <p
               className="hidden lg:inline-flex col-span-1 cursor-pointer text-md rounded-2xl py-2"
-              onClick={loginWithGoogle}
+              onClick={login}
             >
               {session.user.name}
             </p> */}
@@ -115,7 +128,7 @@ export default function Header() {
               </Link>
               <button
                 className="hidden lg:inline-flex col-span-1 cursor-pointer text-md rounded-md py-2 px-3 text-white border-blue-500 border hover:text-blue-500 bg-blue-500 hover:bg-white hover:border hover:border-blue-500"
-                onClick={logoutWithGoogle}
+                onClick={logout}
               >
                 Sign Out
               </button>
@@ -168,7 +181,7 @@ export default function Header() {
                   <div className="flex flex-col items-start">
                     <button
                       className=" font-bold cursor-pointer text-xl rounded-2xl py-2"
-                      onClick={loginWithGoogle}
+                      onClick={login}
                     >
                       Sign In
                       {session && `as ${session.user.name}`}
@@ -186,13 +199,13 @@ export default function Header() {
                   <div className="flex flex-col items-start">
                     <button
                       className="font-bold cursor-pointer text-xl rounded-2xl py-2"
-                      onClick={loginWithGoogle}
+                      onClick={login}
                     >
                       {session.user.name}
                     </button>
                     <button
                       className="font-bold cursor-pointer text-xl rounded-2xl py-2"
-                      onClick={logoutWithGoogle}
+                      onClick={logout}
                     >
                       Sign Out
                     </button>
