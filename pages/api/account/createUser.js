@@ -11,11 +11,6 @@ export default async function createUserHandler(req, res) {
           password: credentials.password,
           email: credentials.email,
         },
-        // select: {
-        //   id: true,
-        //   name: true,
-        //   email: true,
-        // },
       });
 
       console.log("createUser", createUser);

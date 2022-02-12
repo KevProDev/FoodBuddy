@@ -135,7 +135,7 @@ export default function loginSignIn({ csrfToken, previousUrl }) {
                         />
                       </div>
                       <div className="text-red-400 text-md text-center rounded p-2">
-                        {error}
+                        {error && `Sorry, we could'nt find your account`}
                       </div>
                       <div>
                         <label htmlFor="email-address" className="sr-only">

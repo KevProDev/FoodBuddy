@@ -15,19 +15,19 @@ export default async function signInHandler(req, res) {
       console.log(user);
 
       if (!user) {
-        const createUser = await prisma.user.create({
-          data: {
-            email: credentials.email,
-            password: credentials.password,
-          },
-          select: {
-            id: true,
-            name: true,
-            email: true,
-          },
-        });
+        // const createUser = await prisma.user.create({
+        //   data: {
+        //     email: credentials.email,
+        //     password: credentials.password,
+        //   },
+        //   select: {
+        //     id: true,
+        //     name: true,
+        //     email: true,
+        //   },
+        // });
 
-        return res.status(200).json(createUser);
+        return res.status(406).json({ verdict: "users does'nt extist" });
       }
 
       if (credentials.password === user.password) {
