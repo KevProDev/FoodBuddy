@@ -5,8 +5,7 @@
     "build": "next build",
     "start": "next start",
     "vercel-build": "prisma generate && yarn run migrate:deploy && next build",
-    "prisma:generate:dataproxy": "PRISMA_CLIENT_ENGINE_TYPE=\"dataproxy\" prisma generate",
-    "prisma:generate:library": "PRISMA_CLIENT_ENGINE_TYPE=\"library\" prisma generate",
+    "prisma:generate:dataproxy": "PRISMA_CLIENT_ENGINE_TYPE=\"dataproxy\" npx prisma generate",
     "migrate:deploy": "DATABASE_URL=\"$MIGRATE_DATABASE_URL\" prisma db push"
   },
   "dependencies": {
