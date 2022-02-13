@@ -120,6 +120,8 @@ export default function Details(props) {
     session,
   };
 
+  // try now
+
   const submitMealReview = async (e) => {
     e.preventDefault();
     const restaurant = await fetch(`/api/businesses/review/${id}`, {
