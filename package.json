@@ -4,7 +4,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "vercel-build": " PRISMA_CLIENT_ENGINE_TYPE=\"dataproxy\" prisma generate && next build"
+    "vercel-build": " PRISMA_CLIENT_ENGINE_TYPE=\"dataproxy\" prisma generate && next build",
+    "migrate": "DATABASE_URL=\"$MIGRATE_DATABASE_URL\" prisma db push"
   },
   "dependencies": {
     "@headlessui/react": "^1.4.2",
@@ -12,8 +13,6 @@
     "@next-auth/prisma-adapter": "^0.5.2-next.19",
     "@prisma/client": "^3.6.0",
     "@reduxjs/toolkit": "^1.6.2",
-    "firebase": "^9.4.0",
-    "firebase-admin": "^10.0.0",
     "formik": "^2.2.9",
     "next": "12.0.7",
     "next-auth": "^4.0.0-beta.7",

@@ -19,15 +19,15 @@ export default async function handler(req, res) {
           },
         },
       });
-      const user = await prisma.user.findUnique({
-        where: {
-          id: session.id,
-        },
-        include: {
-          fav_meal: true,
-          likes: true,
-        },
-      });
+      // const user = await prisma.user.findUnique({
+      //   where: {
+      //     id: session.id,
+      //   },
+      //   include: {
+      //     fav_meal: true,
+      //     likes: true,
+      //   },
+      // });
 
       // console.log("RIGHT", getRestaurant);
 
@@ -40,7 +40,7 @@ export default async function handler(req, res) {
 
         const data = {
           restaurantReviews: [],
-          user: user,
+          // user: user,
           Where: "the resturant is not stored but store id",
         };
 
@@ -49,7 +49,7 @@ export default async function handler(req, res) {
       }
       const data = {
         restaurantReviews: getRestaurant.users_meals_review,
-        user: user,
+        // user: user,
         Where: "the resturant is stored",
       };
       // res.setHeader("Cache-Control", "s-maxage=86400");
