@@ -3,9 +3,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "vercel-build": " PRISMA_CLIENT_ENGINE_TYPE=\"dataproxy\" prisma generate && next build",
-    "migrate": "DATABASE_URL=\"$MIGRATE_DATABASE_URL\" prisma db push"
+    "start": "next start"
   },
   "dependencies": {
     "@headlessui/react": "^1.4.2",
