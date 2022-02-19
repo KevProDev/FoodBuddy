@@ -410,32 +410,36 @@ export default function Details(props) {
                       </p>
                       {session && (
                         <div className="flex">
-                          {data.user.likes.some(
-                            (like) => like.meal_id === review.id
-                          ) ? (
-                            <ThumbUpIcon
-                              className="h-5 cursor-pointer pr-2 text-blue-500"
-                              onClick={(e) => unLikeMeal(e, review.id)}
-                            />
-                          ) : (
-                            <ThumbUpIconOutline
-                              className="h-5 cursor-pointer pr-2 text-blue-500"
-                              onClick={(e) => likeMeal(e, review.id)}
-                            />
-                          )}
+                          {data.user && (
+                            <>
+                              {data.user.likes.some(
+                                (like) => like.meal_id === review.id
+                              ) ? (
+                                <ThumbUpIcon
+                                  className="h-5 cursor-pointer pr-2 text-blue-500"
+                                  onClick={(e) => unLikeMeal(e, review.id)}
+                                />
+                              ) : (
+                                <ThumbUpIconOutline
+                                  className="h-5 cursor-pointer pr-2 text-blue-500"
+                                  onClick={(e) => likeMeal(e, review.id)}
+                                />
+                              )}
 
-                          {data.user.fav_meal.some(
-                            (meal) => meal.meal_id === review.id
-                          ) ? (
-                            <BookmarkIcon
-                              className="h-5 cursor-pointer pr-2 text-blue-500"
-                              onClick={(e) => removeSaveMeal(e, review.id)}
-                            />
-                          ) : (
-                            <BookmarkIconOutline
-                              className="h-5 cursor-pointer pr-2 text-blue-500"
-                              onClick={(e) => saveMeal(e, review.id)}
-                            />
+                              {data.user.fav_meal.some(
+                                (meal) => meal.meal_id === review.id
+                              ) ? (
+                                <BookmarkIcon
+                                  className="h-5 cursor-pointer pr-2 text-blue-500"
+                                  onClick={(e) => removeSaveMeal(e, review.id)}
+                                />
+                              ) : (
+                                <BookmarkIconOutline
+                                  className="h-5 cursor-pointer pr-2 text-blue-500"
+                                  onClick={(e) => saveMeal(e, review.id)}
+                                />
+                              )}
+                            </>
                           )}
 
                           {session?.id === review.user_id && (

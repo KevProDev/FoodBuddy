@@ -19,48 +19,74 @@ export default async function handler(req, res) {
           },
         },
       });
-      // const user = await prisma.user.findUnique({
-      //   where: {
-      //     id: session.id,
-      //   },
-      //   include: {
-      //     fav_meal: true,
-      //     likes: true,
-      //   },
-      // });
-
-      // console.log("RIGHT", getRestaurant);
-
-      if (!getRestaurant) {
-        await prisma.restaurant.create({
-          data: {
-            rest_id: restaurant_id,
+      if (session) {
+        const user = await prisma.user.findUnique({
+          where: {
+            id: session.id,
+          },
+          include: {
+            fav_meal: true,
+            likes: true,
           },
         });
 
-        const data = {
-          restaurantReviews: [],
-          // user: user,
-          Where: "the resturant is not stored but store id",
-        };
+        if (!getRestaurant) {
+          await prisma.restaurant.create({
+            data: {
+              rest_id: restaurant_id,
+            },
+          });
 
-        // res.setHeader("Cache-Control", "s-maxage=86400");
+          const data = {
+            restaurantReviews: [],
+            // user: user ? user : {},
+            Where: "the resturant is not stored but store id",
+          };
+
+          // res.setHeader("Cache-Control", "s-maxage=86400");
+          return res.status(200).json(data);
+        }
+        const data = {
+          restaurantReviews: getRestaurant.users_meals_review,
+          // user: user ? user : {},
+          Where: "the resturant is stored",
+        };
+        return res.status(200).json(data);
+      } else {
+        if (!getRestaurant) {
+          await prisma.restaurant.create({
+            data: {
+              rest_id: restaurant_id,
+            },
+          });
+
+          const data = {
+            restaurantReviews: [],
+            user: {},
+            Where: "the resturant is not stored but store id",
+          };
+
+          // res.setHeader("Cache-Control", "s-maxage=86400");
+          return res.status(200).json(data);
+        }
+        const data = {
+          restaurantReviews: getRestaurant.users_meals_review,
+          user: {},
+          Where: "the resturant is stored",
+        };
         return res.status(200).json(data);
       }
-      const data = {
-        restaurantReviews: getRestaurant.users_meals_review,
-        // user: user,
-        Where: "the resturant is stored",
-      };
+
+      // console.log("RIGHT", getRestaurant);
+
       // res.setHeader("Cache-Control", "s-maxage=86400");
       // return res.status(200).json({ data: getRestaurant });
-      return res.status(200).json(data);
     }
     if (req.method === "POST") {
       const session = await getSession({ req });
       const { mealTitle: title, mealDescription: description } = req.body;
 
-      console.log("ID", req.body.id);
+      // console.log("ID", req.body.id);
 
       // console.log(req.body);
 
