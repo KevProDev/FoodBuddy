@@ -27,7 +27,9 @@ export default function loginSignIn({ csrfToken, previousUrl }) {
 
   const login = (e) => {
     e.preventDefault();
-    signIn("google");
+    signIn("google", {
+      callbackUrl: redirectUrl,
+    });
   };
 
   useEffect(() => {
@@ -53,12 +55,6 @@ export default function loginSignIn({ csrfToken, previousUrl }) {
       };
     }
   })();
-
-  // console.log("Server", previousUrl);
-
-  // const redirectAfterLogin = () => {
-  //   router.back
-  // }
 
   return (
     <main>

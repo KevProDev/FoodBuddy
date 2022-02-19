@@ -4,7 +4,7 @@ export default async function signInHandler(req, res) {
   try {
     if (req.method === "POST") {
       const credentials = req.body;
-      console.log(credentials);
+      // console.log(credentials);s
 
       const user = await prisma.user.findUnique({
         where: {
@@ -12,7 +12,7 @@ export default async function signInHandler(req, res) {
         },
       });
 
-      console.log(user);
+      // console.log(user);
 
       if (!user) {
         // const createUser = await prisma.user.create({
