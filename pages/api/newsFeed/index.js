@@ -22,6 +22,9 @@ export default async function getFollowersReviews(req, res) {
         User: user,
       });
     }
+    return res.status(200).json({
+      Results: "No session",
+    });
   } catch {
     return res.status(200).json({ status: "Success Error" });
   }
