@@ -10,6 +10,8 @@ export default async function unFollowUserHandler(req, res) {
       });
       const profileUser = req.body;
 
+      console.log("profileUser", profileUser);
+
       const profileUserToUnFollow = await prisma.user.findUnique({
         where: {
           id: profileUser,

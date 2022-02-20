@@ -1,6 +1,7 @@
 import Banner from "../components/Restaurantsearch/Banner";
 import BusinessList from "../components/Restaurantsearch/BusinessList";
 import { getSession } from "next-auth/react";
+import MealFood from "../components/Restaurantsearch/MealFeed";
 
 export default function Home() {
   return (
@@ -11,6 +12,7 @@ export default function Home() {
           {/* <h2 className="text-xl sm:text-4xl font-semibold pb-5 px-4">
             Explore Feed
           </h2> */}
+          <MealFood />
           <BusinessList />
         </section>
       </main>

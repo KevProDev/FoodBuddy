@@ -13,6 +13,8 @@ export default async function followUserHandler(req, res) {
       });
       const profileUser = req.body;
 
+      console.log("profileUser", profileUser);
+
       const userToFollow = await prisma.user.findUnique({
         where: {
           id: profileUser,
