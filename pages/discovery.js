@@ -3,7 +3,7 @@ import BusinessList from "../components/Restaurantsearch/BusinessList";
 import { getSession } from "next-auth/react";
 import MealFood from "../components/Restaurantsearch/MealFeed";
 
-export default function Home() {
+export default function Discovery() {
   return (
     <div>
       <Banner />
@@ -12,7 +12,7 @@ export default function Home() {
           {/* <h2 className="text-xl sm:text-4xl font-semibold pb-5 px-4">
             Explore Feed
           </h2> */}
-          <BusinessList />
+          <MealFood />
         </section>
       </main>
     </div>

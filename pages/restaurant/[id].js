@@ -380,7 +380,7 @@ export default function Details(props) {
                 return (
                   <div
                     key={review.id}
-                    className="border-gray-200 border-b-2 pb-4 mb-4"
+                    className="border-gray-200 border-b-2 pb-4 mb-4 flex gap-4"
                   >
                     <div className="flex pb-2 justify-between">
                       <div className="flex">
@@ -393,21 +393,19 @@ export default function Details(props) {
                           alt="profile of user"
                           className=" w-12 h-12 rounded-full"
                         />
-                        <Link href={`/profile/${review.user_name}`}>
-                          <a href="">
-                            <span className="text-sm pl-4 font-bold ">
-                              {review.user_name}
-                            </span>
-                          </a>
-                        </Link>
                       </div>
                       {!session && <div></div>}
                     </div>
                     <div className="">
+                      <Link href={`/profile/${review.user_name}`}>
+                        <a href="" className=" text-gray-700 block ">
+                          <span className="text-sm font-bold ">
+                            {review.user_name}
+                          </span>
+                        </a>
+                      </Link>
                       <h3 className="font-semibold">{review.title} </h3>
-                      <p className=" font-light text-sm pb-3 ">
-                        {review.description}
-                      </p>
+                      <p className=" font-light pb-3 ">{review.description}</p>
                       {session && (
                         <div className="flex">
                           {data.user && (

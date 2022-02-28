@@ -118,6 +118,14 @@ export default function Header() {
             >
               {session.user.name}
             </p> */}
+              <Link href={`/discovery`}>
+                <a
+                  href=""
+                  className=" font-bold hidden lg:inline-block py-2 px-2"
+                >
+                  Friends Meals
+                </a>
+              </Link>
               <Link href={`/profile/${session.user.name}`}>
                 <a
                   href=""
@@ -179,6 +187,11 @@ export default function Header() {
 
                 {!session && (
                   <div className="flex flex-col items-start">
+                    <Link href={`/discovery`}>
+                      <button className=" font-bold cursor-pointer text-xl rounded-2xl py-2">
+                        Friend's Meal
+                      </button>
+                    </Link>
                     <button
                       className=" font-bold cursor-pointer text-xl rounded-2xl py-2"
                       onClick={login}
@@ -197,6 +210,11 @@ export default function Header() {
                 )}
                 {session && (
                   <div className="flex flex-col items-start">
+                    <Link href={`/discovery`}>
+                      <button className=" font-bold cursor-pointer text-xl rounded-2xl py-2">
+                        Friend's Meal
+                      </button>
+                    </Link>
                     <button
                       className="font-bold cursor-pointer text-xl rounded-2xl py-2"
                       onClick={login}

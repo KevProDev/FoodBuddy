@@ -3,8 +3,6 @@ import prisma from "../../../lib/prisma";
 
 export default async function getFollowersReviews(req, res) {
   const session = await getSession({ req });
-  console.log(session);
-  console.log("I MADE IT");
 
   try {
     if (session) {
@@ -14,12 +12,92 @@ export default async function getFollowersReviews(req, res) {
         },
         include: {
           following: true,
-          followers: true,
         },
       });
+
+      const userIdMealArray = new Array(await user.following.length);
+      // const restaurantIdArray = new Array(await user.following.length);
+
+      for (let i = 0; i < (await user.following.length); ++i) {
+        userIdMealArray[i] = await user.following[i].user_id;
+      }
+
+      const meals = await prisma.meal.findMany({
+        where: {
+          user_id: {
+            in: userIdMealArray,
+          },
+        },
+      });
+
+      // for (let i = 0; i < (await meals.length); ++i) {
+      //   restaurantIdArray[i] = await meals[i].rest_id;
+      // }
+
+      // const userMealsRestaurants = await prisma.restaurant.findMany({
+      //   where: {
+      //     rest_id: restaurantIdArray,
+      //   },
+      //   include: {
+      //     fav_meal: true,
+      //   },
+      // });
+
+      // console.log("restaurantIdArray", restaurantIdArray);
+
+      // const meals = await prisma.restaurant.findMany({
+      //   where: {
+      //     rest_id: {
+      //       in: ,
+      //     },
+      //   },
+      // });
+
+      // const restaurant = await prisma.restaurant.findMany({
+      //   where: {
+      //     rest_id: {
+      //       in:
+      //     }
+      //   },
+      //   include: {
+
+      //   }
+      // });
+
+      // const restaurantIdArray = new Array(await meals.length);
+
+      // for (let i = 0; i < restaurantIdArray.length; ++i) {
+      //   restaurantIdArray[i] = await meals[i].rest_id;
+      // }
+
+      // const restaurants = await prisma.restaurant.findMany({
+      //   where: {
+      //     rest_id: {
+      //       in: restaurantIdArray,
+      //     },
+      //   },
+      // });
+
+      // const formatFriendsMealsWithRestaurant = ()=> {
+
+      //   const mealsWithRestaurantObject = {
+      //     mealsWithRestaurant: meals
+      //   }
+
+      //   for (let i = 0; i < await meals.length; i++){
+
+      //     mealsWithRestaurant[i] = mealsWithRestaurant[i].restaurant
+
+      //   }
+
+      // }
+
+      // console.log("restaurants", restaurants);
+
       return res.status(200).json({
-        Results: "Session This works",
-        User: user,
+        user: user,
+        meals: meals,
+        // restaurants: restaurants,
       });
     }
     return res.status(200).json({

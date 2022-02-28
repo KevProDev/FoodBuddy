@@ -48,7 +48,7 @@ export default async function handler(req, res) {
         }
         const data = {
           restaurantReviews: getRestaurant.users_meals_review,
-          // user: user ? user : {},
+          user: user ? user : {},
           Where: "the resturant is stored",
         };
         return res.status(200).json(data);
@@ -84,11 +84,15 @@ export default async function handler(req, res) {
     }
     if (req.method === "POST") {
       const session = await getSession({ req });
-      const { mealTitle: title, mealDescription: description } = req.body;
+      const {
+        mealTitle: title,
+        mealDescription: description,
+        name: restName,
+      } = req.body;
 
       // console.log("ID", req.body.id);
 
-      // console.log(req.body);
+      // console.log("req.body", req.body);
 
       const userFromDb = await prisma.user.findUnique({
         where: { id: session.id },
@@ -102,6 +106,7 @@ export default async function handler(req, res) {
           description: description,
           user_id: userFromDb.id,
           user_image: userFromDb.image ? userFromDb.image.toString() : "",
+          rest_name: restName,
           rest_id: restaurant_id.toString(),
           user_name: userFromDb.name.toString(),
         },
@@ -109,7 +114,7 @@ export default async function handler(req, res) {
 
       // const meals = await prisma.user.deleteMany({});
 
-      return res.status(200).json({ status: "Success" });
+      return res.status(200).json({ status: "Posted" });
       // return res.status(200).json(getRestaurantReview);
     }
     if (req.method === "DELETE") {
@@ -131,7 +136,7 @@ export default async function handler(req, res) {
       // });
 
       // return res.status(200).json(getRestaurantReview);
-      return res.status(200).json({ status: "Success" });
+      return res.status(200).json({ status: "Deleted" });
     }
     // return res.status(200).json({ status: "Success" });
   } catch {}
