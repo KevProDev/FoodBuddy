@@ -12,7 +12,7 @@ export default function Home() {
       <Banner />
       <main className="max-w-7xl mx-auto px-4">
         <section className="pt-6">
-          <h2 className="text-xl sm:text-4xl font-semibold pt-8 pb-5 px-4">
+          {/* <h2 className="text-xl sm:text-4xl font-semibold pt-8 pb-5 px-4">
             Latest Friends Meals
           </h2>
           <Meal />
@@ -20,7 +20,7 @@ export default function Home() {
             <button className="bg-black text-white py-2 md:mx-5 w-[130px]">
               See More
             </button>
-          </Link>
+          </Link> */}
           <h2 className="text-xl sm:text-4xl font-semibold pt-8 pb-5 px-4">
             Restaurant
           </h2>
