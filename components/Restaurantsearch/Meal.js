@@ -48,19 +48,19 @@ export default function MealFood() {
   return (
     <div>
       {isSuccess && data && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3  mb-10 md:px-5 md:bg-white">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3  mb-4 md:px-5 md:bg-white">
           {data.meals.map((meal) => {
             return (
-              <Link key={meal.id} href={"/"} prefetch={false}>
+              <div>
                 <div className=" w-full h-full py-5 items-center">
-                  <div className=" relative pl-1 flex rounded-xl hover:scale-105 duration-500 transform transition cursor-pointer">
+                  <div className=" relative pl-1 flex rounded-xl ">
                     {/* <!-- Tag Discount --> */}
                     {/* <div className="top-0 left-0 mt-3 px-2 rounded-lg absolute z-30 bg-green-500 text-gray-100 text-xs md:text-sm font-medium md:block">
                       Rating
                     </div>
                     <div className="top-0 left-0 h-2 md:h-3 mt-5 px-2 absolute z-20 bg-green-500"></div> */}
                     {/* <div className="top-0 left-0 h-2 md:h-3 mt-6 pl-5 rounded-3xl absolute z-0 bg-green-600"></div> */}
-                    <div className=" pb-2 w-full bg-white border-grey-800 border-b z-10">
+                    <div className=" gap-4 pb-2 w-full bg-white  z-10">
                       <div className="relative">
                         {/* <!-- :src="image.largeImageURL"     --> */}
                         {/* <img
@@ -73,31 +73,40 @@ export default function MealFood() {
                           {/* {business.category} */}
                         </div>
                       </div>
-                      <div className="flex">
-                        <img
-                          src={
-                            meal.user_image ? meal.user_image : "/favicon.ico"
-                          }
-                          alt="profile of user"
-                          className=" w-12 h-12 rounded-full"
-                        />
-                        <Link href={`/profile/${meal.user_name}`}>
-                          <a href="">
-                            <span className="text-sm pl-4 font-bold ">
-                              {meal.user_name}
-                            </span>
-                          </a>
-                        </Link>
-                      </div>
+
                       <div className="">
-                        <h3 className="font-semibold">{meal.title} </h3>
-                        <p className=" font-light text-sm pb-3 ">
-                          {meal.description}
-                        </p>
-                        <h3 className="font-semibold">{meal.title} </h3>
-                        <p className=" font-light text-sm pb-3 ">
-                          {meal.description}
-                        </p>
+                        <Link href={`/profile/${meal.user_name}`}>
+                          <div className="flex items-center gap-2 pb-2">
+                            <img
+                              src={
+                                meal.user_image
+                                  ? meal.user_image
+                                  : "/favicon.ico"
+                              }
+                              alt="profile of user"
+                              className=" w-8 h-8 rounded-full cursor-pointer"
+                            />
+                            <a href="">
+                              <span className="text-xs ">{meal.user_name}</span>
+                            </a>
+                          </div>
+                        </Link>
+                        <div className="">
+                          <Link
+                            key={meal.id}
+                            href={`/restaurant/${meal.rest_id}`}
+                            prefetch={false}
+                          >
+                            <h3 className="font-semibold cursor-pointer">
+                              {meal.rest_name}{" "}
+                            </h3>
+                          </Link>
+                          <h3 className="">{meal.title} </h3>
+                          <p className=" font-light text-gray-600 text-sm pb-3 ">
+                            {meal.description}
+                          </p>
+                        </div>
+
                         {/* {session && ( */}
                         {/* <div className="flex">
                           {data.user && (
@@ -153,7 +162,7 @@ export default function MealFood() {
                     See or Recommended A Meal
                   </a>
                 </Link> */}
-              </Link>
+              </div>
             );
           })}
         </div>

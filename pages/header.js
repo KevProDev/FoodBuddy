@@ -118,7 +118,7 @@ export default function Header() {
             >
               {session.user.name}
             </p> */}
-              <Link href={`/discovery`}>
+              <Link href={`/mealFeed`}>
                 <a
                   href=""
                   className=" font-bold hidden lg:inline-block py-2 px-2"
@@ -187,7 +187,7 @@ export default function Header() {
 
                 {!session && (
                   <div className="flex flex-col items-start">
-                    <Link href={`/discovery`}>
+                    <Link href={`/mealFeed`}>
                       <button className=" font-bold cursor-pointer text-xl rounded-2xl py-2">
                         Friend's Meal
                       </button>
@@ -210,7 +210,7 @@ export default function Header() {
                 )}
                 {session && (
                   <div className="flex flex-col items-start">
-                    <Link href={`/discovery`}>
+                    <Link href={`/mealFeed`}>
                       <button className=" font-bold cursor-pointer text-xl rounded-2xl py-2">
                         Friend's Meal
                       </button>
