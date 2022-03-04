@@ -187,11 +187,6 @@ export default function Header() {
 
                 {!session && (
                   <div className="flex flex-col items-start">
-                    <Link href={`/mealFeed`}>
-                      <button className=" font-bold cursor-pointer text-xl rounded-2xl py-2">
-                        Friend's Meal
-                      </button>
-                    </Link>
                     <button
                       className=" font-bold cursor-pointer text-xl rounded-2xl py-2"
                       onClick={login}

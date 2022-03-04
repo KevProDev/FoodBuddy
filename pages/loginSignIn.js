@@ -59,7 +59,7 @@ export default function loginSignIn({ csrfToken, previousUrl }) {
   return (
     <main>
       <section>
-        <div className="  grid grid-flow-row grid-cols-1 grid-rows-4 md:grid-rows-1 md:grid-flow-col h-screen md:grid-cols-2  ">
+        <div className="  grid grid-flow-row grid-cols-1 grid-rows-5 md:grid-rows-2 md:grid-flow-col h-screen md:grid-cols-2  ">
           <div className=" relative bg-green-500 row-span-1 md:col-span-1 block ">
             <Image
               src="https://images.squarespace-cdn.com/content/v1/551aba82e4b06ddeea1f4958/1636043991946-NN53WAVJ8A68H2AU8TU8/CHIUB-Brunch-Table-Cindys.jpg"
@@ -69,15 +69,15 @@ export default function loginSignIn({ csrfToken, previousUrl }) {
               eager="true"
             />
           </div>
-          <div className="row-span-3 md:row-span-1 col-span-1 ">
-            <div className=" w-3/4 my-[10%] md:my-[25%] m-auto space-y-8">
+          <div className="row-span-4 md:row-span-2 col-span-1 ">
+            <div className=" w-3/4 my-[5%] md:my-[25%] m-auto space-y-8">
               <div>
                 <img
                   src="/BLACK.png"
                   alt="company logo"
                   className="mx-auto h-12 w-auto"
                 />
-                <h2 className="mt-2 text-center text-3xl font-extrabold text-gray-900">
+                <h2 className="mt-2 text-center text-2xl font-extrabold text-gray-900">
                   Sign in to your account
                 </h2>
               </div>
@@ -200,6 +200,18 @@ export default function loginSignIn({ csrfToken, previousUrl }) {
 
                     <div>
                       <button
+                        // type="submit"
+                        onClick={login}
+                        className="group relative w-full flex justify-center py-2 mb-4 px-4 border border-transparent text-sm font-medium rounded-md text-gray-800 bg-white border-gray-800 items-center "
+                      >
+                        <img
+                          src="/google.png"
+                          alt="Google"
+                          className=" w-6 h-6 mr-2 "
+                        />
+                        Sign In with Google
+                      </button>
+                      <button
                         type="submit"
                         className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-700 mb-4"
                       >
@@ -210,13 +222,6 @@ export default function loginSignIn({ csrfToken, previousUrl }) {
                           />
                         </span>
                         {formik.isSubmitting ? "Please wait..." : "Sign In"}
-                      </button>
-                      <button
-                        // type="submit"
-                        onClick={login}
-                        className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-gray-800 bg-white border-gray-800 "
-                      >
-                        Sign In with Google
                       </button>
 
                       <p className="my-2 text-center text-sm text-gray-600">
