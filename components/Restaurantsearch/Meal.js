@@ -51,7 +51,7 @@ export default function MealFood() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3  mb-4 md:px-5 md:bg-white">
           {data.meals.map((meal) => {
             return (
-              <div>
+              <div key={meal.id}>
                 <div className=" w-full h-full py-5 items-center">
                   <div className=" relative pl-1 flex rounded-xl ">
                     {/* <!-- Tag Discount --> */}

@@ -6,8 +6,8 @@ import Meal from "../components/Restaurantsearch/Meal";
 export default function Discovery() {
   return (
     <div>
-      <Banner />
-      <main className="max-w-7xl mx-auto px-4">
+      {/* <Banner /> */}
+      <main className="max-w-7xl mx-auto px-8">
         <section className="pt-6">
           {/* <h2 className="text-xl sm:text-4xl font-semibold pb-5 px-4">
             Explore Feed

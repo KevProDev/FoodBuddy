@@ -22,13 +22,33 @@ export default async function getFollowersReviews(req, res) {
         userIdMealArray[i] = await user.following[i].user_id;
       }
 
+      // const meals = await prisma.meal.findMany({
+      //   where: {
+      //     user_id: {
+      //       in: userIdMealArray,
+      //     },
+      //   },
+      // });
+
       const meals = await prisma.meal.findMany({
+        take: 3,
         where: {
           user_id: {
             in: userIdMealArray,
           },
         },
+        orderBy: {
+          created_at: "desc",
+        },
       });
+
+      // // Bookmark your location in the result set - in this
+      // // case, the ID of the last meal in the list of 4.
+
+      // const lastMealInResults = firstMealQueryResults[1]; // Remember: zero-based index! :)
+      // const myCursor = lastMealInResults.id; // Example: 29
+
+      // console.log("firstMealQueryResults", firstMealQueryResults);
 
       // for (let i = 0; i < (await meals.length); ++i) {
       //   restaurantIdArray[i] = await meals[i].rest_id;
@@ -97,7 +117,7 @@ export default async function getFollowersReviews(req, res) {
       return res.status(200).json({
         user: user,
         meals: meals,
-        // restaurants: restaurants,
+        // firstMealQueryResults: firstMealQueryResults,
       });
     }
     return res.status(200).json({
