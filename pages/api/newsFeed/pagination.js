@@ -18,7 +18,7 @@ export default async function pagination(req, res) {
       });
 
       const meals = await prisma.meal.findMany({
-        take: 5,
+        take: 10,
         skip: 1,
         cursor: {
           id: previousCursor,
@@ -36,9 +36,9 @@ export default async function pagination(req, res) {
       // Bookmark your location in the result set - in this
       // case, the ID of the last meal in the list of 4.
 
-      const lastMealInResults = meals[2];
+      const lastMealInResults = meals.slice(-1);
       // Remember: zero-based index! :)
-      const cursor = lastMealInResults.id; // Example: 29
+      const cursor = lastMealInResults[0].id; // Example: 29
 
       return res.status(200).json({
         user: user,
