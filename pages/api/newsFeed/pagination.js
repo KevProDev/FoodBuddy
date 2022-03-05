@@ -1,8 +1,10 @@
 import { getSession } from "next-auth/react";
 import prisma from "../../../lib/prisma";
 
-export default async function getFollowersReviews(req, res) {
+export default async function pagination(req, res) {
   const session = await getSession({ req });
+  const { previousCursor, userIdMealArray } = req.body;
+  console.log(previousCursor);
 
   try {
     if (session) {
@@ -15,23 +17,12 @@ export default async function getFollowersReviews(req, res) {
         },
       });
 
-      const userIdMealArray = new Array(await user.following.length);
-      // const restaurantIdArray = new Array(await user.following.length);
-
-      for (let i = 0; i < (await user.following.length); ++i) {
-        userIdMealArray[i] = await user.following[i].user_id;
-      }
-
-      // const meals = await prisma.meal.findMany({
-      //   where: {
-      //     user_id: {
-      //       in: userIdMealArray,
-      //     },
-      //   },
-      // });
-
       const meals = await prisma.meal.findMany({
         take: 5,
+        skip: 1,
+        cursor: {
+          id: previousCursor,
+        },
         where: {
           user_id: {
             in: userIdMealArray,
@@ -45,15 +36,14 @@ export default async function getFollowersReviews(req, res) {
       // Bookmark your location in the result set - in this
       // case, the ID of the last meal in the list of 4.
 
-      const lastMealInResults = meals[4];
+      const lastMealInResults = meals[2];
       // Remember: zero-based index! :)
       const cursor = lastMealInResults.id; // Example: 29
 
       return res.status(200).json({
         user: user,
         meals: meals,
-        previousCursor: cursor,
-        userIdMealArray: userIdMealArray,
+        cursor: cursor,
       });
     }
     return res.status(200).json({
