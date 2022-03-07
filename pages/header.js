@@ -154,7 +154,7 @@ export default function Header() {
           </button>
         </div>
         <Transition
-          className="flex col-span-3"
+          className="flex col-span-2 bg-white z-10 mt-[-40px] "
           show={isOpen}
           enter="transition ease-out duration-100 transform"
           enterFrom="opacity-0 scale-95"
@@ -164,8 +164,17 @@ export default function Header() {
           leaveTo="opacity-0 scale-95"
         >
           {() => (
-            <div className="lg:hidden id:mobile-menu">
-              <div className="flex flex-col px-2 pt-2 pb-3 space-y-1">
+            <div className="lg:hidden id:mobile-menu grid  grid-cols-2  ">
+              <div className="flex flex-col px-2 pt-2 pb-3 space-y-1 col-span-1 ">
+                <Link href="/">
+                  <a
+                    href=""
+                    className="w-[230px] -ml-10"
+                    onClick={() => setIsOpen(!isOpen)}
+                  >
+                    <img src="/BLACK.png" alt="company logo" />
+                  </a>
+                </Link>
                 {!session && (
                   <div className="flex flex-col items-start">
                     <button
@@ -210,6 +219,18 @@ export default function Header() {
                     </Link>
                   </div>
                 )}
+              </div>
+              <div className="col-span-1">
+                <button
+                  className="lg:hidden items-center space-x-2 rounded-full p-2 text-black block ml-auto "
+                  onClick={() => setIsOpen(!isOpen)}
+                  type="button"
+                  aria-controls="mobile-menu"
+                  aria-expanded="true"
+                >
+                  <MenuIcon className="h-6" />
+                  {/* <UserCircleIcon className="h-8" /> */}
+                </button>
               </div>
             </div>
           )}
