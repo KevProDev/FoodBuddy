@@ -20,6 +20,7 @@ export default async function handler(req, res) {
         following: true,
         followers: true,
         fav_meal: true,
+        users_meals_review: true,
       },
     });
 

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { MenuIcon, UserCircleIcon } from "@heroicons/react/solid";
-import { Transition } from "@headlessui/react";
+import { Transition, Menu } from "@headlessui/react";
 import { signIn, signOut, useSession, getSession } from "next-auth/react";
 import Link from "next/link";
 import Image from "next/image";
@@ -166,25 +166,6 @@ export default function Header() {
           {() => (
             <div className="lg:hidden id:mobile-menu">
               <div className="flex flex-col px-2 pt-2 pb-3 space-y-1">
-                {/* <Link href="/">
-                <a
-                  onClick={() => setIsOpen(!isOpen)}
-                  href=""
-                  className="cursor-pointer hover:bg-green-500 text-black hover:text-white block py-2 rounded-md text-base font-medium"
-                >
-                  Home
-                </a>
-              </Link> */}
-                {/* <Link href="/restaurantsearch">
-                <a
-                  onClick={() => setIsOpen(!isOpen)}
-                  href=""
-                  className="cursor-pointer hover:bg-green-500 text-black hover:text-white block py-2 rounded-md text-base font-medium"
-                >
-                  Resturants Search
-                </a>
-              </Link> */}
-
                 {!session && (
                   <div className="flex flex-col items-start">
                     <button
@@ -206,14 +187,14 @@ export default function Header() {
                 {session && (
                   <div className="flex flex-col items-start">
                     <Link href={`/mealFeed`}>
-                      <button className=" font-bold cursor-pointer text-xl rounded-2xl py-2">
+                      <button
+                        className=" font-bold cursor-pointer text-xl rounded-2xl py-2"
+                        onClick={() => setIsOpen(!isOpen)}
+                      >
                         Friend's Meal
                       </button>
                     </Link>
-                    <button
-                      className="font-bold cursor-pointer text-xl rounded-2xl py-2"
-                      onClick={login}
-                    >
+                    <button className="font-bold cursor-pointer text-xl rounded-2xl py-2">
                       {session.user.name}
                     </button>
                     <button

@@ -30,8 +30,8 @@ export default async function getFollowersReviews(req, res) {
       //   },
       // });
 
-      const meals = await prisma.meal.findMany({
-        take: 10,
+      const initialMeals = await prisma.meal.findMany({
+        take: 2,
         where: {
           user_id: {
             in: userIdMealArray,
@@ -42,17 +42,34 @@ export default async function getFollowersReviews(req, res) {
         },
       });
 
+      // const nextMeals = await prisma.meal.findMany({
+      //   take: 10,
+      //   cursor: {
+      //     id: initialMeals[initialMeals.length - 1].id,
+      //   },
+      //   where: {
+      //     user_id: {
+      //       in: userIdMealArray,
+      //     },
+      //   },
+      //   orderBy: {
+      //     created_at: "desc",
+      //   },
+      // });
+
+      // console.log(nextMeals);
       // Bookmark your location in the result set - in this
       // case, the ID of the last meal in the list of 4.
 
-      const lastMealInResults = meals.slice(-1);
+      const lastMealInResults = initialMeals.slice(-1);
       // const lastMealInResults = meals[2];
       // Remember: zero-based index! :)
       const cursor = lastMealInResults[0].id; // Example: 29
 
       return res.status(200).json({
         user: user,
-        meals: meals,
+        initialMeals: initialMeals,
+        // meals: nextMeals,
         previousCursor: cursor,
         userIdMealArray: userIdMealArray,
       });

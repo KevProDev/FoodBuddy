@@ -18,7 +18,7 @@ export default async function pagination(req, res) {
       });
 
       const meals = await prisma.meal.findMany({
-        take: 10,
+        take: 2,
         skip: 1,
         cursor: {
           id: previousCursor,
