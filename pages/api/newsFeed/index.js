@@ -31,7 +31,7 @@ export default async function getFollowersReviews(req, res) {
       // });
 
       const initialMeals = await prisma.meal.findMany({
-        take: 2,
+        take: 10,
         where: {
           user_id: {
             in: userIdMealArray,

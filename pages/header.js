@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { MenuIcon, UserCircleIcon } from "@heroicons/react/solid";
+import { MenuIcon, UserCircleIcon, XIcon } from "@heroicons/react/solid";
 import { Transition, Menu } from "@headlessui/react";
 import { signIn, signOut, useSession, getSession } from "next-auth/react";
 import Link from "next/link";
@@ -228,7 +228,7 @@ export default function Header() {
                   aria-controls="mobile-menu"
                   aria-expanded="true"
                 >
-                  <MenuIcon className="h-6" />
+                  <XIcon className="h-6" />
                   {/* <UserCircleIcon className="h-8" /> */}
                 </button>
               </div>

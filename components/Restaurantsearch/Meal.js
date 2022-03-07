@@ -4,7 +4,6 @@ import { server } from "../../config";
 import { useQuery } from "react-query";
 
 export default function MealFood({ params }) {
-  // const [mealFeed, setMealFeed] = useState([]);
   const [initialMeals, setinitialMeals] = useState([]);
 
   const fetcher = async () => {
@@ -56,6 +55,20 @@ export default function MealFood({ params }) {
   //   setMealFeed(mealsBack);
   // };
 
+  const LoadButtonSetter = () => {
+    if (initialMeals?.initialMeals?.length >= 10) {
+      return (
+        <button
+          className="bg-black text-white py-2 mt-2 w-1/3 mx-auto items-center justify-center block mb-10"
+          onClick={refetch}
+        >
+          Load More
+        </button>
+      );
+    } else {
+      return <div></div>;
+    }
+  };
   useEffect(() => {
     const getInitialMeals = async () => {
       const data = await fetch(`/api/newsFeed`, {
@@ -69,6 +82,8 @@ export default function MealFood({ params }) {
     };
 
     getInitialMeals();
+
+    // loadButtonSetter();
   }, []);
 
   return (
@@ -190,9 +205,9 @@ export default function MealFood({ params }) {
           );
         })}
 
-        {data?.meals?.map((meald) => {
+        {data?.meals?.map((meal) => {
           return (
-            <div key={meald.id}>
+            <div key={meal.id}>
               <div className=" w-full h-full py-5 items-center">
                 <div className=" relative pl-1 flex rounded-xl ">
                   {/* <!-- Tag Discount --> */}
@@ -216,35 +231,33 @@ export default function MealFood({ params }) {
                     </div>
 
                     <div className="">
-                      <Link href={`/profile/${meald.user_name}`}>
+                      <Link href={`/profile/${meal.user_name}`}>
                         <div className="flex items-center gap-2 pb-2">
                           <img
                             src={
-                              meald.user_image
-                                ? meald.user_image
-                                : "/favicon.ico"
+                              meal.user_image ? meal.user_image : "/favicon.ico"
                             }
                             alt="profile of user"
                             className=" w-8 h-8 rounded-full cursor-pointer"
                           />
                           <a href="">
-                            <span className="text-xs ">{meald.user_name}</span>
+                            <span className="text-xs ">{meal.user_name}</span>
                           </a>
                         </div>
                       </Link>
                       <div className="">
                         <Link
-                          key={meald.id}
-                          href={`/restaurant/${meald.rest_id}`}
+                          key={meal.id}
+                          href={`/restaurant/${meal.rest_id}`}
                           prefetch={false}
                         >
                           <h3 className="font-semibold cursor-pointer">
-                            {meald.rest_name}{" "}
+                            {meal.rest_name}{" "}
                           </h3>
                         </Link>
-                        <h3 className="">{meald.title} </h3>
+                        <h3 className="">{meal.title} </h3>
                         <p className=" font-light text-gray-600 text-sm pb-3 ">
-                          {meald.description}
+                          {meal.description}
                         </p>
                       </div>
 
@@ -253,30 +266,30 @@ export default function MealFood({ params }) {
                         {data.user && (
                           <>
                             {data.user.likes.some(
-                              (like) => like.meald_id === review.id
+                              (like) => like.meal_id === review.id
                             ) ? (
                               <ThumbUpIcon
                                 className="h-5 cursor-pointer pr-2 text-blue-500"
-                                onClick={(e) => unLikeMeald(e, review.id)}
+                                onClick={(e) => unLikemeal(e, review.id)}
                               />
                             ) : (
                               <ThumbUpIconOutline
                                 className="h-5 cursor-pointer pr-2 text-blue-500"
-                                onClick={(e) => likeMeald(e, review.id)}
+                                onClick={(e) => likemeal(e, review.id)}
                               />
                             )}
 
-                            {data.user.fav_meald.some(
-                              (meald) => meald.meald_id === review.id
+                            {data.user.fav_meal.some(
+                              (meal) => meal.meal_id === review.id
                             ) ? (
                               <BookmarkIcon
                                 className="h-5 cursor-pointer pr-2 text-blue-500"
-                                onClick={(e) => removeSaveMeald(e, review.id)}
+                                onClick={(e) => removeSavemeal(e, review.id)}
                               />
                             ) : (
                               <BookmarkIconOutline
                                 className="h-5 cursor-pointer pr-2 text-blue-500"
-                                onClick={(e) => saveMeald(e, review.id)}
+                                onClick={(e) => savemeal(e, review.id)}
                               />
                             )}
                           </>
@@ -306,12 +319,8 @@ export default function MealFood({ params }) {
             </div>
           );
         })}
-        <button
-          className="bg-black text-white py-2 mt-2 w-1/3 mx-auto items-center justify-center block mb-10"
-          onClick={refetch}
-        >
-          Load More
-        </button>
+
+        <LoadButtonSetter />
       </div>
       {/* )} */}
     </div>
