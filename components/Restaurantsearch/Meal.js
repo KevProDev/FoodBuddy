@@ -56,7 +56,7 @@ export default function MealFood({ params }) {
   // };
 
   const LoadButtonSetter = () => {
-    if (initialMeals?.initialMeals?.length >= 10) {
+    if (initialMeals.initialMeals?.length >= 10) {
       return (
         <button
           className="bg-black text-white py-2 mt-2 w-1/3 mx-auto items-center justify-center block mb-10"
