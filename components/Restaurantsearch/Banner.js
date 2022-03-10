@@ -81,7 +81,7 @@ function Banner() {
 
       <div className=" min-h-full flex flex-col items-center justify-center py-4 px-4 sm:px-6 lg:px-8 relative z-20">
         <h1 className=" text-3xl md:text-4xl lg:text-6xl font-bold text-white ">
-          Discover people's favorite restaurant meals
+          Share and discover meals people love
         </h1>
         <div className="max-w-md w-full space-y-8">
           <form className="mt-8 space-y-6 " action="#" method="POST">

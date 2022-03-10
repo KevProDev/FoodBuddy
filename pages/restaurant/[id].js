@@ -380,10 +380,10 @@ export default function Details(props) {
                 return (
                   <div
                     key={review.id}
-                    className="border-gray-200 border-b-2 pb-4 mb-4 flex gap-4"
+                    className="border-gray-200 border-b-2 pb-4 mb-4 flex"
                   >
-                    <div className="flex pb-2 justify-between">
-                      <div className="flex">
+                    <div className="flex pb-2 justify-between  ">
+                      <div className="flex w-[50px] mr-2">
                         <img
                           src={
                             review.user_image
@@ -396,7 +396,7 @@ export default function Details(props) {
                       </div>
                       {!session && <div></div>}
                     </div>
-                    <div className="">
+                    <div className="  ">
                       <Link href={`/profile/${review.user_name}`}>
                         <a href="" className=" text-gray-700 block ">
                           <span className="text-sm font-bold ">
