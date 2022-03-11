@@ -7,9 +7,9 @@ export default function Business(props) {
   // console.log("problem", business);
 
   return (
-    <Link href={"/restaurant/" + business.id} prefetch={false}>
-      <div className=" w-full h-full py-5 flex justify-center items-center">
-        <div className=" w-full relative pl-1 flex justify-center rounded-xl hover:scale-105 duration-500 transform transition cursor-pointer">
+    <div className=" w-full h-full my-5 flex justify-center items-center">
+      <Link href={"/restaurant/" + business.id} prefetch={false}>
+        <div className=" w-full relative pl-1 flex justify-center rounded-xl  cursor-pointer">
           {/* <!-- Tag Discount --> */}
           <div className="top-0 left-0 mt-3 px-2 rounded-lg absolute z-30 bg-green-500 text-gray-100 text-xs md:text-sm font-medium md:block">
             Rating {business.rating}
@@ -50,8 +50,8 @@ export default function Business(props) {
             </div>
           </div>
         </div>
-      </div>
-    </Link>
+      </Link>
+    </div>
   );
 }
 

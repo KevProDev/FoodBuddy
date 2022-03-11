@@ -60,7 +60,7 @@ export default function loginSignIn({ csrfToken, previousUrl }) {
     <main>
       <section>
         <div className="  grid grid-flow-row grid-cols-1 grid-rows-5 md:grid-rows-2 md:grid-flow-col h-screen md:grid-cols-2  ">
-          <div className=" relative bg-green-500 row-span-1 md:col-span-1 block ">
+          <div className=" relative bg-green-500 row-span-1 md:row-span-2 md:col-span-1 block ">
             <Image
               src="https://images.squarespace-cdn.com/content/v1/551aba82e4b06ddeea1f4958/1636043991946-NN53WAVJ8A68H2AU8TU8/CHIUB-Brunch-Table-Cindys.jpg"
               layout="fill"
