@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAppContext } from "../../context/store";
 import Business from "./Business";
+// import {YelpBusinessType, BusinessType} from "../../util/type";
 export default function BusinessList() {
   const appState = useAppContext();
   const {
@@ -25,7 +26,7 @@ export default function BusinessList() {
     <div className="">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3  mb-10 md:px-5 md:bg-white gap-2">
         {businesses.map((business) => {
-          business = {
+          let businessRefactor = {
             id: business.id,
             imageSrc: business.image_url
               ? business.image_url
@@ -39,11 +40,13 @@ export default function BusinessList() {
             reviewCount: business.review_count,
             phone: business.display_phone,
             price: business.price,
-            lat: business.coordinates.latitude,
-            lng: business.coordinates.longitude,
+            // lat: business.coordinates.latitude,
+            // lng: business.coordinates.longitude,
           };
 
-          return <Business business={business} key={business.id} />;
+          return (
+            <Business business={businessRefactor} key={businessRefactor.id} />
+          );
         })}
       </div>
 

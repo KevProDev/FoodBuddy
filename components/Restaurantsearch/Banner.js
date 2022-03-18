@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useAppContext } from "../../context/store";
-import Image from "next/image";
+import NextImage from "next/image";
 import { SearchIcon } from "@heroicons/react/solid";
 
 function Banner() {
@@ -29,7 +29,7 @@ function Banner() {
   useEffect(() => {
     const locationInput = document.getElementById("locationInput");
 
-    locationInput.addEventListener("keyup", function (e) {
+    locationInput?.addEventListener("keyup", function (e) {
       if (e.keyCode === 13) {
         e.preventDefault();
         document.getElementById("searchbutton").click();
@@ -72,7 +72,7 @@ function Banner() {
   return (
     <div className="relative w-full h-[400px] sm:h-[400px] lg:h-[500px] xl:h-[600px] 2xl:h-[700px]">
       <div className=" bg-black absolute w-full h-full z-10 opacity-40 "></div>
-      <Image
+      <NextImage
         src="https://images.squarespace-cdn.com/content/v1/551aba82e4b06ddeea1f4958/1636043991946-NN53WAVJ8A68H2AU8TU8/CHIUB-Brunch-Table-Cindys.jpg"
         layout="fill"
         objectFit="cover"

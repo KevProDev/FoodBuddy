@@ -1,6 +1,6 @@
 import Banner from "../components/Restaurantsearch/Banner";
 import BusinessList from "../components/Restaurantsearch/BusinessList";
-import { getSession } from "next-auth/react";
+import { getSession, GetSessionParams } from "next-auth/react";
 import Meal from "../components/Restaurantsearch/Meal";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
@@ -39,7 +39,7 @@ export default function Home() {
   );
 }
 
-export async function getServerSideProps(ctx) {
+export async function getServerSideProps(ctx: GetSessionParams | undefined) {
   const session = await getSession(ctx);
 
   if (!session) {

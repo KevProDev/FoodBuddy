@@ -1,8 +1,13 @@
 import Image from "next/image";
 import { HeartIcon, ChatIcon } from "@heroicons/react/outline";
 import Link from "next/link";
+import { YelpBusinessType } from "../../util/type";
 
-export default function Business(props) {
+type Props = {
+  business: YelpBusinessType;
+};
+
+export default function Business(props: Props) {
   const { business } = props;
   // console.log("problem", business);
 
