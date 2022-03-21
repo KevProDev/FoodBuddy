@@ -6,7 +6,6 @@ import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useRouter } from "next/router";
 import { server } from "../config";
-import { CtxOrReq } from "next-auth/client/_utils";
 
 export async function getServerSideProps(context) {
   // const previousUrl = context.req.headers.referer;
