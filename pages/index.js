@@ -15,23 +15,6 @@ export default function Home() {
       <Banner />
       <main className="max-w-7xl mx-auto px-4">
         <section className="pt-6">
-          {/* {session && (
-            <>
-              <h2 className="text-xl sm:text-4xl font-semibold pt-8 pb-5 px-4">
-                Latest Friends Meals
-              </h2>
-              <Meal />
-              <Link href={"/mealFeed"} prefetch={false}>
-                <button className="bg-black text-white py-2 md:mx-5 w-[130px]">
-                  See More
-                </button>
-              </Link>
-            </>
-          )} */}
-
-          {/* <h2 className="text-xl sm:text-4xl font-semibold pt-8 pb-5 px-4">
-            Restaurant
-          </h2> */}
           <BusinessList />
         </section>
       </main>
@@ -39,7 +22,7 @@ export default function Home() {
   );
 }
 
-export async function getServerSideProps(ctx: GetSessionParams | undefined) {
+export async function getServerSideProps(ctx) {
   const session = await getSession(ctx);
 
   if (!session) {

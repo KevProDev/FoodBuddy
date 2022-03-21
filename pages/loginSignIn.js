@@ -6,10 +6,10 @@ import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useRouter } from "next/router";
 import { server } from "../config";
+import { CtxOrReq } from "next-auth/client/_utils";
 
 export async function getServerSideProps(context) {
   // const previousUrl = context.req.headers.referer;
-
   return {
     props: {
       crsfToken: await getCsrfToken(context),
@@ -18,7 +18,7 @@ export async function getServerSideProps(context) {
   };
 }
 
-export default function loginSignIn({ csrfToken, previousUrl }) {
+export default function loginSignIn({ csrfToken }) {
   const [error, setError] = useState(null);
   const router = useRouter();
   const [modalOpen, setModalOpen] = useState(false);
@@ -47,8 +47,7 @@ export default function loginSignIn({ csrfToken, previousUrl }) {
         modal: "block",
         background: "bg-blue-700",
       };
-    }
-    if (!modalOpen) {
+    } else {
       return {
         modal: "hidden",
         background: "",
@@ -65,8 +64,7 @@ export default function loginSignIn({ csrfToken, previousUrl }) {
               src="https://images.squarespace-cdn.com/content/v1/551aba82e4b06ddeea1f4958/1636043991946-NN53WAVJ8A68H2AU8TU8/CHIUB-Brunch-Table-Cindys.jpg"
               layout="fill"
               objectFit="cover"
-              priority="true"
-              eager="true"
+              priority={true}
             />
           </div>
           <div className="row-span-4 md:row-span-2 col-span-1 ">
@@ -378,7 +376,6 @@ export default function loginSignIn({ csrfToken, previousUrl }) {
                         aria-required="true"
                         autoComplete="email"
                         type="email"
-                        name="email"
                         id="email"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                         placeholder="name@company.com"
