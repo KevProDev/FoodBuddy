@@ -211,7 +211,7 @@ export default function loginSignIn({ csrfToken }) {
                           : "Sign In with Email"}
                       </button>
                       <button
-                        // type="submit"
+                        type="submit"
                         onClick={login}
                         className="group relative w-full flex justify-center py-2 mb-4 px-4 border border-transparent text-sm font-medium rounded-md text-gray-800 bg-white border-gray-800 items-center "
                       >

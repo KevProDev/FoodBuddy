@@ -23,7 +23,7 @@ export default function MyApp({ Component, pageProps }) {
           <QueryClientProvider client={queryClient}>
             <Header />
             <Component {...pageProps} />
-            {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+            <ReactQueryDevtools initialIsOpen={false} />
           </QueryClientProvider>
         </AppState>
       </SessionProvider>
